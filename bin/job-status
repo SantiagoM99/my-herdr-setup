@@ -1,0 +1,20 @@
+#!/bin/zsh
+# One line for the Herdr tab bar: is a background job (an ETL, a build, a long script) running
+# or still writing its output? Useful before reading files that job is in the middle of rewriting.
+# Reads ~/.config/herdr-setup/job-status.conf (zsh syntax, kept out of this repo):
+#   LABEL="ETL"                       # name shown in the bar
+#   PROCESS="etl.py"                 # pgrep -f pattern; running => "⚠ LABEL running"
+#   DIR="$HOME/path/to/output"        # files changed here recently => "⚠ LABEL wrote <N min ago"
+#   PATTERN="*.parquet"               # which files in DIR count (default: all)
+#   MINUTES=15                        # how recent is "recently" (default: 15)
+# Without the config file it prints nothing and the bar stays clean.
+CONF=${JOB_STATUS_CONF:-$HOME/.config/herdr-setup/job-status.conf}
+[[ -r $CONF ]] || exit 0
+LABEL=Job PROCESS= DIR= PATTERN='*' MINUTES=15
+source "$CONF"
+if [[ -n $PROCESS ]] && pgrep -f "$PROCESS" >/dev/null; then echo "⚠ $LABEL running"; exit; fi
+if [[ -n $DIR && -d $DIR ]]; then
+  RECENT=$(find "$DIR" -type f -name "$PATTERN" -mmin -"$MINUTES" 2>/dev/null | head -1)
+  [[ -n $RECENT ]] && { echo "⚠ $LABEL wrote <$MINUTES min ago"; exit; }
+fi
+echo "$LABEL idle"

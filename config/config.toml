@@ -1,6 +1,6 @@
 onboarding = false
 [ui]
-tab_bar_right = [{ type = "command", command = "~/.local/bin/etl-status", interval_seconds = 10, timeout_seconds = 5 }]
+tab_bar_right = [{ type = "command", command = "~/.local/bin/job-status", interval_seconds = 10, timeout_seconds = 5 }]
 
 [keys]
 prefix = "`"

@@ -1,6 +1,6 @@
 #!/bin/zsh
 # Picks a table (CSV, TSV, parquet, xlsx; newest first) and opens it in visidata.
 # Used by prefix+t (pane) and prefix+shift+t (popup).
-# Single Arrow thread: pyarrow segfaults on some of the observatory ETL parquets.
+# Single Arrow thread: multithreaded pyarrow can segfault on some parquet files.
 export OMP_NUM_THREADS=1 ARROW_NUM_THREADS=1
 F=$(${0:h}/herdr-pick 'Table> ' '*.csv' '*.tsv' '*.parquet' '*.xlsx') && exec vd "$F"

@@ -7,7 +7,7 @@ pdf = [
   { run = "open %s", desc = "Preview" },
 ]
 table = [
-  # Single Arrow thread: pyarrow segfaults on some of the observatory ETL parquets.
+  # Single Arrow thread: multithreaded pyarrow can segfault on some parquet files.
   { run = "OMP_NUM_THREADS=1 ARROW_NUM_THREADS=1 vd %s1", desc = "visidata", block = true },
   { run = "open %s", desc = "Default app" },
 ]

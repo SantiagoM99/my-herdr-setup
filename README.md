@@ -1,21 +1,21 @@
 # herdr-setup
 
-My Herdr configuration for using it as a mini-IDE: files, Markdown, PDF, tables, logs, SQL, git and Docker one shortcut away, in a pane on the right or in a popup.
+This is my Herdr configuration for using it as a mini-IDE. It allows visualizing files, Markdown, PDF, tables, logs, SQL, git and Docker, in a pane on the right or in a popup. This is very useful when working continously on a document or other product that keeps being updated by the agent. 
 
 ## The prefix is `` ` ``
 
-Every shortcut starts with the **prefix** `` ` `` (backtick, the key left of 1 on a US keyboard). Press and release it, then the letter: `` ` `` `f` means "backtick, then f". Herdr's default prefix is `ctrl+b`; this setup changes it in `config/config.toml`:
+Every shortcut starts with the **prefix** `` ` `` (backtick, the key left of 1 on a US keyboard). Herdr's default prefix is `ctrl+b`, however I find having a single key much easier to work with; this setup changes it in `config/config.toml`:
 
 ```toml
 [keys]
 prefix = "`"
 ```
 
-To use another prefix, change that line and reload. The shortcuts below work the same with any prefix.
+If it's not for you, change that line and reload. The shortcuts below work the same with any prefix.
 
 ## Shortcuts
 
-The letter says what opens; Shift says where: lowercase opens a pane on the right (half the width), Shift opens a floating popup.
+The shortcuts are designed so when the lowercase is pressed it opens a pane on the right (half the width), and Shift opens a floating popup.
 
 | What | Pane on the right | Popup | How to exit |
 |---|---|---|---|
@@ -29,23 +29,11 @@ The letter says what opens; Shift says where: lowercase opens a pane on the righ
 | Docker (lazydocker) | — | `` ` `` `Shift+K` | `q` |
 | VS Code in the current directory | `` ` `` `i` | — | — |
 
-When the program exits, its pane or popup closes by itself. **Reading Markdown** (`m`, `Shift+M`, or Enter on a `.md` in yazi): glow renders the file to the pane width (wide tables wrap to fit) and `less` shows it. Arrows or `j`/`k` scroll, `/` searches, `e` edits the file with micro in the same pane (Ctrl+S saves, Ctrl+Q comes back to the rendered view; long lines wrap to the pane on screen only, the file keeps them as they are), `r` re-renders after resizing the pane, `q` quits. micro is only used there; VS Code stays the editor for everything else. glow's own viewer is not used because its left arrow means "back to the file list", so a table scrolled right could not be scrolled back.
+When the program exits, its pane or popup closes by itself. 
 
-**The pickers** (Markdown, PDF, tables, logs with `Shift+U`) list the files in the current directory and its subdirectories, newest just above the cursor. Type part of the name to filter (`q3rep` finds `2026_q3_report.pdf`; several space-separated words must all match), arrows to move, Enter to open, Esc to leave.
+**Reading Markdown** (`m`, `Shift+M`, or Enter on a `.md` in yazi): glow renders the file to the pane width (wide tables wrap to fit) and `less` shows it. Arrows or `j`/`k` scroll, `/` searches, `e` edits the file with micro in the same pane (Ctrl+S saves, Ctrl+Q comes back to the rendered view), `r` re-renders after resizing the pane, `q` quits.
 
-### Herdr shortcuts worth knowing
-
-| Shortcut | What it does |
-|---|---|
-| `` ` `` `?` | Help with every shortcut |
-| `` ` `` `Shift+R` | Reload the config |
-| `` ` `` `v` / `` ` `` `-` | Split the pane to the right / down |
-| `` ` `` `h` `j` `k` `l` | Move to the pane on the left, below, above, right |
-| `` ` `` `z` | Zoom: current pane full screen and back |
-| `` ` `` `x` | Close the pane |
-| `` ` `` `c` | New tab |
-| `` ` `` `,` | Rename tab (Herdr's default is `Shift+T`; moved to leave `t` to tables) |
-| `` ` `` `Shift+D` | **Close the whole workspace.** That is why no shortcut in this setup uses `d` |
+**The pickers** (Markdown, PDF, tables, logs with `Shift+U`) list the files in the current directory and its subdirectories, newest just above the cursor. Type part of the name to filter, arrows to move, Enter to open, Esc to leave.
 
 ## yazi as the hub
 
@@ -80,15 +68,25 @@ group by 1 order by 1;
 
 It also ships the Postgres and SQLite adapters. Passwords go in `~/.pgpass`, never in this repo.
 
-## Status bar: ETL
+## Status bar: background job
 
-`etl-status` shows in the tab bar whether the Observatory-Data-Flow ETL is writing parquets (`⚠ ETL running`, `⚠ ETL wrote <15 min ago` or `ETL idle`), every 10 seconds. If the ETL directory does not exist it shows nothing; `ETL_DIR` changes the directory.
+`job-status` shows in the tab bar, every 10 seconds, whether a background job you care about (an ETL, a build, a long script) is running or has just written its output: `⚠ ETL running`, `⚠ ETL wrote <15 min ago` or `ETL idle`. It is handy when you should not read files that job is in the middle of rewriting.
+
+It reads `~/.config/herdr-setup/job-status.conf`, which lives outside the repo so each machine watches its own job. Without that file the bar shows nothing.
+
+```zsh
+LABEL="ETL"                    # name shown in the bar
+PROCESS="etl.py"               # pgrep -f pattern
+DIR="$HOME/path/to/output"     # directory the job writes to
+PATTERN="*.parquet"            # files that count (default: all)
+MINUTES=15                     # how recent counts as "just wrote" (default: 15)
+```
 
 ## Installation (macOS)
 
 ```bash
-git clone <this repo> ~/Projects/Personal/herdr-setup
-~/Projects/Personal/herdr-setup/install.sh
+git clone <this repo> herdr-setup
+cd herdr-setup && ./install.sh
 ```
 
 `install.sh` installs the programs with Homebrew and `uv`, symlinks `bin/*` into `~/.local/bin`, `config/config.toml` into `~/.config/herdr/` `config/yazi/yazi.toml` into `~/.config/yazi/` and `config/micro/settings.json` into `~/.config/micro/`, and sets VS Code as `$EDITOR` if none is set. Anything already there is backed up as `<file>.bak-<timestamp>`.
@@ -107,4 +105,4 @@ Requires Homebrew, Herdr and VS Code with the `code` command on the PATH. To see
 | `herdr-data` | Picks a table and opens it in visidata |
 | `herdr-md [file]` | Renders Markdown with glow inside less; `e` edits in micro |
 | `herdr-log [--pick]` | `tail -F` of the most recent `.log` |
-| `etl-status` | Tab bar line with the ETL status |
+| `job-status` | Tab bar line with the status of a background job |
