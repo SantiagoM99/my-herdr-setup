@@ -2,38 +2,54 @@
 
 Mi configuración de Herdr para usarlo como un mini-IDE: archivos, Markdown, PDF, tablas, logs, SQL, git y Docker a un atajo de distancia, en un panel a la derecha o en un popup.
 
-## Instalación (macOS)
+## El prefijo es `` ` ``
 
-```bash
-git clone <este repo> ~/Projects/Personal/herdr-setup
-~/Projects/Personal/herdr-setup/install.sh
+Todos los atajos empiezan con el **prefijo** `` ` `` (backtick, la tecla a la izquierda del 1 en teclado US). Se aprieta y se suelta, y después la letra: `` ` `` `f` es "backtick, luego f". El prefijo por defecto de Herdr es `ctrl+b`; este setup lo cambia en `config/config.toml`:
+
+```toml
+[keys]
+prefix = "`"
 ```
 
-`install.sh` instala los programas con Homebrew y `uv`, y enlaza `bin/*` en `~/.local/bin` y `config/config.toml` en `~/.config/herdr/`. Lo que ya exista se respalda como `<archivo>.bak-<fecha>`. Como son enlaces, editar el repo cambia la instalación en vivo; tras editar la config, recargar con `` ` `` `Shift+R`.
-
-Necesita Homebrew, Herdr y VS Code con el comando `code` en el PATH. Para ver PDF e imágenes dentro de la terminal, abrir Herdr desde Ghostty, Kitty o WezTerm (Apple Terminal no muestra imágenes).
+Para usar otro prefijo, cambiar esa línea y recargar. Los atajos de abajo funcionan igual con cualquier prefijo.
 
 ## Atajos
 
-El prefijo es `` ` ``. La letra dice qué se abre; Shift dice dónde.
+La letra dice qué se abre; Shift dice dónde: minúscula, panel a la derecha (mitad del ancho); Shift, popup flotante.
 
-| Qué | Panel a la derecha | Popup |
-|---|---|---|
-| Archivos (yazi) | `f` | `Shift+F` |
-| Markdown (glow) | `m` | `Shift+M` |
-| PDF (selector + tdf) | `a` | `Shift+A` |
-| Tablas CSV / parquet / xlsx (visidata) | `t` | `Shift+T` |
-| Logs en vivo | `u` (el más reciente) | `Shift+U` (elegir) |
-| Git (lazygit) | — | `Shift+J` |
-| Docker (lazydocker) | — | `Shift+K` |
-| SQL (harlequin) | `y` | `Shift+Y` |
-| VS Code en la carpeta actual | `i` | — |
+| Qué | Panel a la derecha | Popup | Cómo se sale |
+|---|---|---|---|
+| Archivos (yazi) | `` ` `` `f` | `` ` `` `Shift+F` | `q` |
+| Markdown (glow) | `` ` `` `m` | `` ` `` `Shift+M` | `q` |
+| PDF (selector + tdf) | `` ` `` `a` | `` ` `` `Shift+A` | `q` |
+| Tablas CSV / parquet / xlsx (visidata) | `` ` `` `t` | `` ` `` `Shift+T` | `q` |
+| Logs en vivo | `` ` `` `u` (el más reciente) | `` ` `` `Shift+U` (elegir) | Ctrl+C |
+| SQL (harlequin) | `` ` `` `y` | `` ` `` `Shift+Y` | Ctrl+Q |
+| Git (lazygit) | — | `` ` `` `Shift+J` | `q` |
+| Docker (lazydocker) | — | `` ` `` `Shift+K` | `q` |
+| VS Code en la carpeta actual | `` ` `` `i` | — | — |
 
-Todo se cierra con `q`; los logs, con Ctrl+C. Las letras evitan los atajos de Herdr: `Shift+D` cierra el workspace, por eso el PDF va en `a`. Renombrar pestaña se movió de `Shift+T` a `` ` `` `,` (coma) para dejar `t`/`Shift+T` a las tablas.
+Al salir del programa, el panel o el popup se cierra solo.
+
+**Los selectores** (PDF, tablas, logs con `Shift+U`) listan los archivos de la carpeta y sus subcarpetas, el más reciente justo encima del cursor. Se escribe parte del nombre para filtrar (`dosmod` encuentra `2026-10_dos_modelos.pdf`; varias palabras separadas por espacio filtran por todas), flechas para moverse, Enter abre, Esc sale.
+
+### Atajos de Herdr que conviene saber
+
+| Atajo | Qué hace |
+|---|---|
+| `` ` `` `?` | Ayuda con todos los atajos |
+| `` ` `` `Shift+R` | Recargar la config |
+| `` ` `` `v` / `` ` `` `-` | Dividir el panel a la derecha / abajo |
+| `` ` `` `h` `j` `k` `l` | Moverse al panel de la izquierda, abajo, arriba, derecha |
+| `` ` `` `z` | Zoom: el panel actual a pantalla completa y de vuelta |
+| `` ` `` `x` | Cerrar el panel |
+| `` ` `` `c` | Nueva pestaña |
+| `` ` `` `,` | Renombrar pestaña (en Herdr por defecto es `Shift+T`; se movió para dejar `t` a las tablas) |
+| `` ` `` `Shift+D` | **Cerrar el workspace entero.** Por eso ningún atajo de este setup usa la `d` |
 
 ## yazi como centro
 
-`config/yazi/yazi.toml` hace que Enter abra cada archivo en su programa, sin salir de la terminal; `O` (mayúscula) deja elegir otro. Al salir con `q` se vuelve a yazi.
+`config/yazi/yazi.toml` hace que Enter abra cada archivo en su programa, sin salir de la terminal; `O` (mayúscula) deja elegir otro. Al salir con `q` se vuelve a yazi; otro `q` cierra yazi.
 
 | Archivo | Enter | Otras opciones (`O`) |
 |---|---|---|
@@ -43,7 +59,43 @@ Todo se cierra con `q`; los logs, con Ctrl+C. Las letras evitan los atajos de He
 | `.log` | `tail -F` (Ctrl+C sale) | editor |
 | Código y texto | `$EDITOR` (VS Code) | — |
 
-Para buscar dentro de yazi: `z` salta a un archivo escribiendo parte del nombre (fzf), `s` busca por nombre (fd), `S` busca por contenido (ripgrep), `f` filtra la carpeta actual y `,` `m` ordena por fecha.
+| Tecla en yazi | Qué hace |
+|---|---|
+| `z` | Saltar a un archivo escribiendo parte del nombre |
+| `s` | Buscar archivos por nombre (fd) |
+| `S` | Buscar archivos por contenido (ripgrep) |
+| `f` | Filtrar la carpeta actual mientras se escribe |
+| `,` `m` | Ordenar por fecha de modificación |
+| Esc | Salir de la búsqueda o el filtro |
+
+## SQL con harlequin
+
+harlequin abre DuckDB por defecto, que consulta parquet y CSV directamente; las rutas son relativas a la carpeta donde se abrió. Ctrl+Enter corre la consulta.
+
+```sql
+select PRIMER_PERIODO, count(*)
+from 'data/datasets/archivo.parquet'
+group by 1 order by 1;
+```
+
+Trae también los adaptadores de Postgres y SQLite. Las contraseñas van en `~/.pgpass`, nunca en este repo.
+
+## Barra de estado: ETL
+
+`etl-estado` muestra en la barra de pestañas si el ETL de Observatory-Data-Flow está escribiendo parquets (`⚠ ETL corriendo`, `⚠ ETL escribió hace <15 min` o `ETL quieto`), cada 10 segundos. Si la carpeta del ETL no existe no muestra nada; `ETL_DIR` cambia la carpeta.
+
+## Instalación (macOS)
+
+```bash
+git clone <este repo> ~/Projects/Personal/herdr-setup
+~/Projects/Personal/herdr-setup/install.sh
+```
+
+`install.sh` instala los programas con Homebrew y `uv`, enlaza `bin/*` en `~/.local/bin`, `config/config.toml` en `~/.config/herdr/` y `config/yazi/yazi.toml` en `~/.config/yazi/`, y pone VS Code como `$EDITOR` si no había uno. Lo que ya exista se respalda como `<archivo>.bak-<fecha>`.
+
+Como son enlaces, editar el repo cambia la instalación en vivo; tras editar la config, recargar con `` ` `` `Shift+R`.
+
+Necesita Homebrew, Herdr y VS Code con el comando `code` en el PATH. Para ver PDF e imágenes dentro de la terminal, abrir Herdr desde Ghostty, Kitty o WezTerm: Apple Terminal no muestra imágenes.
 
 ## Scripts
 
@@ -54,4 +106,4 @@ Para buscar dentro de yazi: `z` salta a un archivo escribiendo parte del nombre 
 | `herdr-pdf` | Elige un PDF y lo abre con tdf (se recarga solo si el PDF cambia) |
 | `herdr-datos` | Elige una tabla y la abre en visidata |
 | `herdr-log [--elegir]` | `tail -F` del `.log` más reciente |
-| `etl-estado` | Estado del ETL del observatorio para la barra de pestañas; sin esa carpeta no muestra nada (`ETL_DIR` la cambia) |
+| `etl-estado` | Línea de la barra de pestañas con el estado del ETL |
