@@ -1,4 +1,4 @@
-# herdr-setup
+# my-herdr-setup
 
 This is my Herdr configuration for using it as a mini-IDE. It allows visualizing files, Markdown, PDF, tables, logs, SQL, git and Docker, in a pane on the right or in a popup. This is very useful when working continously on a document or other product that keeps being updated by the agent. 
 
@@ -102,8 +102,8 @@ Everything in this setup is open source, mostly built and maintained by individu
 ## Installation (macOS)
 
 ```bash
-git clone <this repo> herdr-setup
-cd herdr-setup && ./install.sh
+git clone https://github.com/SantiagoM99/my-herdr-setup.git
+cd my-herdr-setup && ./install.sh
 ```
 
 `install.sh` installs the programs with Homebrew and `uv`, links `bin/*` into `~/.local/bin`, links the Claude Code skill into `~/.claude/skills/`, and sets VS Code as `$EDITOR` if none is set. What it does with each config depends on whether you already have one:
