@@ -43,6 +43,8 @@ Todo se cierra con `q`; los logs, con Ctrl+C. Las letras evitan los atajos de He
 | `.log` | `tail -F` (Ctrl+C sale) | editor |
 | Código y texto | `$EDITOR` (VS Code) | — |
 
+Para buscar dentro de yazi: `z` salta a un archivo escribiendo parte del nombre (fzf), `s` busca por nombre (fd), `S` busca por contenido (ripgrep), `f` filtra la carpeta actual y `,` `m` ordena por fecha.
+
 ## Scripts
 
 | Script | Qué hace |

@@ -23,7 +23,7 @@ command -v brew >/dev/null || { echo "Falta Homebrew (https://brew.sh)"; exit 1;
 command -v herdr >/dev/null || [[ -x $BIN/herdr ]] || { echo "Falta herdr"; exit 1; }
 
 paso "Programas (Homebrew)"
-brew install yazi glow neovim tdf fzf jq lazygit lazydocker
+brew install yazi glow neovim tdf fzf jq lazygit lazydocker fd ripgrep
 
 paso "visidata con soporte de parquet (uv)"
 command -v uv >/dev/null || brew install uv
