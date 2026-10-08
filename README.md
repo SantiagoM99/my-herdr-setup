@@ -29,7 +29,7 @@ La letra dice qué se abre; Shift dice dónde: minúscula, panel a la derecha (m
 | Docker (lazydocker) | — | `` ` `` `Shift+K` | `q` |
 | VS Code en la carpeta actual | `` ` `` `i` | — | — |
 
-Al salir del programa, el panel o el popup se cierra solo.
+Al salir del programa, el panel o el popup se cierra solo. En glow, `e` abre el documento en el editor (VS Code) y al cerrarlo glow muestra la versión nueva.
 
 **Los selectores** (PDF, tablas, logs con `Shift+U`) listan los archivos de la carpeta y sus subcarpetas, el más reciente justo encima del cursor. Se escribe parte del nombre para filtrar (`dosmod` encuentra `2026-10_dos_modelos.pdf`; varias palabras separadas por espacio filtran por todas), flechas para moverse, Enter abre, Esc sale.
 
@@ -55,7 +55,7 @@ Al salir del programa, el panel o el popup se cierra solo.
 |---|---|---|
 | `.pdf` | tdf | Preview |
 | `.csv` `.tsv` `.parquet` `.xlsx` `.json` `.jsonl` | visidata | editor, app por defecto |
-| `.md` | glow | VS Code |
+| `.md` | glow (`e` lo abre en VS Code) | VS Code |
 | `.log` | `tail -F` (Ctrl+C sale) | editor |
 | Código y texto | `$EDITOR` (VS Code) | — |
 

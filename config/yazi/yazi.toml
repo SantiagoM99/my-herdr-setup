@@ -12,7 +12,7 @@ tabla = [
   { run = "open %s", desc = "App por defecto" },
 ]
 markdown = [
-  { run = "glow -p %s1", desc = "glow (leer)", block = true },
+  { run = "glow -t %s1", desc = "glow (leer; e edita)", block = true },
   { run = "code %s", desc = "VS Code (editar)" },
 ]
 log = [
