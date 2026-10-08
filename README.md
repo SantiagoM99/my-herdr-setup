@@ -1,6 +1,6 @@
 # herdr-setup
 
-Mi configuración de Herdr para usarlo como un mini-IDE: archivos, Markdown, PDF, tablas, logs, láminas, git y Docker a un atajo de distancia, en un panel a la derecha o en un popup.
+Mi configuración de Herdr para usarlo como un mini-IDE: archivos, Markdown, PDF, tablas, logs, git y Docker a un atajo de distancia, en un panel a la derecha o en un popup.
 
 ## Instalación (macOS)
 
@@ -24,12 +24,11 @@ El prefijo es `` ` ``. La letra dice qué se abre; Shift dice dónde.
 | PDF (selector + tdf) | `a` | `Shift+A` |
 | Tablas CSV / parquet / xlsx (visidata) | `t` | `Shift+T` |
 | Logs en vivo | `u` (el más reciente) | `Shift+U` (elegir) |
-| Láminas que se recompilan al guardar | `y` | — |
 | Git (lazygit) | — | `Shift+J` |
 | Docker (lazydocker) | — | `Shift+K` |
 | VS Code en la carpeta actual | `i` | — |
 
-Todo se cierra con `q`; los logs y las láminas, con Ctrl+C. Las letras evitan los atajos de Herdr: `Shift+D` cierra el workspace, por eso el PDF va en `a`. Renombrar pestaña se movió de `Shift+T` a `` ` `` `,` (coma) para dejar `t`/`Shift+T` a las tablas.
+Todo se cierra con `q`; los logs, con Ctrl+C. Las letras evitan los atajos de Herdr: `Shift+D` cierra el workspace, por eso el PDF va en `a`. Renombrar pestaña se movió de `Shift+T` a `` ` `` `,` (coma) para dejar `t`/`Shift+T` a las tablas.
 
 ## yazi como centro
 
@@ -52,5 +51,4 @@ Todo se cierra con `q`; los logs y las láminas, con Ctrl+C. Las letras evitan l
 | `herdr-pdf` | Elige un PDF y lo abre con tdf (se recarga solo si el PDF cambia) |
 | `herdr-datos` | Elige una tabla y la abre en visidata |
 | `herdr-log [--elegir]` | `tail -F` del `.log` más reciente |
-| `herdr-laminas` | Elige un `generar_presentacion_*.py` y lo vuelve a correr con watchexec al guardar |
 | `etl-estado` | Estado del ETL del observatorio para la barra de pestañas; sin esa carpeta no muestra nada (`ETL_DIR` la cambia) |

@@ -1,9 +1,0 @@
-#!/bin/zsh
-# Elige un docs/generar_presentacion_*.py y lo vuelve a correr cada vez que se guarda
-# (también si cambian los CSV de experiments/resultados). El script compila el PDF con tectonic;
-# déjalo junto a un panel con el PDF abierto (prefix+a) y verás la lámina actualizarse.
-# Lo usa prefix+y (panel). Ctrl+C para salir.
-S=$(${0:h}/herdr-elegir 'Láminas> ' 'generar_presentacion_*.py') || exit 1
-PY=python; [[ -x .venv/bin/python ]] && PY=.venv/bin/python
-W=(-w "$S"); [[ -d experiments/resultados ]] && W+=(-w experiments/resultados)
-exec watchexec "${W[@]}" -e py,csv --debounce 1s --clear --restart -- "$PY" "$S"
