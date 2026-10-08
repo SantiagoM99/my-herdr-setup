@@ -29,7 +29,7 @@ The letter says what opens; Shift says where: lowercase opens a pane on the righ
 | Docker (lazydocker) | — | `` ` `` `Shift+K` | `q` |
 | VS Code in the current directory | `` ` `` `i` | — | — |
 
-When the program exits, its pane or popup closes by itself. **Reading Markdown** (`m`, `Shift+M`, or Enter on a `.md` in yazi): glow renders the file to the pane width (wide tables wrap to fit) and `less` shows it. Arrows or `j`/`k` scroll, `/` searches, `e` edits the file with micro in the same pane (Ctrl+S saves, Ctrl+Q comes back to the rendered view), `r` re-renders after resizing the pane, `q` quits. micro is only used there; VS Code stays the editor for everything else. glow's own viewer is not used because its left arrow means "back to the file list", so a table scrolled right could not be scrolled back.
+When the program exits, its pane or popup closes by itself. **Reading Markdown** (`m`, `Shift+M`, or Enter on a `.md` in yazi): glow renders the file to the pane width (wide tables wrap to fit) and `less` shows it. Arrows or `j`/`k` scroll, `/` searches, `e` edits the file with micro in the same pane (Ctrl+S saves, Ctrl+Q comes back to the rendered view; long lines wrap to the pane on screen only, the file keeps them as they are), `r` re-renders after resizing the pane, `q` quits. micro is only used there; VS Code stays the editor for everything else. glow's own viewer is not used because its left arrow means "back to the file list", so a table scrolled right could not be scrolled back.
 
 **The pickers** (Markdown, PDF, tables, logs with `Shift+U`) list the files in the current directory and its subdirectories, newest just above the cursor. Type part of the name to filter (`q3rep` finds `2026_q3_report.pdf`; several space-separated words must all match), arrows to move, Enter to open, Esc to leave.
 
@@ -91,7 +91,7 @@ git clone <this repo> ~/Projects/Personal/herdr-setup
 ~/Projects/Personal/herdr-setup/install.sh
 ```
 
-`install.sh` installs the programs with Homebrew and `uv`, symlinks `bin/*` into `~/.local/bin`, `config/config.toml` into `~/.config/herdr/` and `config/yazi/yazi.toml` into `~/.config/yazi/`, and sets VS Code as `$EDITOR` if none is set. Anything already there is backed up as `<file>.bak-<timestamp>`.
+`install.sh` installs the programs with Homebrew and `uv`, symlinks `bin/*` into `~/.local/bin`, `config/config.toml` into `~/.config/herdr/` `config/yazi/yazi.toml` into `~/.config/yazi/` and `config/micro/settings.json` into `~/.config/micro/`, and sets VS Code as `$EDITOR` if none is set. Anything already there is backed up as `<file>.bak-<timestamp>`.
 
 Because they are symlinks, editing the repo changes the live install; after editing the config, reload with `` ` `` `Shift+R`.
 

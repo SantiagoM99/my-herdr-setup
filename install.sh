@@ -44,6 +44,10 @@ step "yazi config (what opens each file)"
 mkdir -p "$HOME/.config/yazi"
 link "$REPO/config/yazi/yazi.toml" "$HOME/.config/yazi/yazi.toml"
 
+step "micro config (wrap long lines to the pane)"
+mkdir -p "$HOME/.config/micro"
+link "$REPO/config/micro/settings.json" "$HOME/.config/micro/settings.json"
+
 step "Default editor (VS Code) in ~/.zshrc"
 if ! grep -q '^export EDITOR=' ~/.zshrc 2>/dev/null; then
   printf '\n# Default editor: VS Code (--wait makes yazi, git, etc. wait until you close the tab)\nexport EDITOR="code --wait"\nexport VISUAL="code --wait"\n' >> ~/.zshrc
