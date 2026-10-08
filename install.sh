@@ -48,6 +48,10 @@ step "micro config (wrap long lines to the pane)"
 mkdir -p "$HOME/.config/micro"
 link "$REPO/config/micro/settings.json" "$HOME/.config/micro/settings.json"
 
+step "Claude Code skill (how to change this setup)"
+mkdir -p "$HOME/.claude/skills"
+link "$REPO/skills/herdr-setup" "$HOME/.claude/skills/herdr-setup"
+
 step "Default editor (VS Code) in ~/.zshrc"
 if ! grep -q '^export EDITOR=' ~/.zshrc 2>/dev/null; then
   printf '\n# Default editor: VS Code (--wait makes yazi, git, etc. wait until you close the tab)\nexport EDITOR="code --wait"\nexport VISUAL="code --wait"\n' >> ~/.zshrc

@@ -95,6 +95,10 @@ Because they are symlinks, editing the repo changes the live install; after edit
 
 Requires Homebrew, Herdr and VS Code with the `code` command on the PATH. To see PDFs and images inside the terminal, run Herdr from Ghostty, Kitty or WezTerm: Apple Terminal does not display images.
 
+## Claude Code skill
+
+`skills/herdr-setup/SKILL.md` teaches Claude Code how to change this setup: where everything lives, the shortcut scheme, how to check for key collisions, how to test in a throwaway pane, and to keep the repo in English and free of project-specific names. `install.sh` links it into `~/.claude/skills/`. Ask for things like "add a shortcut for htop" and it follows these rules.
+
 ## Scripts
 
 | Script | What it does |
