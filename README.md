@@ -31,7 +31,7 @@ The letter says what opens; Shift says where: lowercase opens a pane on the righ
 
 When the program exits, its pane or popup closes by itself. In glow, `e` edits the document with micro in the same pane: Ctrl+S saves, Ctrl+Q returns to glow. micro is only used there; VS Code stays the editor for everything else.
 
-**The pickers** (PDF, tables, logs with `Shift+U`) list the files in the current directory and its subdirectories, newest just above the cursor. Type part of the name to filter (`dosmod` finds `2026-10_dos_modelos.pdf`; several space-separated words must all match), arrows to move, Enter to open, Esc to leave.
+**The pickers** (PDF, tables, logs with `Shift+U`) list the files in the current directory and its subdirectories, newest just above the cursor. Type part of the name to filter (`q3rep` finds `2026_q3_report.pdf`; several space-separated words must all match), arrows to move, Enter to open, Esc to leave.
 
 ### Herdr shortcuts worth knowing
 
@@ -73,8 +73,8 @@ When the program exits, its pane or popup closes by itself. In glow, `e` edits t
 harlequin opens DuckDB by default, which queries parquet and CSV files directly; paths are relative to the directory it was opened in. Ctrl+Enter runs the query.
 
 ```sql
-select PRIMER_PERIODO, count(*)
-from 'data/datasets/file.parquet'
+select cohort, count(*)
+from 'data/students.parquet'
 group by 1 order by 1;
 ```
 
