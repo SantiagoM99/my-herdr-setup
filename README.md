@@ -9,9 +9,9 @@ git clone https://github.com/SantiagoM99/my-herdr-setup.git
 cd my-herdr-setup && ./install.sh
 ```
 
-Requires Homebrew, Herdr and VS Code (`code` on the PATH). PDFs and images display only in terminals with image support, such as Ghostty, Kitty or WezTerm; Apple Terminal does not.
+Requires Homebrew and Herdr. PDFs and images display only in terminals with image support, such as Ghostty, Kitty or WezTerm; Apple Terminal does not.
 
-To install only some tools, pick components: `files`, `markdown`, `pdf`, `tables`, `logs`, `sql`, `git`, `docker`, `vscode` (`./install.sh --list` describes them).
+To install only some tools, pick components (`./install.sh --list`): `files`, `markdown`, `pdf`, `tables`, `logs`, `sql`, `git`, `docker`, `vscode`.
 
 ```bash
 ./install.sh --only files,markdown,git

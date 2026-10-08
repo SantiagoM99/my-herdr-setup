@@ -73,8 +73,9 @@ Per-machine values never go in the repo. `job-status` reads `~/.config/herdr-set
    You cannot press the prefix shortcut itself from here. Say so, and say what you tested instead (the command behind it). Do test-edits on throwaway files in a temp directory, never on the user's documents, and do not run commands that regenerate the user's outputs.
 6. Update `README.md`: the shortcut table (with the Exit column), the yazi table, or the support list, whichever applies. Keep it short: no explanations of internals, and the support list holds only tools the user runs directly, not their dependencies.
 7. Search for leftovers: `grep -rnIiE '[áéíóúñ¿]' --exclude-dir=.git .` and any old names you replaced.
-8. Commit in English: imperative summary under 72 characters, bullets for what changed. Push only if the user asks.
-9. Report to the user: the new shortcut or behaviour, what you tested, what you could not test.
+8. Before committing, reread every line you wrote (README, comments, messages) and cut filler, sales phrases, repeated explanations and anything a user does not need. Check that requirements and claims are still true after the change.
+9. Commit in English: imperative summary under 72 characters, bullets for what changed. Push only if the user asks.
+10. Report to the user: the new shortcut or behaviour, what you tested, what you could not test.
 
 ## Known traps
 
