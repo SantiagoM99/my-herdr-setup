@@ -1,156 +1,88 @@
 # my-herdr-setup
 
-This is my Herdr configuration for using it as a mini-IDE. It allows visualizing files, Markdown, PDF, tables, logs, SQL, git and Docker, in a pane on the right or in a popup. This is very useful when working continously on a document or other product that keeps being updated by the agent. 
+My Herdr configuration for using it as a mini-IDE: files, Markdown, PDFs, tables, logs, SQL, git and Docker open in a pane on the right or in a popup. Useful when an agent keeps updating a document while you work on it.
 
-## The prefix is `` ` ``
-
-Every shortcut starts with the **prefix** `` ` `` (backtick, the key left of 1 on a US keyboard). Herdr's default prefix is `ctrl+b`, however I find having a single key much easier to work with; this setup changes it in `config/config.toml`:
-
-```toml
-[keys]
-prefix = "`"
-```
-
-If it's not for you, change that line and reload. The shortcuts below work the same with any prefix.
-
-## Shortcuts
-
-The shortcuts are designed so when the lowercase is pressed it opens a pane on the right (half the width), and Shift opens a floating popup.
-
-| What | Pane on the right | Popup | How to exit |
-|---|---|---|---|
-| Files (yazi) | `` ` `` `f` | `` ` `` `Shift+F` | `q` |
-| Markdown (picker + glow) | `` ` `` `m` | `` ` `` `Shift+M` | `q` |
-| PDF (picker + tdf) | `` ` `` `a` | `` ` `` `Shift+A` | `q` |
-| CSV / parquet / xlsx tables (visidata) | `` ` `` `t` | `` ` `` `Shift+T` | `q` |
-| Live logs | `` ` `` `u` (most recent) | `` ` `` `Shift+U` (pick one) | Ctrl+C |
-| SQL (harlequin) | `` ` `` `y` | `` ` `` `Shift+Y` | Ctrl+Q |
-| Git (lazygit) | — | `` ` `` `Shift+J` | `q` |
-| Docker (lazydocker) | — | `` ` `` `Shift+K` | `q` |
-| VS Code in the current directory | `` ` `` `i` | — | — |
-
-When the program exits, its pane or popup closes by itself. 
-
-**Reading Markdown** (`m`, `Shift+M`, or Enter on a `.md` in yazi): glow renders the file to the pane width (wide tables wrap to fit) and `less` shows it. Arrows or `j`/`k` scroll, `/` searches, `e` edits the file with micro in the same pane (Ctrl+S saves, Ctrl+Q comes back to the rendered view), `r` re-renders after resizing the pane, `q` quits.
-
-**The pickers** (Markdown, PDF, tables, logs with `Shift+U`) list the files in the current directory and its subdirectories, newest just above the cursor. Type part of the name to filter, arrows to move, Enter to open, Esc to leave.
-
-## yazi as the hub
-
-`config/yazi/yazi.toml` makes Enter open each file in its program without leaving the terminal; `O` (capital) lets you pick another. Quitting with `q` returns to yazi; another `q` closes yazi.
-
-| File | Enter | Other options (`O`) |
-|---|---|---|
-| `.pdf` | tdf | Preview |
-| `.csv` `.tsv` `.parquet` `.xlsx` `.json` `.jsonl` | visidata | editor, default app |
-| `.md` | glow (`e` edits with micro) | VS Code |
-| `.log` | `tail -F` (Ctrl+C exits) | editor |
-| Code and text | `$EDITOR` (VS Code) | — |
-
-| Key in yazi | What it does |
-|---|---|
-| `z` | Jump to a file by typing part of its name |
-| `s` | Search files by name (fd) |
-| `S` | Search files by content (ripgrep) |
-| `f` | Filter the current directory as you type |
-| `,` `m` | Sort by modification time |
-| Esc | Leave the search or filter |
-
-## SQL with harlequin
-
-harlequin opens DuckDB by default, which queries parquet and CSV files directly; paths are relative to the directory it was opened in. Ctrl+Enter runs the query.
-
-It also ships the Postgres and SQLite adapters. Passwords go in `~/.pgpass`, never in this repo.
-
-## Status bar: background job
-
-`job-status` shows in the tab bar, every 10 seconds, whether a background job you care about (an ETL, a build, a long script) is running or has just written its output: `⚠ ETL running`, `⚠ ETL wrote <15 min ago` or `ETL idle`. It is handy when you should not read files that job is in the middle of rewriting.
-
-It reads `~/.config/herdr-setup/job-status.conf`, which lives outside the repo so each machine watches its own job. Without that file the bar shows nothing.
-
-```zsh
-LABEL="ETL"                    # name shown in the bar
-PROCESS="etl.py"               # pgrep -f pattern
-DIR="$HOME/path/to/output"     # directory the job writes to
-PATTERN="*.parquet"            # files that count (default: all)
-MINUTES=15                     # how recent counts as "just wrote" (default: 15)
-```
-
-## Tools and how to support them
-
-Everything in this setup is open source, mostly built and maintained by individuals in their spare time. If one of these tools earns a place in your workflow, consider sponsoring it. Where a project takes no donations, a star, a bug report or a pull request helps too.
-
-| Tool | Used for | Support |
-|---|---|---|
-| [Herdr](https://github.com/herdrdev/herdr) | The terminal workspace everything runs in | [Star / contribute](https://github.com/herdrdev/herdr) |
-| [yazi](https://github.com/sxyazi/yazi) | File manager with previews; the hub for opening files | [Star / contribute](https://github.com/sxyazi/yazi) |
-| [glow](https://github.com/charmbracelet/glow) | Renders Markdown | [Star / contribute](https://github.com/charmbracelet/glow) |
-| [micro](https://github.com/micro-editor/micro) | Editing Markdown from the viewer (`e`) | [Star / contribute](https://github.com/micro-editor/micro) |
-| [tdf](https://github.com/itsjunetime/tdf) | PDF viewer | [GitHub Sponsors](https://github.com/sponsors/itsjunetime) |
-| [VisiData](https://github.com/saulpw/visidata) | CSV, parquet and Excel tables | [GitHub Sponsors](https://github.com/sponsors/saulpw) · [Patreon](https://www.patreon.com/saulpw) |
-| [Harlequin](https://github.com/tconbeer/harlequin) | SQL editor | [GitHub Sponsors](https://github.com/sponsors/tconbeer) |
-| [DuckDB](https://github.com/duckdb/duckdb) | SQL over parquet and CSV inside Harlequin | [DuckDB Foundation](https://duckdb.foundation/) |
-| [lazygit](https://github.com/jesseduffield/lazygit) | Git | [GitHub Sponsors](https://github.com/sponsors/jesseduffield) · [Donorbox](https://donorbox.org/lazygit) |
-| [lazydocker](https://github.com/jesseduffield/lazydocker) | Docker | [GitHub Sponsors](https://github.com/sponsors/jesseduffield) |
-| [fzf](https://github.com/junegunn/fzf) | The file pickers and yazi's `z` | [GitHub Sponsors](https://github.com/sponsors/junegunn) |
-| [fd](https://github.com/sharkdp/fd) | Search by name in yazi (`s`) | [GitHub Sponsors](https://github.com/sponsors/sharkdp) · [tavianator](https://github.com/sponsors/tavianator) |
-| [ripgrep](https://github.com/BurntSushi/ripgrep) | Search by content in yazi (`S`) | [GitHub Sponsors](https://github.com/sponsors/BurntSushi) |
-| [jq](https://github.com/jqlang/jq) | Reading Herdr's JSON output in the scripts | [Star / contribute](https://github.com/jqlang/jq) |
-| [Homebrew](https://github.com/Homebrew/brew) | Installing the programs | [GitHub Sponsors](https://github.com/sponsors/Homebrew) · [Open Collective](https://opencollective.com/homebrew) |
-| [uv](https://github.com/astral-sh/uv) | Installing VisiData and Harlequin | [Star / contribute](https://github.com/astral-sh/uv) |
-
-## Installation (macOS)
+## Install (macOS)
 
 ```bash
 git clone https://github.com/SantiagoM99/my-herdr-setup.git
 cd my-herdr-setup && ./install.sh
 ```
 
-`install.sh` installs the programs with Homebrew and `uv`, links `bin/*` into `~/.local/bin`, links the Claude Code skill into `~/.claude/skills/`, and sets VS Code as `$EDITOR` if none is set. What it does with each config depends on whether you already have one:
+Requires Homebrew, Herdr and VS Code (`code` on the PATH). PDFs and images display only in terminals with image support, such as Ghostty, Kitty or WezTerm; Apple Terminal does not.
 
-| Config | You have none | You already have one |
-|---|---|---|
-| Herdr `config.toml` | Linked to the repo | **Merged**: see below |
-| yazi `yazi.toml` | Linked to the repo | Left alone; the installer tells you which rules to copy |
-| micro `settings.json` | Linked to the repo | `softwrap` and `wordwrap` added unless you set them |
+The installer backs up any file it changes as `<file>.bak-<timestamp>`. `--skip-programs` skips installing programs; `--replace` replaces existing configs instead of merging.
 
-Linked configs follow the repo: edit the repo and reload with `` ` `` `Shift+R`. Every file the installer changes is backed up first as `<file>.bak-<timestamp>`.
+**Already using Herdr?** Your config is kept: the shortcuts are added in a marked block at the end of your `config.toml`, your prefix stays, and any shortcut whose key you already use is skipped (the installer says which). An existing `yazi.toml` is left alone. Run `./install.sh` again to update.
 
-Options: `--skip-programs` skips Homebrew and `uv` (useful if you manage packages yourself); `--replace` replaces existing configs with links to the repo instead of merging.
+## Prefix
 
-Requires Homebrew, Herdr and VS Code with the `code` command on the PATH. To see PDFs and images inside the terminal, run Herdr from Ghostty, Kitty or WezTerm: Apple Terminal does not display images.
+Every shortcut starts with the prefix `` ` `` (backtick). Herdr's default is `ctrl+b`; I find a single key easier. To change it, edit `prefix` in `config/config.toml` and reload with `` ` `` `Shift+R`.
 
-### Already using Herdr?
+## Shortcuts
 
-Your config is kept. Herdr cannot include other files, so the installer writes the shortcuts into a marked block at the end of your `config.toml`:
+Lowercase opens a pane on the right; Shift opens a popup. The pane or popup closes when the program exits.
 
-```toml
-# >>> herdr-setup >>>
-# Managed by herdr-setup/install.sh: changes inside this block are overwritten.
-[[keys.command]]
-...
-# <<< herdr-setup <<<
+| What | Pane | Popup | Exit |
+|---|---|---|---|
+| Files (yazi) | `` ` `` `f` | `` ` `` `Shift+F` | `q` |
+| Markdown (glow) | `` ` `` `m` | `` ` `` `Shift+M` | `q` |
+| PDF (tdf) | `` ` `` `a` | `` ` `` `Shift+A` | `q` |
+| Tables: CSV, parquet, xlsx (VisiData) | `` ` `` `t` | `` ` `` `Shift+T` | `q` |
+| Latest log, live | `` ` `` `u` | `` ` `` `Shift+U` (pick one) | Ctrl+C |
+| SQL (Harlequin) | `` ` `` `y` | `` ` `` `Shift+Y` | Ctrl+Q |
+| Git (lazygit) | — | `` ` `` `Shift+J` | `q` |
+| Docker (lazydocker) | — | `` ` `` `Shift+K` | `q` |
+| VS Code in the current directory | `` ` `` `i` | — | — |
+
+Markdown, PDF, tables and `Shift+U` start with a file picker: type part of a name, Enter to open, Esc to cancel.
+
+In the Markdown viewer: `e` edits the file in micro (Ctrl+S saves, Ctrl+Q returns), `r` re-renders after resizing, `/` searches.
+
+`rename_tab` moves from `` ` `` `Shift+T` to `` ` `` `,` to make room for tables.
+
+## yazi
+
+Enter opens each file in the terminal; `O` offers other programs.
+
+| File | Enter |
+|---|---|
+| `.pdf` | tdf |
+| `.csv` `.tsv` `.parquet` `.xlsx` `.json` | VisiData |
+| `.md` | glow |
+| `.log` | `tail -F` |
+| Anything else | `$EDITOR` |
+
+Search: `z` jumps to a file by name, `s` searches names, `S` searches contents, `f` filters the current directory.
+
+## Status bar
+
+`job-status` shows in the tab bar whether a background job is running or wrote output recently: `⚠ ETL running`, `⚠ ETL wrote <15 min ago`, `ETL idle`. Configure it in `~/.config/herdr-setup/job-status.conf`; without that file it shows nothing.
+
+```zsh
+LABEL="ETL"                  # name shown in the bar
+PROCESS="etl.py"             # pgrep -f pattern
+DIR="$HOME/path/to/output"   # directory the job writes to
+PATTERN="*.parquet"          # optional, default: all files
+MINUTES=15                   # optional, default: 15
 ```
 
-- **Your prefix stays.** The shortcuts are relative to it: `prefix+f`, `prefix+shift+f`, and so on.
-- **Your bindings win.** If a key is already used by one of your commands, or by a Herdr default you have not changed, that shortcut is skipped and the installer says which one and why. To get it, free the key or change it inside the block.
-- **`rename_tab` moves to `prefix+comma`** only if you have not set `rename_tab` yourself, because `prefix+shift+t` opens tables.
-- **The status bar entry is not added**; the installer prints the line to paste if you want it.
-- **To update**, pull and run `./install.sh` again: it rewrites only the marked block. Edits you make outside the block are never touched.
-- If Herdr rejects the merged file (`herdr config check`), the installer restores yours.
+## Changing the setup with an agent
 
-## Claude Code skill
+`skills/herdr-setup/SKILL.md` describes the layout and conventions so Claude Code can add or change shortcuts. `install.sh` links it into `~/.claude/skills/`; `AGENTS.md` points other agents to it.
 
-`skills/herdr-setup/SKILL.md` teaches Claude Code how to change this setup: where everything lives, the shortcut scheme, how to check for key collisions, how to test in a throwaway pane, and to keep the repo in English and free of project-specific names. `install.sh` links it into `~/.claude/skills/`. Ask for things like "add a shortcut for htop" and it follows these rules. Agents working inside this repo (Claude Code, Codex and others) also find `AGENTS.md`, which points them to the same file.
+## Support the tools
 
-## Scripts
+These are open source. If one earns a place in your workflow, consider sponsoring it or giving it a star.
 
-| Script | What it does |
+| Tool | Support |
 |---|---|
-| `herdr-side <command>` | Opens the command in a new pane to the right of the focused pane, in its directory |
-| `herdr-pick <prompt> <patterns…>` | fzf picker over files in the current directory, newest first |
-| `herdr-pdf` | Picks a PDF and opens it with tdf (reloads by itself when the PDF changes) |
-| `herdr-data` | Picks a table and opens it in visidata |
-| `herdr-md [file]` | Renders Markdown with glow inside less; `e` edits in micro |
-| `herdr-log [--pick]` | `tail -F` of the most recent `.log` |
-| `job-status` | Tab bar line with the status of a background job |
+| [Herdr](https://github.com/herdrdev/herdr) | [Star](https://github.com/herdrdev/herdr) |
+| [yazi](https://github.com/sxyazi/yazi) | [Star](https://github.com/sxyazi/yazi) |
+| [glow](https://github.com/charmbracelet/glow) | [Star](https://github.com/charmbracelet/glow) |
+| [micro](https://github.com/micro-editor/micro) | [Star](https://github.com/micro-editor/micro) |
+| [tdf](https://github.com/itsjunetime/tdf) | [GitHub Sponsors](https://github.com/sponsors/itsjunetime) |
+| [VisiData](https://github.com/saulpw/visidata) | [GitHub Sponsors](https://github.com/sponsors/saulpw) · [Patreon](https://www.patreon.com/saulpw) |
+| [Harlequin](https://github.com/tconbeer/harlequin) | [GitHub Sponsors](https://github.com/sponsors/tconbeer) |
+| [lazygit](https://github.com/jesseduffield/lazygit) | [GitHub Sponsors](https://github.com/sponsors/jesseduffield) · [Donorbox](https://donorbox.org/lazygit) |
+| [lazydocker](https://github.com/jesseduffield/lazydocker) | [GitHub Sponsors](https://github.com/sponsors/jesseduffield) |
