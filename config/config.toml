@@ -1,0 +1,100 @@
+onboarding = false
+[ui]
+tab_bar_right = [{ type = "command", command = "~/.local/bin/etl-estado", interval_seconds = 10, timeout_seconds = 5 }]
+
+[keys]
+prefix = "`"
+
+# Atajos de visor. La letra dice qué se abre; Shift dice dónde:
+#   prefix+<letra>        panel fijo a la derecha (mitad del ancho), se cierra con q
+#   prefix+shift+<letra>  popup flotante, se cierra con q
+#   f = archivos (yazi)   m = markdown (glow)   a = PDF (selector + tdf)   i = VS Code
+#   t = tablas CSV/parquet (visidata; popup en shift+v porque shift+t renombra la pestaña)
+#   u = último log en vivo (popup: elegir cuál)   y = láminas que se recompilan al guardar
+#   shift+c = git (lazygit)   shift+b = Docker (lazydocker, la ballena); los dos solo popup
+# Se evitan d y t: prefix+shift+d cierra el workspace y prefix+shift+t renombra la pestaña.
+
+[[keys.command]]
+key = "prefix+shift+f"
+type = "popup"
+command = "yazi"
+width = "90%"
+height = "90%"
+
+[[keys.command]]
+key = "prefix+f"
+type = "shell"
+command = "~/.local/bin/herdr-lado yazi"
+
+[[keys.command]]
+key = "prefix+shift+m"
+type = "popup"
+command = "glow"
+width = "90%"
+height = "90%"
+
+[[keys.command]]
+key = "prefix+m"
+type = "shell"
+command = "~/.local/bin/herdr-lado glow"
+
+[[keys.command]]
+key = "prefix+shift+a"
+type = "popup"
+command = "~/.local/bin/herdr-pdf"
+width = "90%"
+height = "95%"
+
+[[keys.command]]
+key = "prefix+a"
+type = "shell"
+command = "~/.local/bin/herdr-lado ~/.local/bin/herdr-pdf"
+
+# Abre la carpeta del panel actual en VS Code; el panel temporal se cierra solo.
+[[keys.command]]
+key = "prefix+i"
+type = "pane"
+command = "code ."
+
+[[keys.command]]
+key = "prefix+t"
+type = "shell"
+command = "~/.local/bin/herdr-lado ~/.local/bin/herdr-datos"
+
+[[keys.command]]
+key = "prefix+shift+v"
+type = "popup"
+command = "~/.local/bin/herdr-datos"
+width = "95%"
+height = "95%"
+
+[[keys.command]]
+key = "prefix+u"
+type = "shell"
+command = "~/.local/bin/herdr-lado ~/.local/bin/herdr-log"
+
+[[keys.command]]
+key = "prefix+shift+u"
+type = "popup"
+command = "~/.local/bin/herdr-log --elegir"
+width = "90%"
+height = "90%"
+
+[[keys.command]]
+key = "prefix+y"
+type = "shell"
+command = "~/.local/bin/herdr-lado ~/.local/bin/herdr-laminas"
+
+[[keys.command]]
+key = "prefix+shift+c"
+type = "popup"
+command = "lazygit"
+width = "95%"
+height = "95%"
+
+[[keys.command]]
+key = "prefix+shift+b"
+type = "popup"
+command = "lazydocker"
+width = "95%"
+height = "95%"

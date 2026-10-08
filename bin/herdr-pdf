@@ -1,0 +1,4 @@
+#!/bin/zsh
+# Elige un PDF de la carpeta (los más recientes primero) y lo abre con tdf.
+# Lo usan prefix+a (panel, vía herdr-lado) y prefix+shift+a (popup).
+PDF=$(${0:h}/herdr-elegir 'PDF> ' '*.pdf') && exec tdf "$PDF"
