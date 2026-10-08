@@ -1,6 +1,24 @@
 #!/bin/zsh
-# glow with micro as its editor: inside glow, `e` edits the document in the same pane
-# (Ctrl+S saves, Ctrl+Q returns to glow). Outside glow, $EDITOR stays as it is.
+# Reads a Markdown file rendered by glow inside less; `e` edits it in micro and comes back.
+# Not glow's own viewer: there the left arrow means "back to the file list", so a wide table
+# scrolled to the right cannot be scrolled back. Rendered to the pane width, glow wraps tables
+# to fit, and less scrolls both ways.
+#   herdr-md [file.md]   without a file: pick one (newest first)
+#   keys: arrows or j/k scroll, / search, e edit in micro, r re-render (after resizing), q quit
 # Used by prefix+m, prefix+shift+m and by yazi when opening a .md file.
-export EDITOR=micro
-exec glow "$@"
+FILE=$1
+if [[ -z $FILE ]]; then
+  FILE=$(${0:h}/herdr-pick 'Markdown> ' '*.md' '*.markdown') || exit 1
+fi
+KEYS=$(mktemp)
+trap 'rm -f "$KEYS"' EXIT
+# `quit X` makes less exit with the character code of X as its status.
+printf '#command\ne quit e\nr quit r\n' > "$KEYS"
+while true; do
+  glow -s dark -w $(( $(tput cols) - 2 )) "$FILE" | LESS= less -RS --lesskey-src="$KEYS"
+  case $? in
+    101) micro "$FILE" ;;  # e
+    114) ;;                # r
+    *) exit 0 ;;
+  esac
+done

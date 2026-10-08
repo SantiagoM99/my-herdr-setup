@@ -12,7 +12,7 @@ table = [
   { run = "open %s", desc = "Default app" },
 ]
 markdown = [
-  { run = "herdr-md -t %s1", desc = "glow (read; e edits with micro)", block = true },
+  { run = "herdr-md %s1", desc = "glow (read; e edits with micro)", block = true },
   { run = "code %s", desc = "VS Code (edit)" },
 ]
 log = [

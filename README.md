@@ -20,7 +20,7 @@ The letter says what opens; Shift says where: lowercase opens a pane on the righ
 | What | Pane on the right | Popup | How to exit |
 |---|---|---|---|
 | Files (yazi) | `` ` `` `f` | `` ` `` `Shift+F` | `q` |
-| Markdown (glow) | `` ` `` `m` | `` ` `` `Shift+M` | `q` |
+| Markdown (picker + glow) | `` ` `` `m` | `` ` `` `Shift+M` | `q` |
 | PDF (picker + tdf) | `` ` `` `a` | `` ` `` `Shift+A` | `q` |
 | CSV / parquet / xlsx tables (visidata) | `` ` `` `t` | `` ` `` `Shift+T` | `q` |
 | Live logs | `` ` `` `u` (most recent) | `` ` `` `Shift+U` (pick one) | Ctrl+C |
@@ -29,9 +29,9 @@ The letter says what opens; Shift says where: lowercase opens a pane on the righ
 | Docker (lazydocker) | — | `` ` `` `Shift+K` | `q` |
 | VS Code in the current directory | `` ` `` `i` | — | — |
 
-When the program exits, its pane or popup closes by itself. In glow, `e` edits the document with micro in the same pane: Ctrl+S saves, Ctrl+Q returns to glow. micro is only used there; VS Code stays the editor for everything else.
+When the program exits, its pane or popup closes by itself. **Reading Markdown** (`m`, `Shift+M`, or Enter on a `.md` in yazi): glow renders the file to the pane width (wide tables wrap to fit) and `less` shows it. Arrows or `j`/`k` scroll, `/` searches, `e` edits the file with micro in the same pane (Ctrl+S saves, Ctrl+Q comes back to the rendered view), `r` re-renders after resizing the pane, `q` quits. micro is only used there; VS Code stays the editor for everything else. glow's own viewer is not used because its left arrow means "back to the file list", so a table scrolled right could not be scrolled back.
 
-**The pickers** (PDF, tables, logs with `Shift+U`) list the files in the current directory and its subdirectories, newest just above the cursor. Type part of the name to filter (`q3rep` finds `2026_q3_report.pdf`; several space-separated words must all match), arrows to move, Enter to open, Esc to leave.
+**The pickers** (Markdown, PDF, tables, logs with `Shift+U`) list the files in the current directory and its subdirectories, newest just above the cursor. Type part of the name to filter (`q3rep` finds `2026_q3_report.pdf`; several space-separated words must all match), arrows to move, Enter to open, Esc to leave.
 
 ### Herdr shortcuts worth knowing
 
@@ -105,6 +105,6 @@ Requires Homebrew, Herdr and VS Code with the `code` command on the PATH. To see
 | `herdr-pick <prompt> <patterns…>` | fzf picker over files in the current directory, newest first |
 | `herdr-pdf` | Picks a PDF and opens it with tdf (reloads by itself when the PDF changes) |
 | `herdr-data` | Picks a table and opens it in visidata |
-| `herdr-md` | glow with micro as the editor for the `e` key |
+| `herdr-md [file]` | Renders Markdown with glow inside less; `e` edits in micro |
 | `herdr-log [--pick]` | `tail -F` of the most recent `.log` |
 | `etl-status` | Tab bar line with the ETL status |
