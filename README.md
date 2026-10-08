@@ -25,7 +25,7 @@ El prefijo es `` ` ``. La letra dice qué se abre; Shift dice dónde.
 | Tablas CSV / parquet / xlsx (visidata) | `t` | `Shift+T` |
 | Logs en vivo | `u` (el más reciente) | `Shift+U` (elegir) |
 | Láminas que se recompilan al guardar | `y` | — |
-| Git (lazygit) | — | `Shift+C` |
+| Git (lazygit) | — | `Shift+J` |
 | Docker (lazydocker) | — | `Shift+K` |
 | VS Code en la carpeta actual | `i` | — |
 
