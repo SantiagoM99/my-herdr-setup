@@ -11,6 +11,13 @@ cd my-herdr-setup && ./install.sh
 
 Requires Homebrew, Herdr and VS Code (`code` on the PATH). PDFs and images display only in terminals with image support, such as Ghostty, Kitty or WezTerm; Apple Terminal does not.
 
+To install only some tools, pick components: `files`, `markdown`, `pdf`, `tables`, `logs`, `sql`, `git`, `docker`, `vscode` (`./install.sh --list` describes them).
+
+```bash
+./install.sh --only files,markdown,git
+./install.sh --without docker,sql
+```
+
 The installer backs up any file it changes as `<file>.bak-<timestamp>`. `--skip-programs` skips installing programs; `--replace` replaces existing configs instead of merging.
 
 **Already using Herdr?** Your config is kept: the shortcuts are added in a marked block at the end of your `config.toml`, your prefix stays, and any shortcut whose key you already use is skipped (the installer says which). An existing `yazi.toml` is left alone. Run `./install.sh` again to update.

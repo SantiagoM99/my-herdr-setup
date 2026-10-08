@@ -23,6 +23,7 @@ If `~/.config/herdr/config.toml` is not a symlink, the setup is not installed: a
 | `bin/*` | `~/.local/bin/*` | Helper scripts |
 | `install.sh` | — | Installs programs, links configs or merges into existing ones |
 | `lib/merge-herdr-config.py` | — | Merges the shortcuts into an existing Herdr config |
+| `lib/filter-yazi-config.py` | — | yazi config without the openers of components left out |
 | `README.md` | — | The user's cheat sheet |
 
 Per-machine values never go in the repo. `job-status` reads `~/.config/herdr-setup/job-status.conf`; follow the same pattern for anything else that names a machine, project, path or credential.
@@ -33,6 +34,10 @@ Per-machine values never go in the repo. `job-status` reads `~/.config/herdr-set
 
 - Every shortcut must be a self-contained `[[keys.command]]` entry in `config/config.toml` (that is what the merge copies). Settings outside those entries, like `prefix` or `tab_bar_right`, do not reach merged installs; if one is needed, handle it in the merge script.
 - After changing `config/config.toml`, `install.sh` or the merge script, test the merge in a fake home: `env HOME=$(mktemp -d) PATH="$HOME/.local/bin:$PATH" zsh ./install.sh --skip-programs` with a sample `~/.config/herdr/config.toml` inside it, then `env XDG_CONFIG_HOME=<that home>/.config herdr config check`. Re-run it to confirm the block is replaced, not duplicated.
+
+## Components
+
+`install.sh --only` / `--without` install a subset. Each component in `install.sh` lists its Homebrew formulas (`BREW`), the word that identifies its shortcuts in `config/config.toml` (`SHORTCUT`, matched against `command`), and its opener in `yazi.toml` (`OPENER`). A selective install copies a filtered config instead of linking (`lib/filter-yazi-config.py` for yazi, `merge-herdr-config.py --exclude` for Herdr). When adding a tool, add it to an existing component or create one in all three maps, add it to `DESC`, and list it in the README's component line. Test with `--only` and `--without` in a fake home.
 
 ## Rules
 

@@ -5,13 +5,15 @@ Herdr cannot include other config files, so for a user with their own config the
 does not replace it: it writes our [[keys.command]] entries into a marked block at the end
 and leaves everything else alone. Running it again replaces only that block.
 
-    merge-herdr-config.py <repo config.toml> <user config.toml> [--dry-run]
+    merge-herdr-config.py <repo config.toml> <user config.toml> [--exclude a,b] [--dry-run]
 
 - The user's prefix, theme and options are never changed.
 - A shortcut of ours whose key is already bound (by the user, or by a Herdr default the user
   has not changed) is skipped with a warning; the user's binding wins.
 - rename_tab moves to prefix+comma only if the user has not set rename_tab themselves,
   because our tables popup uses prefix+shift+t, Herdr's default for rename_tab.
+- --exclude drops every shortcut whose command contains one of the given words (used by
+  install.sh --only/--without to leave out components that are not installed).
 - The result is parsed as TOML before writing; if it does not parse, nothing is written.
 """
 
@@ -60,8 +62,14 @@ def shortcut_blocks(repo_text: str) -> list[tuple[str, str]]:
 
 
 def main() -> int:
-    args = [a for a in sys.argv[1:] if a != "--dry-run"]
-    dry_run = "--dry-run" in sys.argv
+    argv = sys.argv[1:]
+    dry_run = "--dry-run" in argv
+    exclude: list[str] = []
+    if "--exclude" in argv:
+        i = argv.index("--exclude")
+        exclude = [w for w in argv[i + 1].split(",") if w]
+        del argv[i : i + 2]
+    args = [a for a in argv if a != "--dry-run"]
     if len(args) != 2:
         print(__doc__.strip().splitlines()[0], file=sys.stderr)
         return 2
@@ -86,7 +94,13 @@ def main() -> int:
 
     kept, skipped = [], []
     for key, block in shortcut_blocks(repo_cfg.read_text()):
+        command = re.search(r'^command = "([^"]+)"', block, re.M).group(1)
+        if any(word in command for word in exclude):
+            continue
         (skipped if key in taken else kept).append((key, block))
+
+    # Moving rename_tab is only needed when the tables popup (prefix+shift+t) is installed.
+    add_rename_tab = add_rename_tab and any(key == "prefix+shift+t" for key, _ in kept)
 
     managed = [BEGIN, "# Managed by herdr-setup/install.sh: changes inside this block are overwritten.", ""]
     if add_rename_tab and "[keys]" not in user_text.splitlines():
