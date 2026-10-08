@@ -76,6 +76,28 @@ PATTERN="*.parquet"            # files that count (default: all)
 MINUTES=15                     # how recent counts as "just wrote" (default: 15)
 ```
 
+## Tools
+
+| Tool | Used for |
+|---|---|
+| [Herdr](https://herdr.dev) | The terminal workspace everything runs in |
+| [yazi](https://yazi-rs.github.io) | File manager with previews; the hub for opening files |
+| [glow](https://github.com/charmbracelet/glow) | Renders Markdown in the terminal |
+| [micro](https://github.com/micro-editor/micro) | Editing Markdown from the viewer (`e`) |
+| [tdf](https://github.com/itsjunetime/tdf) | PDF viewer in the terminal |
+| [VisiData](https://visidata.org) | CSV, parquet and Excel tables |
+| [Harlequin](https://harlequin.sh) | SQL editor, with [DuckDB](https://duckdb.org) for parquet and CSV |
+| [lazygit](https://github.com/jesseduffield/lazygit) | Git |
+| [lazydocker](https://github.com/jesseduffield/lazydocker) | Docker |
+| [fzf](https://junegunn.github.io/fzf/) | The file pickers and yazi's `z` |
+| [fd](https://github.com/sharkdp/fd) | Search by name in yazi (`s`) |
+| [ripgrep](https://github.com/BurntSushi/ripgrep) | Search by content in yazi (`S`) |
+| [jq](https://jqlang.github.io/jq/) | Reading Herdr's JSON output in the scripts |
+| [VS Code](https://code.visualstudio.com/) | Default editor (`$EDITOR`) and the `i` shortcut |
+| [Homebrew](https://brew.sh) and [uv](https://docs.astral.sh/uv/) | Installing the above |
+
+To see PDFs and images inside the terminal, run Herdr from a terminal that supports the Kitty graphics protocol: [Ghostty](https://ghostty.org/), [Kitty](https://github.com/kovidgoyal/kitty) or [WezTerm](https://wezterm.org/).
+
 ## Installation (macOS)
 
 ```bash

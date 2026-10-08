@@ -43,7 +43,7 @@ export PATH=$BIN:$PATH
 
 if $PROGRAMS; then
   step "Programs (Homebrew)"
-  brew install yazi glow neovim tdf fzf jq lazygit lazydocker fd ripgrep micro
+  brew install yazi glow tdf fzf jq lazygit lazydocker fd ripgrep micro
 
   step "visidata with parquet support (uv)"
   command -v uv >/dev/null || brew install uv
