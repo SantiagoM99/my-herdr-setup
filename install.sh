@@ -37,6 +37,10 @@ paso "Config en $CFG"
 mkdir -p "$CFG"
 enlazar "$REPO/config/config.toml" "$CFG/config.toml"
 
+paso "Config de yazi (con qué abre cada archivo)"
+mkdir -p "$HOME/.config/yazi"
+enlazar "$REPO/config/yazi/yazi.toml" "$HOME/.config/yazi/yazi.toml"
+
 paso "Editor por defecto (VS Code) en ~/.zshrc"
 if ! grep -q '^export EDITOR=' ~/.zshrc 2>/dev/null; then
   printf '\n# Editor por defecto: VS Code (--wait hace que yazi, git, etc. esperen a que cierres la pestaña)\nexport EDITOR="code --wait"\nexport VISUAL="code --wait"\n' >> ~/.zshrc

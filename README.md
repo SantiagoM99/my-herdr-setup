@@ -31,6 +31,18 @@ El prefijo es `` ` ``. La letra dice qué se abre; Shift dice dónde.
 
 Todo se cierra con `q`; los logs y las láminas, con Ctrl+C. Las letras evitan los atajos de Herdr: `Shift+D` cierra el workspace y `Shift+T` renombra la pestaña, por eso el PDF va en `a` y el popup de tablas en `Shift+V`.
 
+## yazi como centro
+
+`config/yazi/yazi.toml` hace que Enter abra cada archivo en su programa, sin salir de la terminal; `O` (mayúscula) deja elegir otro. Al salir con `q` se vuelve a yazi.
+
+| Archivo | Enter | Otras opciones (`O`) |
+|---|---|---|
+| `.pdf` | tdf | Preview |
+| `.csv` `.tsv` `.parquet` `.xlsx` `.json` `.jsonl` | visidata | editor, app por defecto |
+| `.md` | glow | VS Code |
+| `.log` | `tail -F` (Ctrl+C sale) | editor |
+| Código y texto | `$EDITOR` (VS Code) | — |
+
 ## Scripts
 
 | Script | Qué hace |
