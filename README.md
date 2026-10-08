@@ -76,27 +76,36 @@ PATTERN="*.parquet"            # files that count (default: all)
 MINUTES=15                     # how recent counts as "just wrote" (default: 15)
 ```
 
-## Tools
+## Tools and how to support them
 
-| Tool | Used for |
+Everything in this setup is open source, mostly built and maintained by individuals in their spare time. If one of these tools earns a place in your workflow, consider sponsoring it. Where a project takes no donations, a star, a bug report or a pull request helps too.
+
+| Tool | Used for | Support |
+|---|---|---|
+| [Herdr](https://github.com/herdrdev/herdr) | The terminal workspace everything runs in | [Star / contribute](https://github.com/herdrdev/herdr) |
+| [yazi](https://github.com/sxyazi/yazi) | File manager with previews; the hub for opening files | [Star / contribute](https://github.com/sxyazi/yazi) |
+| [glow](https://github.com/charmbracelet/glow) | Renders Markdown | [Star / contribute](https://github.com/charmbracelet/glow) |
+| [micro](https://github.com/micro-editor/micro) | Editing Markdown from the viewer (`e`) | [Star / contribute](https://github.com/micro-editor/micro) |
+| [tdf](https://github.com/itsjunetime/tdf) | PDF viewer | [GitHub Sponsors](https://github.com/sponsors/itsjunetime) |
+| [VisiData](https://github.com/saulpw/visidata) | CSV, parquet and Excel tables | [GitHub Sponsors](https://github.com/sponsors/saulpw) · [Patreon](https://www.patreon.com/saulpw) |
+| [Harlequin](https://github.com/tconbeer/harlequin) | SQL editor | [GitHub Sponsors](https://github.com/sponsors/tconbeer) |
+| [DuckDB](https://github.com/duckdb/duckdb) | SQL over parquet and CSV inside Harlequin | [DuckDB Foundation](https://duckdb.foundation/) |
+| [lazygit](https://github.com/jesseduffield/lazygit) | Git | [GitHub Sponsors](https://github.com/sponsors/jesseduffield) · [Donorbox](https://donorbox.org/lazygit) |
+| [lazydocker](https://github.com/jesseduffield/lazydocker) | Docker | [GitHub Sponsors](https://github.com/sponsors/jesseduffield) |
+| [fzf](https://github.com/junegunn/fzf) | The file pickers and yazi's `z` | [GitHub Sponsors](https://github.com/sponsors/junegunn) |
+| [fd](https://github.com/sharkdp/fd) | Search by name in yazi (`s`) | [GitHub Sponsors](https://github.com/sponsors/sharkdp) · [tavianator](https://github.com/sponsors/tavianator) |
+| [ripgrep](https://github.com/BurntSushi/ripgrep) | Search by content in yazi (`S`) | [GitHub Sponsors](https://github.com/sponsors/BurntSushi) |
+| [jq](https://github.com/jqlang/jq) | Reading Herdr's JSON output in the scripts | [Star / contribute](https://github.com/jqlang/jq) |
+| [Homebrew](https://github.com/Homebrew/brew) | Installing the programs | [GitHub Sponsors](https://github.com/sponsors/Homebrew) · [Open Collective](https://opencollective.com/homebrew) |
+| [uv](https://github.com/astral-sh/uv) | Installing VisiData and Harlequin | [Star / contribute](https://github.com/astral-sh/uv) |
+
+To see PDFs and images inside the terminal, run Herdr from a terminal that supports the Kitty graphics protocol. These are open source too:
+
+| Terminal | Support |
 |---|---|
-| [Herdr](https://herdr.dev) | The terminal workspace everything runs in |
-| [yazi](https://yazi-rs.github.io) | File manager with previews; the hub for opening files |
-| [glow](https://github.com/charmbracelet/glow) | Renders Markdown in the terminal |
-| [micro](https://github.com/micro-editor/micro) | Editing Markdown from the viewer (`e`) |
-| [tdf](https://github.com/itsjunetime/tdf) | PDF viewer in the terminal |
-| [VisiData](https://visidata.org) | CSV, parquet and Excel tables |
-| [Harlequin](https://harlequin.sh) | SQL editor, with [DuckDB](https://duckdb.org) for parquet and CSV |
-| [lazygit](https://github.com/jesseduffield/lazygit) | Git |
-| [lazydocker](https://github.com/jesseduffield/lazydocker) | Docker |
-| [fzf](https://junegunn.github.io/fzf/) | The file pickers and yazi's `z` |
-| [fd](https://github.com/sharkdp/fd) | Search by name in yazi (`s`) |
-| [ripgrep](https://github.com/BurntSushi/ripgrep) | Search by content in yazi (`S`) |
-| [jq](https://jqlang.github.io/jq/) | Reading Herdr's JSON output in the scripts |
-| [VS Code](https://code.visualstudio.com/) | Default editor (`$EDITOR`) and the `i` shortcut |
-| [Homebrew](https://brew.sh) and [uv](https://docs.astral.sh/uv/) | Installing the above |
-
-To see PDFs and images inside the terminal, run Herdr from a terminal that supports the Kitty graphics protocol: [Ghostty](https://ghostty.org/), [Kitty](https://github.com/kovidgoyal/kitty) or [WezTerm](https://wezterm.org/).
+| [Ghostty](https://github.com/ghostty-org/ghostty) | [Donate](https://donate.ghostty.org) |
+| [Kitty](https://github.com/kovidgoyal/kitty) | [GitHub Sponsors](https://github.com/sponsors/kovidgoyal) · [Patreon](https://www.patreon.com/kovidgoyal) |
+| [WezTerm](https://github.com/wez/wezterm) | [GitHub Sponsors](https://github.com/sponsors/wez) · [Patreon](https://www.patreon.com/WezFurlong) |
 
 ## Installation (macOS)
 
