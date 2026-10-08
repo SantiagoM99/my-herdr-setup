@@ -12,7 +12,7 @@ rename_tab = "prefix+comma"
 #   prefix+shift+<letra>  popup flotante, se cierra con q
 #   f = archivos (yazi)   m = markdown (glow)   a = PDF (selector + tdf)   i = VS Code
 #   t = tablas CSV/parquet (visidata)
-#   u = último log en vivo (popup: elegir cuál)
+#   u = último log en vivo (popup: elegir cuál)   y = SQL (harlequin: DuckDB sobre parquet/CSV, Postgres)
 #   shift+j = git (lazygit)   shift+k = Docker (lazydocker); los dos solo popup
 # Se evita d: prefix+shift+d cierra el workspace.
 
@@ -81,6 +81,18 @@ type = "popup"
 command = "~/.local/bin/herdr-log --elegir"
 width = "90%"
 height = "90%"
+
+[[keys.command]]
+key = "prefix+y"
+type = "shell"
+command = "~/.local/bin/herdr-lado harlequin"
+
+[[keys.command]]
+key = "prefix+shift+y"
+type = "popup"
+command = "harlequin"
+width = "95%"
+height = "95%"
 
 [[keys.command]]
 key = "prefix+shift+j"

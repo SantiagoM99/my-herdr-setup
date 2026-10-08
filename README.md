@@ -1,6 +1,6 @@
 # herdr-setup
 
-Mi configuración de Herdr para usarlo como un mini-IDE: archivos, Markdown, PDF, tablas, logs, git y Docker a un atajo de distancia, en un panel a la derecha o en un popup.
+Mi configuración de Herdr para usarlo como un mini-IDE: archivos, Markdown, PDF, tablas, logs, SQL, git y Docker a un atajo de distancia, en un panel a la derecha o en un popup.
 
 ## Instalación (macOS)
 
@@ -26,6 +26,7 @@ El prefijo es `` ` ``. La letra dice qué se abre; Shift dice dónde.
 | Logs en vivo | `u` (el más reciente) | `Shift+U` (elegir) |
 | Git (lazygit) | — | `Shift+J` |
 | Docker (lazydocker) | — | `Shift+K` |
+| SQL (harlequin) | `y` | `Shift+Y` |
 | VS Code en la carpeta actual | `i` | — |
 
 Todo se cierra con `q`; los logs, con Ctrl+C. Las letras evitan los atajos de Herdr: `Shift+D` cierra el workspace, por eso el PDF va en `a`. Renombrar pestaña se movió de `Shift+T` a `` ` `` `,` (coma) para dejar `t`/`Shift+T` a las tablas.

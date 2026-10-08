@@ -29,6 +29,9 @@ paso "visidata con soporte de parquet (uv)"
 command -v uv >/dev/null || brew install uv
 uv tool install --upgrade visidata --with pyarrow --with openpyxl
 
+paso "harlequin (editor SQL: DuckDB y Postgres)"
+uv tool install --upgrade 'harlequin[postgres]'
+
 paso "Scripts en $BIN"
 mkdir -p "$BIN"
 for f in "$REPO"/bin/*; do chmod +x "$f"; enlazar "$f" "$BIN/${f:t}"; done
