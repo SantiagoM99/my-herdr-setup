@@ -13,7 +13,7 @@ rename_tab = "prefix+comma"
 #   f = archivos (yazi)   m = markdown (glow)   a = PDF (selector + tdf)   i = VS Code
 #   t = tablas CSV/parquet (visidata)
 #   u = último log en vivo (popup: elegir cuál)   y = láminas que se recompilan al guardar
-#   shift+c = git (lazygit)   shift+b = Docker (lazydocker, la ballena); los dos solo popup
+#   shift+c = git (lazygit)   shift+k = Docker (lazydocker); los dos solo popup
 # Se evita d: prefix+shift+d cierra el workspace.
 
 [[keys.command]]
@@ -95,7 +95,7 @@ width = "95%"
 height = "95%"
 
 [[keys.command]]
-key = "prefix+shift+b"
+key = "prefix+shift+k"
 type = "popup"
 command = "lazydocker"
 width = "95%"

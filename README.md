@@ -26,7 +26,7 @@ El prefijo es `` ` ``. La letra dice qué se abre; Shift dice dónde.
 | Logs en vivo | `u` (el más reciente) | `Shift+U` (elegir) |
 | Láminas que se recompilan al guardar | `y` | — |
 | Git (lazygit) | — | `Shift+C` |
-| Docker (lazydocker) | — | `Shift+B` |
+| Docker (lazydocker) | — | `Shift+K` |
 | VS Code en la carpeta actual | `i` | — |
 
 Todo se cierra con `q`; los logs y las láminas, con Ctrl+C. Las letras evitan los atajos de Herdr: `Shift+D` cierra el workspace, por eso el PDF va en `a`. Renombrar pestaña se movió de `Shift+T` a `` ` `` `,` (coma) para dejar `t`/`Shift+T` a las tablas.
