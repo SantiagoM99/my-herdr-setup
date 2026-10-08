@@ -8,4 +8,6 @@ JQ=$(command -v jq) || exit 1
 read -r PANE CWD < <($HERDR pane list | $JQ -r '.result.panes[] | select(.focused) | "\(.pane_id) \(.foreground_cwd // .cwd)"' | head -1)
 [[ -z $PANE ]] && exit 1
 NEW=$($HERDR pane split "$PANE" --direction right --ratio 0.5 --cwd "$CWD" --focus | $JQ -r '.result.pane.pane_id')
-$HERDR pane run "$NEW" "$*; exit"
+# exec: el comando reemplaza al shell, así que al salir (q o Ctrl+C) el panel se cierra.
+# Con "cmd; exit", Ctrl+C abortaba la línea entera y el panel quedaba con un shell vacío.
+$HERDR pane run "$NEW" "exec $*"
