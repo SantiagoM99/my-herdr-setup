@@ -10,7 +10,7 @@ rename_tab = "prefix+comma"
 # Atajos de visor. La letra dice qué se abre; Shift dice dónde:
 #   prefix+<letra>        panel fijo a la derecha (mitad del ancho), se cierra con q
 #   prefix+shift+<letra>  popup flotante, se cierra con q
-#   f = archivos (yazi)   m = markdown (glow)   a = PDF (selector + tdf)   i = VS Code
+#   f = archivos (yazi)   m = markdown (glow; e edita con micro)   a = PDF (selector + tdf)   i = VS Code
 #   t = tablas CSV/parquet (visidata)
 #   u = último log en vivo (popup: elegir cuál)   y = SQL (harlequin: DuckDB sobre parquet/CSV, Postgres)
 #   shift+j = git (lazygit)   shift+k = Docker (lazydocker); los dos solo popup
@@ -31,14 +31,14 @@ command = "~/.local/bin/herdr-lado yazi"
 [[keys.command]]
 key = "prefix+shift+m"
 type = "popup"
-command = "glow"
+command = "~/.local/bin/herdr-md"
 width = "90%"
 height = "90%"
 
 [[keys.command]]
 key = "prefix+m"
 type = "shell"
-command = "~/.local/bin/herdr-lado glow"
+command = "~/.local/bin/herdr-lado ~/.local/bin/herdr-md"
 
 [[keys.command]]
 key = "prefix+shift+a"

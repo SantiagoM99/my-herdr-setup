@@ -29,7 +29,7 @@ La letra dice qué se abre; Shift dice dónde: minúscula, panel a la derecha (m
 | Docker (lazydocker) | — | `` ` `` `Shift+K` | `q` |
 | VS Code en la carpeta actual | `` ` `` `i` | — | — |
 
-Al salir del programa, el panel o el popup se cierra solo. En glow, `e` abre el documento en el editor (VS Code) y al cerrarlo glow muestra la versión nueva.
+Al salir del programa, el panel o el popup se cierra solo. En glow, `e` edita el documento con micro en el mismo panel: Ctrl+S guarda, Ctrl+Q vuelve a glow. micro solo se usa ahí; el editor de todo lo demás sigue siendo VS Code.
 
 **Los selectores** (PDF, tablas, logs con `Shift+U`) listan los archivos de la carpeta y sus subcarpetas, el más reciente justo encima del cursor. Se escribe parte del nombre para filtrar (`dosmod` encuentra `2026-10_dos_modelos.pdf`; varias palabras separadas por espacio filtran por todas), flechas para moverse, Enter abre, Esc sale.
 
@@ -55,7 +55,7 @@ Al salir del programa, el panel o el popup se cierra solo. En glow, `e` abre el 
 |---|---|---|
 | `.pdf` | tdf | Preview |
 | `.csv` `.tsv` `.parquet` `.xlsx` `.json` `.jsonl` | visidata | editor, app por defecto |
-| `.md` | glow (`e` lo abre en VS Code) | VS Code |
+| `.md` | glow (`e` edita con micro) | VS Code |
 | `.log` | `tail -F` (Ctrl+C sale) | editor |
 | Código y texto | `$EDITOR` (VS Code) | — |
 
@@ -105,5 +105,6 @@ Necesita Homebrew, Herdr y VS Code con el comando `code` en el PATH. Para ver PD
 | `herdr-elegir <prompt> <patrones…>` | Selector fzf de archivos de la carpeta, recientes primero |
 | `herdr-pdf` | Elige un PDF y lo abre con tdf (se recarga solo si el PDF cambia) |
 | `herdr-datos` | Elige una tabla y la abre en visidata |
+| `herdr-md` | glow con micro como editor para la tecla `e` |
 | `herdr-log [--elegir]` | `tail -F` del `.log` más reciente |
 | `etl-estado` | Línea de la barra de pestañas con el estado del ETL |
