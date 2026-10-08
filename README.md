@@ -99,14 +99,6 @@ Everything in this setup is open source, mostly built and maintained by individu
 | [Homebrew](https://github.com/Homebrew/brew) | Installing the programs | [GitHub Sponsors](https://github.com/sponsors/Homebrew) · [Open Collective](https://opencollective.com/homebrew) |
 | [uv](https://github.com/astral-sh/uv) | Installing VisiData and Harlequin | [Star / contribute](https://github.com/astral-sh/uv) |
 
-To see PDFs and images inside the terminal, run Herdr from a terminal that supports the Kitty graphics protocol. These are open source too:
-
-| Terminal | Support |
-|---|---|
-| [Ghostty](https://github.com/ghostty-org/ghostty) | [Donate](https://donate.ghostty.org) |
-| [Kitty](https://github.com/kovidgoyal/kitty) | [GitHub Sponsors](https://github.com/sponsors/kovidgoyal) · [Patreon](https://www.patreon.com/kovidgoyal) |
-| [WezTerm](https://github.com/wez/wezterm) | [GitHub Sponsors](https://github.com/sponsors/wez) · [Patreon](https://www.patreon.com/WezFurlong) |
-
 ## Installation (macOS)
 
 ```bash
