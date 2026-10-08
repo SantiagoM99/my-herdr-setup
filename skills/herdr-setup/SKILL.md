@@ -21,10 +21,18 @@ If `~/.config/herdr/config.toml` is not a symlink, the setup is not installed: a
 | `config/yazi/yazi.toml` | `~/.config/yazi/yazi.toml` | What Enter opens each file type with |
 | `config/micro/settings.json` | `~/.config/micro/settings.json` | micro editor settings |
 | `bin/*` | `~/.local/bin/*` | Helper scripts |
-| `install.sh` | — | Installs programs and creates the links |
+| `install.sh` | — | Installs programs, links configs or merges into existing ones |
+| `lib/merge-herdr-config.py` | — | Merges the shortcuts into an existing Herdr config |
 | `README.md` | — | The user's cheat sheet |
 
 Per-machine values never go in the repo. `job-status` reads `~/.config/herdr-setup/job-status.conf`; follow the same pattern for anything else that names a machine, project, path or credential.
+
+## Two install modes
+
+`install.sh` links the configs on a clean machine (and on the user's), but **merges** into a Herdr config someone already has: `lib/merge-herdr-config.py` writes the repo's `[[keys.command]]` entries into a `# >>> herdr-setup >>>` block at the end of their file, skips any key they already use, and never changes their prefix or options. Existing yazi configs are left alone; micro settings get missing keys added. Keep both modes working:
+
+- Every shortcut must be a self-contained `[[keys.command]]` entry in `config/config.toml` (that is what the merge copies). Settings outside those entries, like `prefix` or `tab_bar_right`, do not reach merged installs; if one is needed, handle it in the merge script.
+- After changing `config/config.toml`, `install.sh` or the merge script, test the merge in a fake home: `env HOME=$(mktemp -d) PATH="$HOME/.local/bin:$PATH" zsh ./install.sh --skip-programs` with a sample `~/.config/herdr/config.toml` inside it, then `env XDG_CONFIG_HOME=<that home>/.config herdr config check`. Re-run it to confirm the block is replaced, not duplicated.
 
 ## Rules
 

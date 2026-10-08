@@ -60,12 +60,6 @@ When the program exits, its pane or popup closes by itself.
 
 harlequin opens DuckDB by default, which queries parquet and CSV files directly; paths are relative to the directory it was opened in. Ctrl+Enter runs the query.
 
-```sql
-select cohort, count(*)
-from 'data/students.parquet'
-group by 1 order by 1;
-```
-
 It also ships the Postgres and SQLite adapters. Passwords go in `~/.pgpass`, never in this repo.
 
 ## Status bar: background job
@@ -89,11 +83,38 @@ git clone <this repo> herdr-setup
 cd herdr-setup && ./install.sh
 ```
 
-`install.sh` installs the programs with Homebrew and `uv`, symlinks `bin/*` into `~/.local/bin`, `config/config.toml` into `~/.config/herdr/` `config/yazi/yazi.toml` into `~/.config/yazi/` and `config/micro/settings.json` into `~/.config/micro/`, and sets VS Code as `$EDITOR` if none is set. Anything already there is backed up as `<file>.bak-<timestamp>`.
+`install.sh` installs the programs with Homebrew and `uv`, links `bin/*` into `~/.local/bin`, links the Claude Code skill into `~/.claude/skills/`, and sets VS Code as `$EDITOR` if none is set. What it does with each config depends on whether you already have one:
 
-Because they are symlinks, editing the repo changes the live install; after editing the config, reload with `` ` `` `Shift+R`.
+| Config | You have none | You already have one |
+|---|---|---|
+| Herdr `config.toml` | Linked to the repo | **Merged**: see below |
+| yazi `yazi.toml` | Linked to the repo | Left alone; the installer tells you which rules to copy |
+| micro `settings.json` | Linked to the repo | `softwrap` and `wordwrap` added unless you set them |
+
+Linked configs follow the repo: edit the repo and reload with `` ` `` `Shift+R`. Every file the installer changes is backed up first as `<file>.bak-<timestamp>`.
+
+Options: `--skip-programs` skips Homebrew and `uv` (useful if you manage packages yourself); `--replace` replaces existing configs with links to the repo instead of merging.
 
 Requires Homebrew, Herdr and VS Code with the `code` command on the PATH. To see PDFs and images inside the terminal, run Herdr from Ghostty, Kitty or WezTerm: Apple Terminal does not display images.
+
+### Already using Herdr?
+
+Your config is kept. Herdr cannot include other files, so the installer writes the shortcuts into a marked block at the end of your `config.toml`:
+
+```toml
+# >>> herdr-setup >>>
+# Managed by herdr-setup/install.sh: changes inside this block are overwritten.
+[[keys.command]]
+...
+# <<< herdr-setup <<<
+```
+
+- **Your prefix stays.** The shortcuts are relative to it: `prefix+f`, `prefix+shift+f`, and so on.
+- **Your bindings win.** If a key is already used by one of your commands, or by a Herdr default you have not changed, that shortcut is skipped and the installer says which one and why. To get it, free the key or change it inside the block.
+- **`rename_tab` moves to `prefix+comma`** only if you have not set `rename_tab` yourself, because `prefix+shift+t` opens tables.
+- **The status bar entry is not added**; the installer prints the line to paste if you want it.
+- **To update**, pull and run `./install.sh` again: it rewrites only the marked block. Edits you make outside the block are never touched.
+- If Herdr rejects the merged file (`herdr config check`), the installer restores yours.
 
 ## Claude Code skill
 
