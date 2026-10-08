@@ -66,7 +66,7 @@ Per-machine values never go in the repo. `job-status` reads `~/.config/herdr-set
    herdr pane close "$NEW"
    ```
    You cannot press the prefix shortcut itself from here. Say so, and say what you tested instead (the command behind it). Do test-edits on throwaway files in a temp directory, never on the user's documents, and do not run commands that regenerate the user's outputs.
-6. Update `README.md`: the shortcut table (with "How to exit"), the yazi table, the scripts table, whichever applies.
+6. Update `README.md`: the shortcut table (with the Exit column), the yazi table, or the support list, whichever applies. Keep it short: no explanations of internals, and the support list holds only tools the user runs directly, not their dependencies.
 7. Search for leftovers: `grep -rnIiE '[áéíóúñ¿]' --exclude-dir=.git .` and any old names you replaced.
 8. Commit in English: imperative summary under 72 characters, bullets for what changed. Push only if the user asks.
 9. Report to the user: the new shortcut or behaviour, what you tested, what you could not test.
@@ -76,4 +76,4 @@ Per-machine values never go in the repo. `job-status` reads `~/.config/herdr-set
 - glow's own viewer treats the left arrow as "back to file list"; that is why `herdr-md` renders glow into `less`. Do not switch it back to `glow -t`.
 - `type = "shell"` commands run without the user's interactive PATH; use full paths (`~/.local/bin/...`) in `config.toml`.
 - Apple Terminal cannot show images; PDF and image previews need Herdr running inside Ghostty, Kitty or WezTerm. A blank tdf page there is not a bug.
-- Harlequin quits with Ctrl+Q, the log viewer with Ctrl+C, everything else with `q`. Keep the README's exit column accurate.
+- Harlequin quits with Ctrl+Q, the log viewer with Ctrl+C, everything else with `q`. Keep the README's Exit column accurate.
