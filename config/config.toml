@@ -4,15 +4,17 @@ tab_bar_right = [{ type = "command", command = "~/.local/bin/etl-estado", interv
 
 [keys]
 prefix = "`"
+# Renombrar pestaña pasa de shift+t a coma (como en tmux) para dejar t/shift+t a las tablas.
+rename_tab = "prefix+comma"
 
 # Atajos de visor. La letra dice qué se abre; Shift dice dónde:
 #   prefix+<letra>        panel fijo a la derecha (mitad del ancho), se cierra con q
 #   prefix+shift+<letra>  popup flotante, se cierra con q
 #   f = archivos (yazi)   m = markdown (glow)   a = PDF (selector + tdf)   i = VS Code
-#   t = tablas CSV/parquet (visidata; popup en shift+v porque shift+t renombra la pestaña)
+#   t = tablas CSV/parquet (visidata)
 #   u = último log en vivo (popup: elegir cuál)   y = láminas que se recompilan al guardar
 #   shift+c = git (lazygit)   shift+b = Docker (lazydocker, la ballena); los dos solo popup
-# Se evitan d y t: prefix+shift+d cierra el workspace y prefix+shift+t renombra la pestaña.
+# Se evita d: prefix+shift+d cierra el workspace.
 
 [[keys.command]]
 key = "prefix+shift+f"
@@ -62,7 +64,7 @@ type = "shell"
 command = "~/.local/bin/herdr-lado ~/.local/bin/herdr-datos"
 
 [[keys.command]]
-key = "prefix+shift+v"
+key = "prefix+shift+t"
 type = "popup"
 command = "~/.local/bin/herdr-datos"
 width = "95%"

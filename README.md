@@ -22,14 +22,14 @@ El prefijo es `` ` ``. La letra dice qué se abre; Shift dice dónde.
 | Archivos (yazi) | `f` | `Shift+F` |
 | Markdown (glow) | `m` | `Shift+M` |
 | PDF (selector + tdf) | `a` | `Shift+A` |
-| Tablas CSV / parquet / xlsx (visidata) | `t` | `Shift+V` |
+| Tablas CSV / parquet / xlsx (visidata) | `t` | `Shift+T` |
 | Logs en vivo | `u` (el más reciente) | `Shift+U` (elegir) |
 | Láminas que se recompilan al guardar | `y` | — |
 | Git (lazygit) | — | `Shift+C` |
 | Docker (lazydocker) | — | `Shift+B` |
 | VS Code en la carpeta actual | `i` | — |
 
-Todo se cierra con `q`; los logs y las láminas, con Ctrl+C. Las letras evitan los atajos de Herdr: `Shift+D` cierra el workspace y `Shift+T` renombra la pestaña, por eso el PDF va en `a` y el popup de tablas en `Shift+V`.
+Todo se cierra con `q`; los logs y las láminas, con Ctrl+C. Las letras evitan los atajos de Herdr: `Shift+D` cierra el workspace, por eso el PDF va en `a`. Renombrar pestaña se movió de `Shift+T` a `` ` `` `,` (coma) para dejar `t`/`Shift+T` a las tablas.
 
 ## yazi como centro
 

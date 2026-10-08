@@ -1,6 +1,6 @@
 #!/bin/zsh
 # Elige una tabla (CSV, TSV, parquet, xlsx; recientes primero) y la abre en visidata.
-# Lo usan prefix+t (panel) y prefix+shift+v (popup).
+# Lo usan prefix+t (panel) y prefix+shift+t (popup).
 # Con pocos hilos de Arrow: pyarrow segfaultea con algunos parquets del ETL (ver CLAUDE.md).
 export OMP_NUM_THREADS=1 ARROW_NUM_THREADS=1
 F=$(${0:h}/herdr-elegir 'Tabla> ' '*.csv' '*.tsv' '*.parquet' '*.xlsx') && exec vd "$F"
