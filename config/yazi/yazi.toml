@@ -1,29 +1,29 @@
-# Con qué abre yazi cada archivo. Enter usa la primera opción; O (mayúscula) deja elegir entre todas.
-# block = true: el programa toma la terminal y al salir (q) se vuelve a yazi.
+# What yazi opens each file with. Enter uses the first option; O (capital) lets you choose.
+# block = true: the program takes over the terminal and quitting it (q) returns to yazi.
 
 [opener]
 pdf = [
-  { run = "tdf %s1", desc = "tdf (en la terminal)", block = true },
+  { run = "tdf %s1", desc = "tdf (in the terminal)", block = true },
   { run = "open %s", desc = "Preview" },
 ]
-tabla = [
-  # Un hilo de Arrow: pyarrow segfaultea con algunos parquets del ETL.
+table = [
+  # Single Arrow thread: pyarrow segfaults on some of the observatory ETL parquets.
   { run = "OMP_NUM_THREADS=1 ARROW_NUM_THREADS=1 vd %s1", desc = "visidata", block = true },
-  { run = "open %s", desc = "App por defecto" },
+  { run = "open %s", desc = "Default app" },
 ]
 markdown = [
-  { run = "herdr-md -t %s1", desc = "glow (leer; e edita con micro)", block = true },
-  { run = "code %s", desc = "VS Code (editar)" },
+  { run = "herdr-md -t %s1", desc = "glow (read; e edits with micro)", block = true },
+  { run = "code %s", desc = "VS Code (edit)" },
 ]
 log = [
-  { run = "tail -n 200 -F %s1", desc = "Seguir en vivo (Ctrl+C sale)", block = true },
+  { run = "tail -n 200 -F %s1", desc = "Follow live (Ctrl+C exits)", block = true },
   { run = "code %s", desc = "VS Code" },
 ]
 
 [open]
 prepend_rules = [
   { url = "*.pdf", use = [ "pdf", "reveal" ] },
-  { url = "*.{csv,tsv,parquet,xlsx,json,jsonl}", use = [ "tabla", "edit", "reveal" ] },
+  { url = "*.{csv,tsv,parquet,xlsx,json,jsonl}", use = [ "table", "edit", "reveal" ] },
   { url = "*.{md,markdown}", use = [ "markdown", "reveal" ] },
   { url = "*.log", use = [ "log", "edit", "reveal" ] },
 ]

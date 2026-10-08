@@ -1,12 +1,12 @@
 #!/bin/zsh
-# Sigue en vivo el .log modificado más recientemente de la carpeta (tail -f).
-# Con --elegir deja escoger cuál. Ctrl+C para salir. Lo usan prefix+u (panel) y prefix+shift+u (popup).
-if [[ $1 == --elegir ]]; then
-  LOG=$(${0:h}/herdr-elegir 'Log> ' '*.log') || exit 1
+# Follows the most recently modified .log under the current directory (tail -F).
+# With --pick, lets you choose which one. Ctrl+C exits. Used by prefix+u (pane) and prefix+shift+u (popup).
+if [[ $1 == --pick ]]; then
+  LOG=$(${0:h}/herdr-pick 'Log> ' '*.log') || exit 1
 else
   LOG=$(find . \( -path '*/.*' -o -path './.venv' \) -prune -o -type f -name '*.log' -print0 2>/dev/null \
     | xargs -0 ls -t 2>/dev/null | head -1)
-  [[ -z $LOG ]] && { echo "No hay .log en $PWD"; sleep 2; exit 1; }
+  [[ -z $LOG ]] && { echo "No .log files in $PWD"; sleep 2; exit 1; }
 fi
 printf '\e[1m== %s ==\e[0m\n' "$LOG"
 exec tail -n 200 -F "$LOG"

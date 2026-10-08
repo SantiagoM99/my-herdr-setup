@@ -1,110 +1,110 @@
 # herdr-setup
 
-Mi configuración de Herdr para usarlo como un mini-IDE: archivos, Markdown, PDF, tablas, logs, SQL, git y Docker a un atajo de distancia, en un panel a la derecha o en un popup.
+My Herdr configuration for using it as a mini-IDE: files, Markdown, PDF, tables, logs, SQL, git and Docker one shortcut away, in a pane on the right or in a popup.
 
-## El prefijo es `` ` ``
+## The prefix is `` ` ``
 
-Todos los atajos empiezan con el **prefijo** `` ` `` (backtick, la tecla a la izquierda del 1 en teclado US). Se aprieta y se suelta, y después la letra: `` ` `` `f` es "backtick, luego f". El prefijo por defecto de Herdr es `ctrl+b`; este setup lo cambia en `config/config.toml`:
+Every shortcut starts with the **prefix** `` ` `` (backtick, the key left of 1 on a US keyboard). Press and release it, then the letter: `` ` `` `f` means "backtick, then f". Herdr's default prefix is `ctrl+b`; this setup changes it in `config/config.toml`:
 
 ```toml
 [keys]
 prefix = "`"
 ```
 
-Para usar otro prefijo, cambiar esa línea y recargar. Los atajos de abajo funcionan igual con cualquier prefijo.
+To use another prefix, change that line and reload. The shortcuts below work the same with any prefix.
 
-## Atajos
+## Shortcuts
 
-La letra dice qué se abre; Shift dice dónde: minúscula, panel a la derecha (mitad del ancho); Shift, popup flotante.
+The letter says what opens; Shift says where: lowercase opens a pane on the right (half the width), Shift opens a floating popup.
 
-| Qué | Panel a la derecha | Popup | Cómo se sale |
+| What | Pane on the right | Popup | How to exit |
 |---|---|---|---|
-| Archivos (yazi) | `` ` `` `f` | `` ` `` `Shift+F` | `q` |
+| Files (yazi) | `` ` `` `f` | `` ` `` `Shift+F` | `q` |
 | Markdown (glow) | `` ` `` `m` | `` ` `` `Shift+M` | `q` |
-| PDF (selector + tdf) | `` ` `` `a` | `` ` `` `Shift+A` | `q` |
-| Tablas CSV / parquet / xlsx (visidata) | `` ` `` `t` | `` ` `` `Shift+T` | `q` |
-| Logs en vivo | `` ` `` `u` (el más reciente) | `` ` `` `Shift+U` (elegir) | Ctrl+C |
+| PDF (picker + tdf) | `` ` `` `a` | `` ` `` `Shift+A` | `q` |
+| CSV / parquet / xlsx tables (visidata) | `` ` `` `t` | `` ` `` `Shift+T` | `q` |
+| Live logs | `` ` `` `u` (most recent) | `` ` `` `Shift+U` (pick one) | Ctrl+C |
 | SQL (harlequin) | `` ` `` `y` | `` ` `` `Shift+Y` | Ctrl+Q |
 | Git (lazygit) | — | `` ` `` `Shift+J` | `q` |
 | Docker (lazydocker) | — | `` ` `` `Shift+K` | `q` |
-| VS Code en la carpeta actual | `` ` `` `i` | — | — |
+| VS Code in the current directory | `` ` `` `i` | — | — |
 
-Al salir del programa, el panel o el popup se cierra solo. En glow, `e` edita el documento con micro en el mismo panel: Ctrl+S guarda, Ctrl+Q vuelve a glow. micro solo se usa ahí; el editor de todo lo demás sigue siendo VS Code.
+When the program exits, its pane or popup closes by itself. In glow, `e` edits the document with micro in the same pane: Ctrl+S saves, Ctrl+Q returns to glow. micro is only used there; VS Code stays the editor for everything else.
 
-**Los selectores** (PDF, tablas, logs con `Shift+U`) listan los archivos de la carpeta y sus subcarpetas, el más reciente justo encima del cursor. Se escribe parte del nombre para filtrar (`dosmod` encuentra `2026-10_dos_modelos.pdf`; varias palabras separadas por espacio filtran por todas), flechas para moverse, Enter abre, Esc sale.
+**The pickers** (PDF, tables, logs with `Shift+U`) list the files in the current directory and its subdirectories, newest just above the cursor. Type part of the name to filter (`dosmod` finds `2026-10_dos_modelos.pdf`; several space-separated words must all match), arrows to move, Enter to open, Esc to leave.
 
-### Atajos de Herdr que conviene saber
+### Herdr shortcuts worth knowing
 
-| Atajo | Qué hace |
+| Shortcut | What it does |
 |---|---|
-| `` ` `` `?` | Ayuda con todos los atajos |
-| `` ` `` `Shift+R` | Recargar la config |
-| `` ` `` `v` / `` ` `` `-` | Dividir el panel a la derecha / abajo |
-| `` ` `` `h` `j` `k` `l` | Moverse al panel de la izquierda, abajo, arriba, derecha |
-| `` ` `` `z` | Zoom: el panel actual a pantalla completa y de vuelta |
-| `` ` `` `x` | Cerrar el panel |
-| `` ` `` `c` | Nueva pestaña |
-| `` ` `` `,` | Renombrar pestaña (en Herdr por defecto es `Shift+T`; se movió para dejar `t` a las tablas) |
-| `` ` `` `Shift+D` | **Cerrar el workspace entero.** Por eso ningún atajo de este setup usa la `d` |
+| `` ` `` `?` | Help with every shortcut |
+| `` ` `` `Shift+R` | Reload the config |
+| `` ` `` `v` / `` ` `` `-` | Split the pane to the right / down |
+| `` ` `` `h` `j` `k` `l` | Move to the pane on the left, below, above, right |
+| `` ` `` `z` | Zoom: current pane full screen and back |
+| `` ` `` `x` | Close the pane |
+| `` ` `` `c` | New tab |
+| `` ` `` `,` | Rename tab (Herdr's default is `Shift+T`; moved to leave `t` to tables) |
+| `` ` `` `Shift+D` | **Close the whole workspace.** That is why no shortcut in this setup uses `d` |
 
-## yazi como centro
+## yazi as the hub
 
-`config/yazi/yazi.toml` hace que Enter abra cada archivo en su programa, sin salir de la terminal; `O` (mayúscula) deja elegir otro. Al salir con `q` se vuelve a yazi; otro `q` cierra yazi.
+`config/yazi/yazi.toml` makes Enter open each file in its program without leaving the terminal; `O` (capital) lets you pick another. Quitting with `q` returns to yazi; another `q` closes yazi.
 
-| Archivo | Enter | Otras opciones (`O`) |
+| File | Enter | Other options (`O`) |
 |---|---|---|
 | `.pdf` | tdf | Preview |
-| `.csv` `.tsv` `.parquet` `.xlsx` `.json` `.jsonl` | visidata | editor, app por defecto |
-| `.md` | glow (`e` edita con micro) | VS Code |
-| `.log` | `tail -F` (Ctrl+C sale) | editor |
-| Código y texto | `$EDITOR` (VS Code) | — |
+| `.csv` `.tsv` `.parquet` `.xlsx` `.json` `.jsonl` | visidata | editor, default app |
+| `.md` | glow (`e` edits with micro) | VS Code |
+| `.log` | `tail -F` (Ctrl+C exits) | editor |
+| Code and text | `$EDITOR` (VS Code) | — |
 
-| Tecla en yazi | Qué hace |
+| Key in yazi | What it does |
 |---|---|
-| `z` | Saltar a un archivo escribiendo parte del nombre |
-| `s` | Buscar archivos por nombre (fd) |
-| `S` | Buscar archivos por contenido (ripgrep) |
-| `f` | Filtrar la carpeta actual mientras se escribe |
-| `,` `m` | Ordenar por fecha de modificación |
-| Esc | Salir de la búsqueda o el filtro |
+| `z` | Jump to a file by typing part of its name |
+| `s` | Search files by name (fd) |
+| `S` | Search files by content (ripgrep) |
+| `f` | Filter the current directory as you type |
+| `,` `m` | Sort by modification time |
+| Esc | Leave the search or filter |
 
-## SQL con harlequin
+## SQL with harlequin
 
-harlequin abre DuckDB por defecto, que consulta parquet y CSV directamente; las rutas son relativas a la carpeta donde se abrió. Ctrl+Enter corre la consulta.
+harlequin opens DuckDB by default, which queries parquet and CSV files directly; paths are relative to the directory it was opened in. Ctrl+Enter runs the query.
 
 ```sql
 select PRIMER_PERIODO, count(*)
-from 'data/datasets/archivo.parquet'
+from 'data/datasets/file.parquet'
 group by 1 order by 1;
 ```
 
-Trae también los adaptadores de Postgres y SQLite. Las contraseñas van en `~/.pgpass`, nunca en este repo.
+It also ships the Postgres and SQLite adapters. Passwords go in `~/.pgpass`, never in this repo.
 
-## Barra de estado: ETL
+## Status bar: ETL
 
-`etl-estado` muestra en la barra de pestañas si el ETL de Observatory-Data-Flow está escribiendo parquets (`⚠ ETL corriendo`, `⚠ ETL escribió hace <15 min` o `ETL quieto`), cada 10 segundos. Si la carpeta del ETL no existe no muestra nada; `ETL_DIR` cambia la carpeta.
+`etl-status` shows in the tab bar whether the Observatory-Data-Flow ETL is writing parquets (`⚠ ETL running`, `⚠ ETL wrote <15 min ago` or `ETL idle`), every 10 seconds. If the ETL directory does not exist it shows nothing; `ETL_DIR` changes the directory.
 
-## Instalación (macOS)
+## Installation (macOS)
 
 ```bash
-git clone <este repo> ~/Projects/Personal/herdr-setup
+git clone <this repo> ~/Projects/Personal/herdr-setup
 ~/Projects/Personal/herdr-setup/install.sh
 ```
 
-`install.sh` instala los programas con Homebrew y `uv`, enlaza `bin/*` en `~/.local/bin`, `config/config.toml` en `~/.config/herdr/` y `config/yazi/yazi.toml` en `~/.config/yazi/`, y pone VS Code como `$EDITOR` si no había uno. Lo que ya exista se respalda como `<archivo>.bak-<fecha>`.
+`install.sh` installs the programs with Homebrew and `uv`, symlinks `bin/*` into `~/.local/bin`, `config/config.toml` into `~/.config/herdr/` and `config/yazi/yazi.toml` into `~/.config/yazi/`, and sets VS Code as `$EDITOR` if none is set. Anything already there is backed up as `<file>.bak-<timestamp>`.
 
-Como son enlaces, editar el repo cambia la instalación en vivo; tras editar la config, recargar con `` ` `` `Shift+R`.
+Because they are symlinks, editing the repo changes the live install; after editing the config, reload with `` ` `` `Shift+R`.
 
-Necesita Homebrew, Herdr y VS Code con el comando `code` en el PATH. Para ver PDF e imágenes dentro de la terminal, abrir Herdr desde Ghostty, Kitty o WezTerm: Apple Terminal no muestra imágenes.
+Requires Homebrew, Herdr and VS Code with the `code` command on the PATH. To see PDFs and images inside the terminal, run Herdr from Ghostty, Kitty or WezTerm: Apple Terminal does not display images.
 
 ## Scripts
 
-| Script | Qué hace |
+| Script | What it does |
 |---|---|
-| `herdr-lado <comando>` | Abre el comando en un panel nuevo a la derecha del panel enfocado, en su carpeta |
-| `herdr-elegir <prompt> <patrones…>` | Selector fzf de archivos de la carpeta, recientes primero |
-| `herdr-pdf` | Elige un PDF y lo abre con tdf (se recarga solo si el PDF cambia) |
-| `herdr-datos` | Elige una tabla y la abre en visidata |
-| `herdr-md` | glow con micro como editor para la tecla `e` |
-| `herdr-log [--elegir]` | `tail -F` del `.log` más reciente |
-| `etl-estado` | Línea de la barra de pestañas con el estado del ETL |
+| `herdr-side <command>` | Opens the command in a new pane to the right of the focused pane, in its directory |
+| `herdr-pick <prompt> <patterns…>` | fzf picker over files in the current directory, newest first |
+| `herdr-pdf` | Picks a PDF and opens it with tdf (reloads by itself when the PDF changes) |
+| `herdr-data` | Picks a table and opens it in visidata |
+| `herdr-md` | glow with micro as the editor for the `e` key |
+| `herdr-log [--pick]` | `tail -F` of the most recent `.log` |
+| `etl-status` | Tab bar line with the ETL status |

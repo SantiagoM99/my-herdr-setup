@@ -1,6 +1,6 @@
 #!/bin/zsh
-# glow con micro como editor: dentro de glow, `e` edita el documento en el mismo panel
-# (Ctrl+S guarda, Ctrl+Q vuelve a glow). Fuera de glow, $EDITOR sigue siendo el de siempre.
-# Lo usan prefix+m, prefix+shift+m y yazi al abrir un .md.
+# glow with micro as its editor: inside glow, `e` edits the document in the same pane
+# (Ctrl+S saves, Ctrl+Q returns to glow). Outside glow, $EDITOR stays as it is.
+# Used by prefix+m, prefix+shift+m and by yazi when opening a .md file.
 export EDITOR=micro
 exec glow "$@"

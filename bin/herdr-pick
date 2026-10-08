@@ -1,0 +1,12 @@
+#!/bin/zsh
+# Lists the files under the current directory that match the patterns (newest first),
+# lets you pick one with fzf and prints its path. Skips hidden directories, .venv and node_modules.
+#   herdr-pick 'PROMPT> ' '*.csv' '*.parquet'
+PROMPT=$1; shift
+ARGS=()
+for pat in "$@"; do ARGS+=(-o -name "$pat"); done
+ARGS=("${(@)ARGS[2,-1]}")
+FILES=$(find . \( -path '*/.*' -o -path './.venv' -o -path '*/node_modules' \) -prune -o \
+  -type f \( "${ARGS[@]}" \) -print0 2>/dev/null | xargs -0 ls -t 2>/dev/null)
+[[ -z $FILES ]] && { echo "No $* files in $PWD" >&2; sleep 2; exit 1; }
+print -r -- $FILES | fzf --prompt="$PROMPT" --height=100%

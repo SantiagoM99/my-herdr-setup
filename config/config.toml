@@ -1,20 +1,20 @@
 onboarding = false
 [ui]
-tab_bar_right = [{ type = "command", command = "~/.local/bin/etl-estado", interval_seconds = 10, timeout_seconds = 5 }]
+tab_bar_right = [{ type = "command", command = "~/.local/bin/etl-status", interval_seconds = 10, timeout_seconds = 5 }]
 
 [keys]
 prefix = "`"
-# Renombrar pestaña pasa de shift+t a coma (como en tmux) para dejar t/shift+t a las tablas.
+# Rename tab moves from shift+t to comma (as in tmux) to leave t/shift+t to tables.
 rename_tab = "prefix+comma"
 
-# Atajos de visor. La letra dice qué se abre; Shift dice dónde:
-#   prefix+<letra>        panel fijo a la derecha (mitad del ancho), se cierra con q
-#   prefix+shift+<letra>  popup flotante, se cierra con q
-#   f = archivos (yazi)   m = markdown (glow; e edita con micro)   a = PDF (selector + tdf)   i = VS Code
-#   t = tablas CSV/parquet (visidata)
-#   u = último log en vivo (popup: elegir cuál)   y = SQL (harlequin: DuckDB sobre parquet/CSV, Postgres)
-#   shift+j = git (lazygit)   shift+k = Docker (lazydocker); los dos solo popup
-# Se evita d: prefix+shift+d cierra el workspace.
+# Viewer shortcuts. The letter says what opens; Shift says where:
+#   prefix+<letter>        pane on the right (half the width), closes with q
+#   prefix+shift+<letter>  floating popup, closes with q
+#   f = files (yazi)   m = markdown (glow; e edits with micro)   a = PDF (picker + tdf)   i = VS Code
+#   t = CSV/parquet tables (visidata)
+#   u = latest log, live (popup: pick one)   y = SQL (harlequin: DuckDB over parquet/CSV, Postgres)
+#   shift+j = git (lazygit)   shift+k = Docker (lazydocker); both popup only
+# d is avoided: prefix+shift+d closes the workspace.
 
 [[keys.command]]
 key = "prefix+shift+f"
@@ -26,7 +26,7 @@ height = "90%"
 [[keys.command]]
 key = "prefix+f"
 type = "shell"
-command = "~/.local/bin/herdr-lado yazi"
+command = "~/.local/bin/herdr-side yazi"
 
 [[keys.command]]
 key = "prefix+shift+m"
@@ -38,7 +38,7 @@ height = "90%"
 [[keys.command]]
 key = "prefix+m"
 type = "shell"
-command = "~/.local/bin/herdr-lado ~/.local/bin/herdr-md"
+command = "~/.local/bin/herdr-side ~/.local/bin/herdr-md"
 
 [[keys.command]]
 key = "prefix+shift+a"
@@ -50,9 +50,9 @@ height = "95%"
 [[keys.command]]
 key = "prefix+a"
 type = "shell"
-command = "~/.local/bin/herdr-lado ~/.local/bin/herdr-pdf"
+command = "~/.local/bin/herdr-side ~/.local/bin/herdr-pdf"
 
-# Abre la carpeta del panel actual en VS Code; el panel temporal se cierra solo.
+# Opens the current pane's directory in VS Code; the temporary pane closes by itself.
 [[keys.command]]
 key = "prefix+i"
 type = "pane"
@@ -61,31 +61,31 @@ command = "code ."
 [[keys.command]]
 key = "prefix+t"
 type = "shell"
-command = "~/.local/bin/herdr-lado ~/.local/bin/herdr-datos"
+command = "~/.local/bin/herdr-side ~/.local/bin/herdr-data"
 
 [[keys.command]]
 key = "prefix+shift+t"
 type = "popup"
-command = "~/.local/bin/herdr-datos"
+command = "~/.local/bin/herdr-data"
 width = "95%"
 height = "95%"
 
 [[keys.command]]
 key = "prefix+u"
 type = "shell"
-command = "~/.local/bin/herdr-lado ~/.local/bin/herdr-log"
+command = "~/.local/bin/herdr-side ~/.local/bin/herdr-log"
 
 [[keys.command]]
 key = "prefix+shift+u"
 type = "popup"
-command = "~/.local/bin/herdr-log --elegir"
+command = "~/.local/bin/herdr-log --pick"
 width = "90%"
 height = "90%"
 
 [[keys.command]]
 key = "prefix+y"
 type = "shell"
-command = "~/.local/bin/herdr-lado harlequin"
+command = "~/.local/bin/herdr-side harlequin"
 
 [[keys.command]]
 key = "prefix+shift+y"
