@@ -62,7 +62,7 @@ Enter opens each file in the terminal; `O` offers other programs.
 
 Search: `z` jumps to a file by name, `s` searches names, `S` searches contents, `f` filters the current directory.
 
-`F` copies the files copied in Finder (Cmd+C) into the current directory. It never overwrites.
+`V` (Shift+V) copies the files copied in Finder (Cmd+C) into the current directory. It never overwrites. It replaces yazi's visual unselect mode.
 
 ## Status bar
 

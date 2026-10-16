@@ -153,7 +153,7 @@ if has files; then
   KEYMAP=$HOME/.config/yazi/keymap.toml
   if [[ -e $KEYMAP ]] && ! ours "$KEYMAP" "$REPO/config/yazi/keymap.toml" && ! $REPLACE; then
     echo "   you already have $KEYMAP: not touching it"
-    echo "   for F (copy here the files copied in Finder), add the entry in $REPO/config/yazi/keymap.toml"
+    echo "   for V (copy here the files copied in Finder), add the entry in $REPO/config/yazi/keymap.toml"
   else
     link "$REPO/config/yazi/keymap.toml" "$KEYMAP"
   fi

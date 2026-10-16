@@ -1,6 +1,6 @@
 #!/bin/zsh
 # Copies the files and folders copied in Finder (Cmd+C) into the current directory.
-# Bound to F in yazi. Never overwrites: a name that already exists is skipped.
+# Bound to V in yazi. Never overwrites: a name that already exists is skipped.
 fail() { # inside yazi the screen returns as soon as we exit, so wait for a key first
   echo "$1" >&2
   [[ -n ${YAZI_ID:-} ]] && read -sk1 "?Press any key to go back"

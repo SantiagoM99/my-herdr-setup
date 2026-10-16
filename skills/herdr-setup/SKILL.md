@@ -19,7 +19,7 @@ If `~/.config/herdr/config.toml` is not a symlink, the setup is not installed: a
 |---|---|---|
 | `config/config.toml` | `~/.config/herdr/config.toml` | Prefix, shortcuts, tab bar entry |
 | `config/yazi/yazi.toml` | `~/.config/yazi/yazi.toml` | What Enter opens each file type with |
-| `config/yazi/keymap.toml` | `~/.config/yazi/keymap.toml` | Extra yazi keys (`F`: paste from Finder) |
+| `config/yazi/keymap.toml` | `~/.config/yazi/keymap.toml` | Extra yazi keys (`V`: paste from Finder) |
 | `config/micro/settings.json` | `~/.config/micro/settings.json` | micro editor settings |
 | `bin/*` | `~/.local/bin/*` | Helper scripts |
 | `install.sh` | — | Installs programs, links configs or merges into existing ones |
