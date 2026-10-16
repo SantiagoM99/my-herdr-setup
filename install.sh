@@ -150,6 +150,13 @@ if has files; then
   else
     link "$REPO/config/yazi/yazi.toml" "$YAZI"
   fi
+  KEYMAP=$HOME/.config/yazi/keymap.toml
+  if [[ -e $KEYMAP ]] && ! ours "$KEYMAP" "$REPO/config/yazi/keymap.toml" && ! $REPLACE; then
+    echo "   you already have $KEYMAP: not touching it"
+    echo "   for F (copy here the files copied in Finder), add the entry in $REPO/config/yazi/keymap.toml"
+  else
+    link "$REPO/config/yazi/keymap.toml" "$KEYMAP"
+  fi
 fi
 
 if has markdown; then

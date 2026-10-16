@@ -1,0 +1,23 @@
+#!/bin/zsh
+# Copies the files and folders copied in Finder (Cmd+C) into the current directory.
+# Bound to F in yazi. Never overwrites: a name that already exists is skipped.
+fail() { # inside yazi the screen returns as soon as we exit, so wait for a key first
+  echo "$1" >&2
+  [[ -n ${YAZI_ID:-} ]] && read -sk1 "?Press any key to go back"
+  exit 1
+}
+
+PATHS=$(osascript -l JavaScript -e '
+  ObjC.import("AppKit");
+  const urls = $.NSPasteboard.generalPasteboard.readObjectsForClassesOptions(
+    $([$.NSURL]), $({ NSPasteboardURLReadingFileURLsOnlyKey: true }));
+  const out = [];
+  for (let i = 0; i < urls.count; i++) out.push(urls.objectAtIndex(i).path.js);
+  out.join("\n");')
+[[ -n $PATHS ]] || fail "No files copied in Finder (select them and press Cmd+C)"
+
+SKIPPED=()
+for src in ${(f)PATHS}; do
+  if [[ -e ${src:t} ]]; then SKIPPED+=(${src:t}); else cp -R "$src" .; fi
+done
+(( ${#SKIPPED} == 0 )) || fail "Already here, not copied: ${(j:, :)SKIPPED}"

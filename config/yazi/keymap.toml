@@ -1,0 +1,5 @@
+[mgr]
+prepend_keymap = [
+  # Cmd+C files in Finder, then F in yazi copies them into the current directory.
+  { on = "F", run = "shell --block -- ~/.local/bin/finder-paste", desc = "Copy here the files copied in Finder" },
+]

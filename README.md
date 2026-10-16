@@ -20,7 +20,7 @@ To install only some tools, pick components (`./install.sh --list`): `files`, `m
 
 The installer backs up any file it changes as `<file>.bak-<timestamp>`. `--skip-programs` skips installing programs; `--replace` replaces existing configs instead of merging.
 
-**Already using Herdr?** Your config is kept: the shortcuts are added in a marked block at the end of your `config.toml`, your prefix stays, and any shortcut whose key you already use is skipped (the installer says which). An existing `yazi.toml` is left alone. Run `./install.sh` again to update.
+**Already using Herdr?** Your config is kept: the shortcuts are added in a marked block at the end of your `config.toml`, your prefix stays, and any shortcut whose key you already use is skipped (the installer says which). An existing `yazi.toml` or `keymap.toml` is left alone. Run `./install.sh` again to update.
 
 ## Prefix
 
@@ -61,6 +61,8 @@ Enter opens each file in the terminal; `O` offers other programs.
 | Anything else | `$EDITOR` |
 
 Search: `z` jumps to a file by name, `s` searches names, `S` searches contents, `f` filters the current directory.
+
+`F` copies the files copied in Finder (Cmd+C) into the current directory. It never overwrites.
 
 ## Status bar
 
