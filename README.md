@@ -1,6 +1,6 @@
 # my-herdr-setup
 
-My Herdr configuration for using it as a mini-IDE: browse files with yazi or find any file by name or contents, and it opens in a pane on the right or in a popup with the right viewer (Markdown, PDF, tables, logs, code). Plus local dictation in Spanish and English. Useful when an agent keeps updating a document while you work on it.
+My Herdr mini-IDE setup: browse and search files, open Markdown, PDFs, tables, logs and code in panes or popups, and dictate locally in Spanish and English.
 
 ## Install (macOS)
 
@@ -18,13 +18,13 @@ To install only some tools, pick components (`./install.sh --list`): `files`, `m
 ./install.sh --without tables
 ```
 
-The installer backs up any file it changes as `<file>.bak-<timestamp>`. `--skip-programs` skips installing programs; `--replace` replaces existing configs instead of merging.
+The installer backs up replaced or merged configs as `<file>.bak-<timestamp>`. `--skip-programs` skips installing programs; `--replace` replaces existing configs instead of merging.
 
-**Already using Herdr?** Your config is kept: the shortcuts are added in a marked block at the end of your `config.toml`, your prefix stays, and any shortcut whose key you already use is skipped (the installer says which). An existing `yazi.toml` or `keymap.toml` is left alone. Run `./install.sh` again to update.
+Existing Herdr configs keep their prefix and settings. The installer merges shortcuts, reports key conflicts and leaves existing yazi configs alone. Rerun the installer to update merged shortcuts; selective installs also use merging. A full install with no existing configs links them to this repo.
 
 ## Prefix
 
-Every shortcut starts with the prefix `` ` `` (backtick). Herdr's default is `ctrl+b`; I find a single key easier. To change it, edit `prefix` in `config/config.toml` and reload with `` ` `` `Shift+R`.
+The shortcuts below use this setup's prefix, `` ` `` (backtick). If you kept an existing config, use your own prefix instead. To change it, edit `prefix` in `config/config.toml` for a linked install, or in your own Herdr config for a merged install, then reload with your current prefix followed by `Shift+R`.
 
 ## Shortcuts
 
@@ -39,18 +39,15 @@ Lowercase opens a pane on the right; Shift opens a popup. The pane or popup clos
 
 ## Finder
 
-`` ` `` `a` lists the files under the current directory, newest first, and opens the one you pick with the program for its type (table below). `Ctrl+T` switches to searching contents; Enter then opens the file at that line. Gitignored files are included; hidden directories, `node_modules`, `venv` and `__pycache__` are not.
+`` ` `` `a` lists files under the current directory, newest first. `Ctrl+T` switches to searching contents. Enter opens the selected file with its viewer (table below); files opened in the editor jump to the matching line. Gitignored files are included; hidden directories, `node_modules`, `venv` and `__pycache__` are not.
 
 ## Dictation
 
-`` ` `` `m` starts recording; `` ` `` `m` again stops it, transcribes it on your Mac and types the text into the focused pane without pressing Enter, so you can review it first. The tab bar shows a blinking `🔴 REC 0:12` while recording and `⏳ Transcribing` after (a second or two); the job status is hidden meanwhile. Recording stops by itself after 5 minutes.
+Press `` ` `` `m` to record and again to transcribe locally into the focused pane, without pressing Enter. Language is detected automatically. Recording is limited to 5 minutes; macOS asks for microphone access on first use.
 
-- **Model:** Whisper large-v3-turbo through whisper.cpp, with Silero voice detection so silence does not turn into invented text. The installer downloads both (about 550 MB) to `~/.local/share/herdr-setup/`. Nothing leaves the computer.
-- **Languages:** detected per dictation. English works best; Spanish works well and keeps most English terms, and the vocabulary fixes the rest.
-- **Vocabulary:** words it should spell right (names, jargon) go comma-separated in `~/.config/herdr-setup/dictate-words.txt`, for example `ChatGPT, fine-tuning, learning rate`. Keep it short: Whisper reads about 220 tokens of it.
-- **Tuning:** each dictation is logged with its language and audio (the last 50) in `~/.local/share/herdr-setup/dictations/`. Ask Claude Code to "review my dictation vocabulary": the `dictation-vocab` skill finds the words being mis-transcribed, re-transcribes your audio to show each fix works, and edits the list after you approve.
+The installer downloads Whisper and voice-detection models (about 550 MB). Audio stays on your Mac. Transcripts and language are logged in `~/.local/share/herdr-setup/dictations/`, alongside the last 50 audio recordings.
 
-The first time, macOS asks for microphone access for your terminal.
+Add names and jargon to `~/.config/herdr-setup/dictate-words.txt`, comma-separated, for example `ChatGPT, fine-tuning, learning rate`. Keep it under about 220 tokens. Ask Claude Code to "review my dictation vocabulary" to test corrections against saved audio and propose changes for approval.
 
 ## yazi
 
@@ -73,7 +70,9 @@ Search: `z` jumps to a file by name, `s` searches names, `S` searches contents, 
 
 ## Status bar
 
-Besides the dictation indicator, `job-status` shows in the tab bar whether a background job is running or wrote output recently: `⚠ ETL running`, `⚠ ETL wrote <15 min ago`, `ETL idle`. Configure it in `~/.config/herdr-setup/job-status.conf`; without that file it shows nothing.
+The tab bar shows `🔴 REC 0:12` or `⏳ Transcribing` during dictation. If you kept an existing Herdr config, add the optional status bar entry printed by the installer.
+
+Between dictations, `job-status` can show `⚠ ETL running`, `⚠ ETL wrote <15 min ago` or `ETL idle`. Enable it with `~/.config/herdr-setup/job-status.conf`:
 
 ```zsh
 LABEL="ETL"                  # name shown in the bar
@@ -82,13 +81,6 @@ DIR="$HOME/path/to/output"   # directory the job writes to
 PATTERN="*.parquet"          # optional, default: all files
 MINUTES=15                   # optional, default: 15
 ```
-
-## How it works
-
-- `install.sh` symlinks the configs (`config/`) into `~/.config` and the scripts (`bin/`) into `~/.local/bin`, so editing this repo changes the live setup.
-- `herdr-open` decides which program opens each file type. yazi and the finder both call it, so a change there applies to both.
-- `herdr-side` opens a command in a new pane to the right; each pane runs its program with `exec`, so it closes when the program exits.
-- `herdr-find` (finder), `herdr-dictate` (dictation, and its tab bar status) and `job-status` (tab bar) back the rest.
 
 ## Changing the setup with an agent
 
