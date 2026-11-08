@@ -10,6 +10,7 @@ prefix = "`"
 #   prefix+shift+<letter>  floating popup
 #   f = files (yazi)   u = latest log, live   i = VS Code
 #   a = find any file by name or contents and open it by type
+#   m = dictate: start recording, press again to type the transcription (no Shift form)
 # Both close when the program exits. d is avoided: prefix+shift+d closes the workspace.
 
 [[keys.command]]
@@ -35,6 +36,11 @@ height = "90%"
 key = "prefix+a"
 type = "shell"
 command = "~/.local/bin/herdr-side ~/.local/bin/herdr-find"
+
+[[keys.command]]
+key = "prefix+m"
+type = "shell"
+command = "~/.local/bin/herdr-dictate"
 
 # Opens the current pane's directory in VS Code; the temporary pane closes by itself.
 [[keys.command]]

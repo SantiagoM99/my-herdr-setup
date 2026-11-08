@@ -11,7 +11,7 @@ cd my-herdr-setup && ./install.sh
 
 Requires Homebrew and Herdr. PDFs and images display only in terminals with image support, such as Ghostty, Kitty or WezTerm; Apple Terminal does not.
 
-To install only some tools, pick components (`./install.sh --list`): `files`, `markdown`, `pdf`, `tables`, `logs`, `vscode`.
+To install only some tools, pick components (`./install.sh --list`): `files`, `markdown`, `pdf`, `tables`, `logs`, `dictation`, `vscode`.
 
 ```bash
 ./install.sh --only files,markdown,pdf
@@ -35,11 +35,18 @@ Lowercase opens a pane on the right; Shift opens a popup. The pane or popup clos
 | Files (yazi) | `` ` `` `f` | `` ` `` `Shift+F` | `q` |
 | Find a file and open it | `` ` `` `a` | `` ` `` `Shift+A` | Esc |
 | Latest log, live | `` ` `` `u` | — | Ctrl+C |
+| Dictate (press again to stop) | `` ` `` `m` | — | `` ` `` `m` |
 | VS Code in the current directory | `` ` `` `i` | — | — |
 
 ## Finder
 
 `` ` `` `a` lists the files under the current directory, newest first, and opens the one you pick with the program for its type (table below). `Ctrl+T` switches to searching contents; Enter then opens the file at that line. Gitignored files are included; hidden directories, `node_modules`, `venv` and `__pycache__` are not.
+
+## Dictation
+
+`` ` `` `m` starts recording; `` ` `` `m` again stops it, transcribes it on your Mac with Whisper and types the text into the focused pane without pressing Enter. Spanish, English or both mixed in one sentence. Nothing leaves the computer. The first time, macOS asks for microphone access for your terminal.
+
+Words it should spell right (names, jargon) go comma-separated in `~/.config/herdr-setup/dictate-words.txt`, for example `fine-tuning, learning rate, LoRA`.
 
 ## yazi
 
@@ -87,4 +94,5 @@ These are open source. If one earns a place in your workflow, consider sponsorin
 | [glow](https://github.com/charmbracelet/glow) | [Star](https://github.com/charmbracelet/glow) |
 | [micro](https://github.com/micro-editor/micro) | [Star](https://github.com/micro-editor/micro) |
 | [tdf](https://github.com/itsjunetime/tdf) | [GitHub Sponsors](https://github.com/sponsors/itsjunetime) |
+| [whisper.cpp](https://github.com/ggml-org/whisper.cpp) | [Star](https://github.com/ggml-org/whisper.cpp) |
 | [VisiData](https://github.com/saulpw/visidata) | [GitHub Sponsors](https://github.com/sponsors/saulpw) · [Patreon](https://www.patreon.com/saulpw) |

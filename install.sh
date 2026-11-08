@@ -19,18 +19,19 @@ STAMP=$(date +%Y%m%d-%H%M%S)
 BIN=$HOME/.local/bin
 CFG=${XDG_CONFIG_HOME:-$HOME/.config}/herdr
 
-COMPONENTS=(files markdown pdf tables logs vscode)
+COMPONENTS=(files markdown pdf tables logs dictation vscode)
 typeset -A DESC=(
   files    "File manager (yazi) and finder by name or contents (fd, ripgrep)"
   markdown "Markdown viewer and editor (glow, micro)"
   pdf      "PDF viewer (tdf)"
   tables   "CSV, parquet and Excel tables (VisiData)"
   logs     "Follow the latest log live"
+  dictation "Dictation in Spanish and English, transcribed locally (whisper.cpp, sox)"
   vscode   "VS Code as \$EDITOR and the i shortcut"
 )
-typeset -A BREW=(files "yazi fd ripgrep" markdown "glow micro" pdf tdf)
+typeset -A BREW=(files "yazi fd ripgrep" markdown "glow micro" pdf tdf dictation "whisper-cpp sox")
 # Words (comma-separated) that identify a component's shortcuts in config/config.toml (matched against `command`).
-typeset -A SHORTCUT=(files yazi,herdr-find logs herdr-log vscode "code .")
+typeset -A SHORTCUT=(files yazi,herdr-find logs herdr-log dictation herdr-dictate vscode "code .")
 
 REPLACE=false PROGRAMS=true ONLY= WITHOUT=
 while (( $# )); do
@@ -85,6 +86,18 @@ if $PROGRAMS; then
     step "visidata with parquet support (uv)"
     uv tool install --upgrade visidata --with pyarrow --with openpyxl
   fi
+fi
+
+if $PROGRAMS && has dictation; then
+  step "Whisper models for dictation (about 550 MB, once)"
+  MODELS=$HOME/.local/share/herdr-setup
+  mkdir -p "$MODELS"
+  for url in https://huggingface.co/ggerganov/whisper.cpp/resolve/main/ggml-large-v3-turbo-q5_0.bin \
+             https://huggingface.co/ggml-org/whisper-vad/resolve/main/ggml-silero-v5.1.2.bin; do
+    f=$MODELS/${url:t}
+    if [[ -s $f ]]; then echo "   have ${url:t}"; continue; fi
+    curl -L --fail --progress-bar -o "$f.part" "$url" && mv "$f.part" "$f"
+  done
 fi
 
 step "Scripts in $BIN"
