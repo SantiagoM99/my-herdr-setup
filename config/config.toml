@@ -15,6 +15,7 @@ prefix = "`"
 
 [[keys.command]]
 key = "prefix+shift+f"
+description = "files (yazi), popup"
 type = "popup"
 command = "yazi"
 width = "90%"
@@ -22,11 +23,13 @@ height = "90%"
 
 [[keys.command]]
 key = "prefix+f"
+description = "files (yazi), pane"
 type = "shell"
 command = "~/.local/bin/herdr-side yazi"
 
 [[keys.command]]
 key = "prefix+shift+a"
+description = "find a file and open it, popup"
 type = "popup"
 command = "~/.local/bin/herdr-find"
 width = "95%"
@@ -34,16 +37,19 @@ height = "90%"
 
 [[keys.command]]
 key = "prefix+a"
+description = "find a file and open it, pane"
 type = "shell"
 command = "~/.local/bin/herdr-side ~/.local/bin/herdr-find"
 
 [[keys.command]]
 key = "prefix+m"
+description = "dictate: start, or stop and type the text"
 type = "shell"
 command = "~/.local/bin/herdr-dictate"
 
 # Opens the current pane's directory in VS Code; the temporary pane closes by itself.
 [[keys.command]]
 key = "prefix+i"
+description = "VS Code in this directory"
 type = "pane"
 command = "code ."

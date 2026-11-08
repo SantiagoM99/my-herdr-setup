@@ -1,13 +1,18 @@
 #!/bin/zsh
-# Opens a command in a new pane to the right of the focused pane, in the same directory.
+# Opens a command in a new pane to the right of the active pane, in the same directory.
 # The pane closes when the command exits. Used by the prefix+<letter> shortcuts.
 #   herdr-side yazi
+# Herdr passes the active pane to shortcut commands (HERDR_ACTIVE_PANE_ID/_CWD); outside a
+# shortcut, the focused pane is looked up instead.
 export PATH=$HOME/.local/bin:/opt/homebrew/bin:/usr/local/bin:$PATH
-HERDR=$(command -v herdr) || exit 1
-JQ=$(command -v jq) || exit 1
-read -r PANE CWD < <($HERDR pane list | $JQ -r '.result.panes[] | select(.focused) | "\(.pane_id) \(.foreground_cwd // .cwd)"' | head -1)
+HERDR=${HERDR_BIN_PATH:-$(command -v herdr)} || exit 1
+PANE=$HERDR_ACTIVE_PANE_ID CWD=$HERDR_ACTIVE_PANE_CWD
+if [[ -z $PANE ]]; then
+  read -r PANE CWD < <($HERDR pane list | jq -r '.result.panes[] | select(.focused) | "\(.pane_id) \(.foreground_cwd // .cwd)"' | head -1)
+fi
 [[ -z $PANE ]] && exit 1
-NEW=$($HERDR pane split "$PANE" --direction right --ratio 0.5 --cwd "$CWD" --focus | $JQ -r '.result.pane.pane_id')
+DIR=(); [[ -n $CWD ]] && DIR=(--cwd "$CWD")
+NEW=$($HERDR pane split "$PANE" --direction right --ratio 0.5 $DIR --focus | jq -r '.result.pane.pane_id')
 # exec: the command replaces the shell, so the pane closes when it exits (q or Ctrl+C).
 # With "cmd; exit", Ctrl+C aborted the whole line and left the pane with an empty shell.
 $HERDR pane run "$NEW" "exec $*"

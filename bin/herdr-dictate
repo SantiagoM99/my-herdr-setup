@@ -54,7 +54,8 @@ if recording; then
   print -r -- "$NOW	${LANG_:-?}	$TEXT" >> $HISTORY/log.tsv
   OLD=($HISTORY/*.wav(Nom[$((KEEP + 1)),-1]))
   (( $#OLD )) && rm -f $OLD
-  PANE=$(herdr pane list | jq -r '.result.panes[] | select(.focused) | .pane_id' | head -1)
+  # The pane active when the shortcut stopped recording (set by Herdr); else the focused one.
+  PANE=${HERDR_ACTIVE_PANE_ID:-$(herdr pane list | jq -r '.result.panes[] | select(.focused) | .pane_id' | head -1)}
   herdr pane send-text "$PANE" "$TEXT"
   rm -f $PHASE
 else

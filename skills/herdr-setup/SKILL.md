@@ -83,5 +83,7 @@ Per-machine values never go in the repo. `job-status` reads `~/.config/herdr-set
 - `type = "shell"` commands run without the user's interactive PATH; use full paths (`~/.local/bin/...`) in `config.toml`.
 - Apple Terminal cannot show images; PDF and image previews need Herdr running inside Ghostty, Kitty or WezTerm. A blank tdf page there is not a bug.
 - `.log` files (`tail -F`) quit with Ctrl+C, the finder with Esc, everything else with `q`. Keep the README's Exit column accurate.
-- `herdr-dictate` types into the focused pane when it stops. To test it, focus a temporary pane first (`pane split --focus`) and feed it a prepared `audio.wav`.
-- Do not run `herdr-side` while testing: it splits the user's focused pane, not your temporary one. Test the command behind it instead.
+- Shortcut commands receive the active pane from Herdr (`HERDR_ACTIVE_PANE_ID`, `HERDR_ACTIVE_PANE_CWD`, `HERDR_BIN_PATH`); scripts use those and fall back to the focused pane. To test `herdr-side` or `herdr-dictate`, set `HERDR_ACTIVE_PANE_ID` to your temporary pane, so nothing lands next to or inside the user's panes. For dictation, feed a prepared `audio.wav` and remove the test line from `dictations/log.tsv` afterwards.
+- Shell variables do not survive between tool calls: write your temporary pane ID to a file and read it back. Never pick a pane by guessing ("the last one", "the idle one"); the user has agents running in panes.
+- `pane wait-output` also matches the command line echoed by `pane run`; use a regex the command itself does not contain.
+- Give every shortcut a `description`: it is what `prefix+?` shows.
