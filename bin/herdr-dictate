@@ -2,35 +2,58 @@
 # Dictation. First run starts recording the microphone; the next run stops, transcribes the audio
 # locally with Whisper (Spanish, English or both mixed) and types the text into the focused pane
 # without pressing Enter. Recording stops by itself after 5 minutes.
+#   herdr-dictate            start or stop (prefix+m)
+#   herdr-dictate --status   what the tab bar shows: "🔴 REC 0:12", "⏳ Transcribing", "Nothing heard"
 # Optional vocabulary (names, jargon) to spell right: ~/.config/herdr-setup/dictate-words.txt,
-# comma-separated. Used by prefix+m.
+# comma-separated.
 export PATH=$HOME/.local/bin:/opt/homebrew/bin:/usr/local/bin:$PATH
+zmodload zsh/datetime zsh/stat
 MODELS=$HOME/.local/share/herdr-setup
 MODEL=$MODELS/ggml-large-v3-turbo-q5_0.bin
 VAD=$MODELS/ggml-silero-v5.1.2.bin
 WORDS=$HOME/.config/herdr-setup/dictate-words.txt
 STATE=${TMPDIR:-/tmp}/herdr-dictate-$UID
-notify() { herdr notification show "$@" >/dev/null 2>&1 }
+# One line read by --status; a message (anything but "rec" or "transcribing") shows for 4 seconds.
+PHASE=$STATE/phase
 
-if [[ -f $STATE/pid ]] && kill -0 $(<$STATE/pid) 2>/dev/null; then
+recording() { [[ -f $STATE/pid ]] && kill -0 $(<$STATE/pid) 2>/dev/null }
+say_phase() { mkdir -p $STATE; print -r -- $1 > $PHASE }
+
+if [[ $1 == --status ]]; then
+  [[ -f $PHASE ]] || exit 0
+  AGE=$(( EPOCHSECONDS - $(zstat +mtime $PHASE) ))
+  case $(<$PHASE) in
+    rec)
+      recording || exit 0
+      # Herdr polls every second, so alternating the dot makes it blink; same width, no jitter.
+      DOT=🔴; (( EPOCHSECONDS % 2 )) && DOT=⚫
+      printf '%s REC %d:%02d' $DOT $(( AGE / 60 )) $(( AGE % 60 )) ;;
+    transcribing) print -n '⏳ Transcribing' ;;
+    *) (( AGE < 4 )) && print -n -- "$(<$PHASE)" ;;
+  esac
+  exit 0
+fi
+
+if recording; then
   kill -INT $(<$STATE/pid)
   for _ in {1..30}; do kill -0 $(<$STATE/pid) 2>/dev/null || break; sleep 0.1; done
-  notify "Transcribing..."
+  say_phase transcribing
   VOCAB=(); [[ -s $WORDS ]] && VOCAB=(--prompt "$(<$WORDS)")
   # VAD drops silence; without it Whisper invents text ("you", "Thanks for watching").
   TEXT=$(whisper-cli -m $MODEL --vad -vm $VAD -l auto -nt -np $VOCAB -f $STATE/audio.wav 2>/dev/null \
     | tr '\n' ' ' | sed -E 's/^ +//; s/ +$//; s/ +/ /g')
-  rm -rf $STATE
-  [[ -z $TEXT ]] && { notify "Dictation" --body "Nothing heard"; exit 0; }
+  rm -f $STATE/pid $STATE/audio.wav
+  [[ -z $TEXT ]] && { say_phase 'Nothing heard'; exit 0; }
   PANE=$(herdr pane list | jq -r '.result.panes[] | select(.focused) | .pane_id' | head -1)
   herdr pane send-text "$PANE" "$TEXT"
+  rm -f $PHASE
 else
   for f in $MODEL $VAD; do
-    [[ -f $f ]] || { notify "Dictation" --body "Missing ${f:t}: run install.sh"; exit 1; }
+    [[ -f $f ]] || { say_phase "Dictation: missing ${f:t}"; exit 1; }
   done
   rm -rf $STATE; mkdir -p $STATE
   # Own session (setsid), so rec outlives the shell or pane that started it.
   perl -MPOSIX -e 'setsid; exec @ARGV' rec -q -c 1 -r 16000 -b 16 $STATE/audio.wav trim 0 300 >/dev/null 2>&1 &!
   print $! > $STATE/pid
-  notify "Recording" --body "Press the shortcut again to stop"
+  say_phase rec
 fi

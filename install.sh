@@ -115,7 +115,7 @@ else
     # status bar, then merge only the selected shortcuts.
     [[ -e $HERDR_CFG ]] && { mv "$HERDR_CFG" "$HERDR_CFG.bak-$STAMP"; echo "   backup: $HERDR_CFG.bak-$STAMP"; }
     printf '%s\n' '[ui]' \
-      'tab_bar_right = [{ type = "command", command = "~/.local/bin/job-status", interval_seconds = 10, timeout_seconds = 5 }]' \
+      'tab_bar_right = [{ type = "command", command = "~/.local/bin/herdr-dictate --status", interval_seconds = 1, timeout_seconds = 1 }, { type = "command", command = "~/.local/bin/job-status", interval_seconds = 1, timeout_seconds = 5 }]' \
       '' '[keys]' 'prefix = "`"' > "$HERDR_CFG"
     echo "   created $HERDR_CFG with the selected shortcuts"
     NEW_CFG=true
@@ -133,7 +133,7 @@ else
   fi
   if ! $NEW_CFG; then
     echo "   optional status bar entry (see README, 'Status bar'): add under [ui]"
-    echo "     tab_bar_right = [{ type = \"command\", command = \"~/.local/bin/job-status\", interval_seconds = 10, timeout_seconds = 5 }]"
+    echo "     tab_bar_right = [{ type = \"command\", command = \"~/.local/bin/herdr-dictate --status\", interval_seconds = 1, timeout_seconds = 1 }, { type = \"command\", command = \"~/.local/bin/job-status\", interval_seconds = 1, timeout_seconds = 5 }]"
   fi
 fi
 

@@ -8,13 +8,24 @@
 #   PATTERN="*.parquet"               # which files in DIR count (default: all)
 #   MINUTES=15                        # how recent is "recently" (default: 15)
 # Without the config file it prints nothing and the bar stays clean.
+# Hidden while dictating, so the bar shows only the recording indicator.
 CONF=${JOB_STATUS_CONF:-$HOME/.config/herdr-setup/job-status.conf}
 [[ -r $CONF ]] || exit 0
-LABEL=Job PROCESS= DIR= PATTERN='*' MINUTES=15
-source "$CONF"
-if [[ -n $PROCESS ]] && pgrep -f "$PROCESS" >/dev/null; then echo "⚠ $LABEL running"; exit; fi
-if [[ -n $DIR && -d $DIR ]]; then
-  RECENT=$(find "$DIR" -type f -name "$PATTERN" -mmin -"$MINUTES" 2>/dev/null | head -1)
-  [[ -n $RECENT ]] && { echo "⚠ $LABEL wrote <$MINUTES min ago"; exit; }
-fi
-echo "$LABEL idle"
+[[ -n $($HOME/.local/bin/herdr-dictate --status 2>/dev/null) ]] && exit 0
+
+# The bar polls every second (for the dictation indicator); the job itself is checked every 10.
+zmodload zsh/datetime zsh/stat
+CACHE=${TMPDIR:-/tmp}/job-status-$UID
+if [[ -s $CACHE ]] && (( EPOCHSECONDS - $(zstat +mtime $CACHE) < 10 )); then cat $CACHE; exit; fi
+
+check() {
+  LABEL=Job PROCESS= DIR= PATTERN='*' MINUTES=15
+  source "$CONF"
+  if [[ -n $PROCESS ]] && pgrep -f "$PROCESS" >/dev/null; then echo "⚠ $LABEL running"; return; fi
+  if [[ -n $DIR && -d $DIR ]]; then
+    RECENT=$(find "$DIR" -type f -name "$PATTERN" -mmin -"$MINUTES" 2>/dev/null | head -1)
+    [[ -n $RECENT ]] && { echo "⚠ $LABEL wrote <$MINUTES min ago"; return; }
+  fi
+  echo "$LABEL idle"
+}
+check | tee $CACHE
