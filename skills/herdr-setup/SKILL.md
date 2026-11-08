@@ -47,14 +47,14 @@ Per-machine values never go in the repo. `job-status` reads `~/.config/herdr-set
 3. **Shortcut scheme.** The prefix is whatever `[keys] prefix` says (the user's is a backtick). The letter says what opens; Shift says where:
    - `prefix+<letter>`: a pane on the right, through `herdr-side <command>` with `type = "shell"`.
    - `prefix+shift+<letter>`: a popup, `type = "popup"`, `width`/`height` around 90–95%.
-   - A tool that only makes sense full screen (git, Docker) gets the popup only.
+   - A tool that only makes sense full screen gets the popup only.
 4. **No collisions.** Before choosing a key, list Herdr's defaults and the repo's bindings:
    ```bash
    herdr --default-config | grep -oE '"prefix\+[^"]+"' | sort -u
    grep -n 'key = \|_tab = \|_pane = ' "$REPO/config/config.toml"
    ```
-   Prefer a letter whose lowercase and Shift forms are both free. Never use `d`: `prefix+shift+d` closes the whole workspace, one missed Shift away. The user accepted Shift+H/J/K/L (lowercase is pane focus) for popup-only tools. If no letter fits, propose options and ask; moving a Herdr default (as `rename_tab` went to `prefix+comma`) needs the user's consent.
-5. **Panes must close when the program exits.** `herdr-side` runs the command with `exec`; keep it that way. Programs that need a picker go through `herdr-pick '<Prompt>> ' '<glob>' …` (fzf, newest first).
+   Prefer a letter whose lowercase and Shift forms are both free. Never use `d`: `prefix+shift+d` closes the whole workspace, one missed Shift away. Shift+H/J/K/L (lowercase is pane focus) are acceptable for popup-only tools. If no letter fits, propose options and ask; moving a Herdr default needs the user's consent.
+5. **Panes must close when the program exits.** `herdr-side` runs the command with `exec`; keep it that way.
 6. **Reuse before adding.** A new viewer is usually a line in `yazi.toml` plus, if it deserves a key, a pair of bindings. Logic used by two scripts goes in its own script in `bin/`.
 
 ## Workflow for a change
@@ -83,4 +83,4 @@ Per-machine values never go in the repo. `job-status` reads `~/.config/herdr-set
 - glow's own viewer treats the left arrow as "back to file list"; that is why `herdr-md` renders glow into `less`. Do not switch it back to `glow -t`.
 - `type = "shell"` commands run without the user's interactive PATH; use full paths (`~/.local/bin/...`) in `config.toml`.
 - Apple Terminal cannot show images; PDF and image previews need Herdr running inside Ghostty, Kitty or WezTerm. A blank tdf page there is not a bug.
-- Harlequin quits with Ctrl+Q, the log viewer with Ctrl+C, everything else with `q`. Keep the README's Exit column accurate.
+- The log viewer quits with Ctrl+C, everything else with `q`. Keep the README's Exit column accurate.

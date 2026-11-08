@@ -1,6 +1,6 @@
 # my-herdr-setup
 
-My Herdr configuration for using it as a mini-IDE: files, Markdown, PDFs, tables, logs, SQL, git and Docker open in a pane on the right or in a popup. Useful when an agent keeps updating a document while you work on it.
+My Herdr configuration for using it as a mini-IDE: files, Markdown, PDFs, tables and logs open in a pane on the right or in a popup. Useful when an agent keeps updating a document while you work on it.
 
 ## Install (macOS)
 
@@ -11,11 +11,11 @@ cd my-herdr-setup && ./install.sh
 
 Requires Homebrew and Herdr. PDFs and images display only in terminals with image support, such as Ghostty, Kitty or WezTerm; Apple Terminal does not.
 
-To install only some tools, pick components (`./install.sh --list`): `files`, `markdown`, `pdf`, `tables`, `logs`, `sql`, `git`, `docker`, `vscode`.
+To install only some tools, pick components (`./install.sh --list`): `files`, `markdown`, `pdf`, `tables`, `logs`, `vscode`.
 
 ```bash
-./install.sh --only files,markdown,git
-./install.sh --without docker,sql
+./install.sh --only files,markdown,pdf
+./install.sh --without tables
 ```
 
 The installer backs up any file it changes as `<file>.bak-<timestamp>`. `--skip-programs` skips installing programs; `--replace` replaces existing configs instead of merging.
@@ -33,20 +33,8 @@ Lowercase opens a pane on the right; Shift opens a popup. The pane or popup clos
 | What | Pane | Popup | Exit |
 |---|---|---|---|
 | Files (yazi) | `` ` `` `f` | `` ` `` `Shift+F` | `q` |
-| Markdown (glow) | `` ` `` `m` | `` ` `` `Shift+M` | `q` |
-| PDF (tdf) | `` ` `` `a` | `` ` `` `Shift+A` | `q` |
-| Tables: CSV, parquet, xlsx (VisiData) | `` ` `` `t` | `` ` `` `Shift+T` | `q` |
-| Latest log, live | `` ` `` `u` | `` ` `` `Shift+U` (pick one) | Ctrl+C |
-| SQL (Harlequin) | `` ` `` `y` | `` ` `` `Shift+Y` | Ctrl+Q |
-| Git (lazygit) | — | `` ` `` `Shift+J` | `q` |
-| Docker (lazydocker) | — | `` ` `` `Shift+K` | `q` |
+| Latest log, live | `` ` `` `u` | — | Ctrl+C |
 | VS Code in the current directory | `` ` `` `i` | — | — |
-
-Markdown, PDF, tables and `Shift+U` start with a file picker: type part of a name, Enter to open, Esc to cancel.
-
-In the Markdown viewer: `e` edits the file in micro (Ctrl+S saves, Ctrl+Q returns), `r` re-renders after resizing, `/` searches.
-
-`rename_tab` moves from `` ` `` `Shift+T` to `` ` `` `,` to make room for tables.
 
 ## yazi
 
@@ -59,6 +47,8 @@ Enter opens each file in the terminal; `O` offers other programs.
 | `.md` | glow |
 | `.log` | `tail -F` |
 | Anything else | `$EDITOR` |
+
+In the Markdown viewer: `e` edits the file in micro (Ctrl+S saves, Ctrl+Q returns), `r` re-renders after resizing, `/` searches.
 
 Search: `z` jumps to a file by name, `s` searches names, `S` searches contents, `f` filters the current directory.
 
@@ -92,6 +82,3 @@ These are open source. If one earns a place in your workflow, consider sponsorin
 | [micro](https://github.com/micro-editor/micro) | [Star](https://github.com/micro-editor/micro) |
 | [tdf](https://github.com/itsjunetime/tdf) | [GitHub Sponsors](https://github.com/sponsors/itsjunetime) |
 | [VisiData](https://github.com/saulpw/visidata) | [GitHub Sponsors](https://github.com/sponsors/saulpw) · [Patreon](https://www.patreon.com/saulpw) |
-| [Harlequin](https://github.com/tconbeer/harlequin) | [GitHub Sponsors](https://github.com/sponsors/tconbeer) |
-| [lazygit](https://github.com/jesseduffield/lazygit) | [GitHub Sponsors](https://github.com/sponsors/jesseduffield) · [Donorbox](https://donorbox.org/lazygit) |
-| [lazydocker](https://github.com/jesseduffield/lazydocker) | [GitHub Sponsors](https://github.com/sponsors/jesseduffield) |

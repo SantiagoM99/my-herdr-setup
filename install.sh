@@ -2,8 +2,8 @@
 # Installs the Herdr setup: programs, scripts and config.
 #
 #   ./install.sh                     install everything; merge into configs you already have
-#   ./install.sh --only files,git    install only these components
-#   ./install.sh --without docker    install everything except these components
+#   ./install.sh --only files,pdf    install only these components
+#   ./install.sh --without tables    install everything except these components
 #   ./install.sh --list              list the components
 #   ./install.sh --replace           replace existing configs with links to this repo (backs them up)
 #   ./install.sh --skip-programs     do not install or upgrade programs with Homebrew/uv
@@ -19,22 +19,18 @@ STAMP=$(date +%Y%m%d-%H%M%S)
 BIN=$HOME/.local/bin
 CFG=${XDG_CONFIG_HOME:-$HOME/.config}/herdr
 
-COMPONENTS=(files markdown pdf tables logs sql git docker vscode)
+COMPONENTS=(files markdown pdf tables logs vscode)
 typeset -A DESC=(
   files    "File manager with previews (yazi, fd, ripgrep)"
   markdown "Markdown viewer and editor (glow, micro)"
   pdf      "PDF viewer (tdf)"
   tables   "CSV, parquet and Excel tables (VisiData)"
   logs     "Follow the latest log live"
-  sql      "SQL editor (Harlequin)"
-  git      "Git (lazygit)"
-  docker   "Docker (lazydocker)"
   vscode   "VS Code as \$EDITOR and the i shortcut"
 )
-typeset -A BREW=(files "yazi fd ripgrep" markdown "glow micro" pdf tdf git lazygit docker lazydocker)
+typeset -A BREW=(files "yazi fd ripgrep" markdown "glow micro" pdf tdf)
 # Word that identifies a component's shortcuts in config/config.toml (matched against `command`).
-typeset -A SHORTCUT=(files yazi markdown herdr-md pdf herdr-pdf tables herdr-data logs herdr-log
-                     sql harlequin git lazygit docker lazydocker vscode "code .")
+typeset -A SHORTCUT=(files yazi logs herdr-log vscode "code .")
 # Opener of a component in config/yazi/yazi.toml.
 typeset -A OPENER=(markdown markdown pdf pdf tables table logs log)
 
@@ -86,14 +82,10 @@ if $PROGRAMS; then
   for c in $SELECTED; do FORMULAS+=(${=BREW[$c]:-}); done
   brew install $FORMULAS
 
-  if has tables || has sql; then command -v uv >/dev/null || brew install uv; fi
   if has tables; then
+    command -v uv >/dev/null || brew install uv
     step "visidata with parquet support (uv)"
     uv tool install --upgrade visidata --with pyarrow --with openpyxl
-  fi
-  if has sql; then
-    step "harlequin (SQL editor: DuckDB and Postgres)"
-    uv tool install --upgrade 'harlequin[postgres]'
   fi
 fi
 
@@ -121,7 +113,7 @@ else
     cp "$HERDR_CFG" "$HERDR_CFG.bak-$STAMP"; echo "   backup: $HERDR_CFG.bak-$STAMP"
     NEW_CFG=false
   fi
-  WORDS=(); for c in $EXCLUDED; do WORDS+=("${SHORTCUT[$c]}"); done
+  WORDS=(); for c in $EXCLUDED; do [[ -n ${SHORTCUT[$c]:-} ]] && WORDS+=("${SHORTCUT[$c]}"); done
   python3 "$REPO/lib/merge-herdr-config.py" "$REPO/config/config.toml" "$HERDR_CFG" --exclude "${(j:,:)WORDS}"
   if ! herdr config check >/dev/null 2>&1; then
     if $NEW_CFG; then rm "$HERDR_CFG"; else cp "$HERDR_CFG.bak-$STAMP" "$HERDR_CFG"; fi

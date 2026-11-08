@@ -10,8 +10,6 @@ and leaves everything else alone. Running it again replaces only that block.
 - The user's prefix, theme and options are never changed.
 - A shortcut of ours whose key is already bound (by the user, or by a Herdr default the user
   has not changed) is skipped with a warning; the user's binding wins.
-- rename_tab moves to prefix+comma only if the user has not set rename_tab themselves,
-  because our tables popup uses prefix+shift+t, Herdr's default for rename_tab.
 - --exclude drops every shortcut whose command contains one of the given words (used by
   install.sh --only/--without to leave out components that are not installed).
 - The result is parsed as TOML before writing; if it does not parse, nothing is written.
@@ -25,6 +23,7 @@ from pathlib import Path
 
 BEGIN = "# >>> herdr-setup >>>"
 END = "# <<< herdr-setup <<<"
+# Older versions moved rename_tab to prefix+comma with this line; strip_block removes it.
 RENAME_TAB = 'rename_tab = "prefix+comma"  # added by herdr-setup'
 
 
@@ -85,9 +84,6 @@ def main() -> int:
 
     bindings = herdr_default_bindings()
     bindings.update({k: v for k, v in user_keys.items() if isinstance(v, str)})
-    add_rename_tab = "rename_tab" not in user_keys
-    if add_rename_tab:
-        bindings["rename_tab"] = "prefix+comma"
     taken = {v: f"Herdr's {k}" for k, v in bindings.items() if v}
     for cmd in user_keys.get("command", []):
         taken[cmd.get("key", "")] = f"your command '{cmd.get('command', '?')}'"
@@ -99,17 +95,9 @@ def main() -> int:
             continue
         (skipped if key in taken else kept).append((key, block))
 
-    # Moving rename_tab is only needed when the tables popup (prefix+shift+t) is installed.
-    add_rename_tab = add_rename_tab and any(key == "prefix+shift+t" for key, _ in kept)
-
     managed = [BEGIN, "# Managed by herdr-setup/install.sh: changes inside this block are overwritten.", ""]
-    if add_rename_tab and "[keys]" not in user_text.splitlines():
-        managed += ["[keys]", RENAME_TAB, ""]
     managed += [block for _, block in kept] + [END]
-    result = user_text
-    if add_rename_tab and "[keys]" in result.splitlines():
-        result = result.replace("[keys]\n", f"[keys]\n{RENAME_TAB}\n", 1)
-    result = result.rstrip() + "\n\n" + "\n".join(managed) + "\n"
+    result = user_text.rstrip() + "\n\n" + "\n".join(managed) + "\n"
 
     try:
         tomllib.loads(result)
@@ -118,8 +106,6 @@ def main() -> int:
         return 1
 
     print(f"   {len(kept)} shortcuts added inside the '{BEGIN}' block")
-    if add_rename_tab:
-        print("   rename_tab moved to prefix+comma (prefix+shift+t opens tables)")
     for key, block in skipped:
         what = re.search(r'^command = "([^"]+)"', block, re.M).group(1).split("/")[-1]
         print(f"   skipped {key} ({what}): already used by {taken[key]}")

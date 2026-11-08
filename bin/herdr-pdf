@@ -1,4 +1,0 @@
-#!/bin/zsh
-# Picks a PDF under the current directory (newest first) and opens it with tdf.
-# Used by prefix+a (pane, via herdr-side) and prefix+shift+a (popup).
-PDF=$(${0:h}/herdr-pick 'PDF> ' '*.pdf') && exec tdf "$PDF"
