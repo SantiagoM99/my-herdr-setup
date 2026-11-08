@@ -24,6 +24,7 @@ If `~/.config/herdr/config.toml` is not a symlink, the setup is not installed: a
 | `bin/*` | `~/.local/bin/*` | Helper scripts; `herdr-open` picks the program for each file type |
 | `install.sh` | — | Installs programs, links configs or merges into existing ones |
 | `lib/merge-herdr-config.py` | — | Merges the shortcuts into an existing Herdr config |
+| `agents/herdr-agents.md` | block in `~/.claude/CLAUDE.md`, `~/.codex/AGENTS.md` | How agents in any project spawn other agents in Herdr; written by `lib/merge-block.py` |
 | `README.md` | — | The user's cheat sheet |
 
 Per-machine values never go in the repo. `job-status` reads `~/.config/herdr-setup/job-status.conf`; follow the same pattern for anything else that names a machine, project, path or credential.

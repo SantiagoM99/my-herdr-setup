@@ -177,6 +177,16 @@ step "Claude Code skills (changing this setup, tuning dictation)"
 mkdir -p "$HOME/.claude/skills"
 for s in "$REPO"/skills/*(/); do link "$s" "$HOME/.claude/skills/${s:t}"; done
 
+step "Agent instructions: spawning agents in Herdr (CLAUDE.md, AGENTS.md)"
+for f in $HOME/.claude/CLAUDE.md $HOME/.codex/AGENTS.md; do
+  mkdir -p "${f:h}"
+  [[ -e $f ]] && cp "$f" "$f.bak-$STAMP"
+  case $(python3 "$REPO/lib/merge-block.py" "$REPO/agents/herdr-agents.md" "$f") in
+    unchanged) [[ -e $f.bak-$STAMP ]] && rm "$f.bak-$STAMP"; echo "   $f: up to date" ;;
+    *) echo "   $f: herdr-setup block written"; [[ -e $f.bak-$STAMP ]] && echo "   backup: $f.bak-$STAMP" ;;
+  esac
+done
+
 if has vscode; then
   step "Default editor (VS Code) in ~/.zshrc"
   if ! grep -q '^export EDITOR=' ~/.zshrc 2>/dev/null; then

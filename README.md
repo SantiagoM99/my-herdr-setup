@@ -89,6 +89,8 @@ Two Claude Code skills come with the repo; `install.sh` links them into `~/.clau
 - `herdr-setup` describes the layout and conventions, so Claude Code can add or change shortcuts, viewers and installer components. `AGENTS.md` points other agents to it.
 - `dictation-vocab` tunes the dictation vocabulary (see Dictation).
 
+`install.sh` also adds a short block to `~/.claude/CLAUDE.md` and `~/.codex/AGENTS.md` (`agents/herdr-agents.md`, between `herdr-setup` markers; the rest of each file is left alone). It tells Claude Code and Codex, in any project, that "spin up some agents" means agents in Herdr panes: one goes next to the caller, several go in a new tab of the current workspace, of the caller's own kind unless you name another, and they never touch panes they did not create.
+
 ## Support the tools
 
 These are open source. If one earns a place in your workflow, consider sponsoring it or giving it a star.
