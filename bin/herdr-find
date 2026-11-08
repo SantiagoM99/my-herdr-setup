@@ -10,8 +10,10 @@ SKIP=(node_modules venv __pycache__)
 
 case $1 in
   --names)
+    # Directory dimmed, file name in full color.
     fd --type f --no-ignore --strip-cwd-prefix ${SKIP/#/--exclude=} -0 | xargs -0 stat -f '%m %N' 2>/dev/null \
-      | sort -rn | cut -d' ' -f2-
+      | sort -rn | cut -d' ' -f2- \
+      | awk '{ i = match($0, /[^\/]*$/); printf "\033[2m%s\033[0m%s\n", substr($0, 1, i - 1), substr($0, i) }'
     exit ;;
   --contents)
     [[ -z $2 ]] && exit 0
@@ -20,11 +22,12 @@ case $1 in
     exit 0 ;;
 esac
 
-NAMES="reload($SELF --names)+unbind(change)+enable-search+change-prompt(Files> )"
-CONTENTS="reload($SELF --contents {q})+rebind(change)+disable-search+change-prompt(Contents> )"
-exec fzf --ansi --delimiter=: --prompt='Files> ' \
-  --header='Ctrl+T: names / contents' \
+# The input label names the mode; Ctrl+T and Enter read it to decide what to do.
+NAMES="reload($SELF --names)+unbind(change)+enable-search+change-input-label( Files )+change-ghost(name  ·  Ctrl+T: contents)"
+CONTENTS="reload($SELF --contents {q})+rebind(change)+disable-search+change-input-label( Contents )+change-ghost(text  ·  Ctrl+T: names)"
+exec fzf --ansi --delimiter=: --layout=reverse --info=inline-right --highlight-line \
+  --input-border=rounded --list-border=rounded --prompt='❯ ' --color='label:bold,ghost:dim' \
   --bind="start:$NAMES" \
   --bind="change:reload:$SELF --contents {q}" \
-  --bind="ctrl-t:transform:[[ \$FZF_PROMPT == Files* ]] && echo '$CONTENTS' || echo '$NAMES'" \
-  --bind="enter:transform:[[ \$FZF_PROMPT == Files* ]] && echo 'become(herdr-open {})' || echo 'become(herdr-open {1} {2})'"
+  --bind="ctrl-t:transform:[[ \$FZF_INPUT_LABEL == *Files* ]] && echo '$CONTENTS' || echo '$NAMES'" \
+  --bind="enter:transform:[[ \$FZF_INPUT_LABEL == *Files* ]] && echo 'become(herdr-open {})' || echo 'become(herdr-open {1} {2})'"
