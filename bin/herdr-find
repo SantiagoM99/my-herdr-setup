@@ -3,7 +3,7 @@
 # Starts with file names, newest first; Ctrl+T switches to searching contents (ripgrep), where
 # Enter opens the file at the matching line. Ignored files are included (outputs are often
 # gitignored); hidden directories, node_modules, venv and __pycache__ are not.
-# Used by prefix+/ (popup).
+# Used by prefix+a (pane, via herdr-side) and prefix+shift+a (popup).
 export PATH=$HOME/.local/bin:/opt/homebrew/bin:/usr/local/bin:$PATH
 SELF=${0:A}
 SKIP=(node_modules venv __pycache__)

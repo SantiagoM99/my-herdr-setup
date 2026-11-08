@@ -53,7 +53,7 @@ Per-machine values never go in the repo. `job-status` reads `~/.config/herdr-set
    grep -n 'key = \|_tab = \|_pane = ' "$REPO/config/config.toml"
    ```
    Prefer a letter whose lowercase and Shift forms are both free. Never use `d`: `prefix+shift+d` closes the whole workspace, one missed Shift away. Shift+H/J/K/L (lowercase is pane focus) are acceptable for popup-only tools. If no letter fits, propose options and ask; moving a Herdr default needs the user's consent.
-5. **Panes must close when the program exits.** `herdr-side` runs the command with `exec`; keep it that way. A viewer does not need its own file picker: `herdr-find` (`prefix+/`) finds any file and opens it through `herdr-open`.
+5. **Panes must close when the program exits.** `herdr-side` runs the command with `exec`; keep it that way. A viewer does not need its own file picker: `herdr-find` (`prefix+a`) finds any file and opens it through `herdr-open`.
 6. **Reuse before adding.** A new viewer is usually a `case` line in `bin/herdr-open` (with a `has <program>` check); yazi and the finder both pick it up. Logic used by two scripts goes in its own script in `bin/`.
 
 ## Workflow for a change
@@ -83,3 +83,4 @@ Per-machine values never go in the repo. `job-status` reads `~/.config/herdr-set
 - `type = "shell"` commands run without the user's interactive PATH; use full paths (`~/.local/bin/...`) in `config.toml`.
 - Apple Terminal cannot show images; PDF and image previews need Herdr running inside Ghostty, Kitty or WezTerm. A blank tdf page there is not a bug.
 - The log viewer quits with Ctrl+C, everything else with `q`. Keep the README's Exit column accurate.
+- Do not run `herdr-side` while testing: it splits the user's focused pane, not your temporary one. Test the command behind it instead.
