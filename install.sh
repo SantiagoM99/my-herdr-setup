@@ -31,8 +31,6 @@ typeset -A DESC=(
 typeset -A BREW=(files "yazi fd ripgrep" markdown "glow micro" pdf tdf)
 # Word that identifies a component's shortcuts in config/config.toml (matched against `command`).
 typeset -A SHORTCUT=(files yazi logs herdr-log vscode "code .")
-# Opener of a component in config/yazi/yazi.toml.
-typeset -A OPENER=(markdown markdown pdf pdf tables table logs log)
 
 REPLACE=false PROGRAMS=true ONLY= WITHOUT=
 while (( $# )); do
@@ -132,13 +130,8 @@ if has files; then
   YAZI=$HOME/.config/yazi/yazi.toml
   if [[ -e $YAZI ]] && ! ours "$YAZI" "$REPO/config/yazi/yazi.toml" && ! $REPLACE; then
     echo "   you already have $YAZI: not touching it"
-    echo "   to open files in the terminal, copy the [opener] entries and prepend_rules"
+    echo "   to open files by type, copy the [opener] entry and prepend_rules"
     echo "   from $REPO/config/yazi/yazi.toml into yours"
-  elif (( SELECTIVE )); then
-    DROP=(); for c in $EXCLUDED; do [[ -n ${OPENER[$c]:-} ]] && DROP+=(${OPENER[$c]}); done
-    [[ -e $YAZI || -L $YAZI ]] && { mv "$YAZI" "$YAZI.bak-$STAMP"; echo "   backup: $YAZI.bak-$STAMP"; }
-    python3 "$REPO/lib/filter-yazi-config.py" "$REPO/config/yazi/yazi.toml" "$YAZI" "${(j:,:)DROP}"
-    echo "   created $YAZI with openers for the selected components"
   else
     link "$REPO/config/yazi/yazi.toml" "$YAZI"
   fi

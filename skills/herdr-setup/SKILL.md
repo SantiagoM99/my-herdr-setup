@@ -18,13 +18,12 @@ If `~/.config/herdr/config.toml` is not a symlink, the setup is not installed: a
 | Path in the repo | Installed as | Holds |
 |---|---|---|
 | `config/config.toml` | `~/.config/herdr/config.toml` | Prefix, shortcuts, tab bar entry |
-| `config/yazi/yazi.toml` | `~/.config/yazi/yazi.toml` | What Enter opens each file type with |
+| `config/yazi/yazi.toml` | `~/.config/yazi/yazi.toml` | Enter hands every file to `herdr-open`; `O` alternatives |
 | `config/yazi/keymap.toml` | `~/.config/yazi/keymap.toml` | Extra yazi keys (`V`: paste from Finder) |
 | `config/micro/settings.json` | `~/.config/micro/settings.json` | micro editor settings |
-| `bin/*` | `~/.local/bin/*` | Helper scripts |
+| `bin/*` | `~/.local/bin/*` | Helper scripts; `herdr-open` picks the program for each file type |
 | `install.sh` | — | Installs programs, links configs or merges into existing ones |
 | `lib/merge-herdr-config.py` | — | Merges the shortcuts into an existing Herdr config |
-| `lib/filter-yazi-config.py` | — | yazi config without the openers of components left out |
 | `README.md` | — | The user's cheat sheet |
 
 Per-machine values never go in the repo. `job-status` reads `~/.config/herdr-setup/job-status.conf`; follow the same pattern for anything else that names a machine, project, path or credential.
@@ -38,7 +37,7 @@ Per-machine values never go in the repo. `job-status` reads `~/.config/herdr-set
 
 ## Components
 
-`install.sh --only` / `--without` install a subset. Each component in `install.sh` lists its Homebrew formulas (`BREW`), the word that identifies its shortcuts in `config/config.toml` (`SHORTCUT`, matched against `command`), and its opener in `yazi.toml` (`OPENER`). A selective install copies a filtered config instead of linking (`lib/filter-yazi-config.py` for yazi, `merge-herdr-config.py --exclude` for Herdr). When adding a tool, add it to an existing component or create one in all three maps, add it to `DESC`, and list it in the README's component line. Test with `--only` and `--without` in a fake home.
+`install.sh --only` / `--without` install a subset. Each component in `install.sh` lists its Homebrew formulas (`BREW`), the word that identifies its shortcuts in `config/config.toml` (`SHORTCUT`, matched against `command`). A selective install merges the Herdr config with `merge-herdr-config.py --exclude`; yazi's config is the same for every install, because `herdr-open` falls back to the editor or the default app when a program is missing. When adding a tool, add it to an existing component or create one in both maps, add it to `DESC`, and list it in the README's component line. Test with `--only` and `--without` in a fake home.
 
 ## Rules
 
@@ -55,7 +54,7 @@ Per-machine values never go in the repo. `job-status` reads `~/.config/herdr-set
    ```
    Prefer a letter whose lowercase and Shift forms are both free. Never use `d`: `prefix+shift+d` closes the whole workspace, one missed Shift away. Shift+H/J/K/L (lowercase is pane focus) are acceptable for popup-only tools. If no letter fits, propose options and ask; moving a Herdr default needs the user's consent.
 5. **Panes must close when the program exits.** `herdr-side` runs the command with `exec`; keep it that way.
-6. **Reuse before adding.** A new viewer is usually a line in `yazi.toml` plus, if it deserves a key, a pair of bindings. Logic used by two scripts goes in its own script in `bin/`.
+6. **Reuse before adding.** A new viewer is usually a `case` line in `bin/herdr-open` (with a `has <program>` check); yazi and the finder both pick it up. Logic used by two scripts goes in its own script in `bin/`.
 
 ## Workflow for a change
 

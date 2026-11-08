@@ -1,29 +1,12 @@
-# What yazi opens each file with. Enter uses the first option; O (capital) lets you choose.
-# block = true: the program takes over the terminal and quitting it (q) returns to yazi.
+# Enter hands every file to herdr-open, which picks the program by type (see bin/herdr-open).
+# O (capital) offers the alternatives: $EDITOR, the default macOS app, or Finder.
 
 [opener]
-pdf = [
-  { run = "tdf %s1", desc = "tdf (in the terminal)", block = true },
-  { run = "open %s", desc = "Preview" },
-]
-table = [
-  # Single Arrow thread: multithreaded pyarrow can segfault on some parquet files.
-  { run = "OMP_NUM_THREADS=1 ARROW_NUM_THREADS=1 vd %s1", desc = "visidata", block = true },
-  { run = "open %s", desc = "Default app" },
-]
-markdown = [
-  { run = "herdr-md %s1", desc = "glow (read; e edits with micro)", block = true },
-  { run = "code %s", desc = "VS Code (edit)" },
-]
-log = [
-  { run = "tail -n 200 -F %s1", desc = "Follow live (Ctrl+C exits)", block = true },
-  { run = "code %s", desc = "VS Code" },
+herdr = [
+  { run = "herdr-open %s1", desc = "By type (herdr-open)", block = true },
 ]
 
 [open]
 prepend_rules = [
-  { url = "*.pdf", use = [ "pdf", "reveal" ] },
-  { url = "*.{csv,tsv,parquet,xlsx,json,jsonl}", use = [ "table", "edit", "reveal" ] },
-  { url = "*.{md,markdown}", use = [ "markdown", "reveal" ] },
-  { url = "*.log", use = [ "log", "edit", "reveal" ] },
+  { url = "*", use = [ "herdr", "edit", "open", "reveal" ] },
 ]

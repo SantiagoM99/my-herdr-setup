@@ -1,0 +1,27 @@
+#!/bin/zsh
+# Opens a file with the program for its type. Used by yazi (Enter) and herdr-find.
+#   herdr-open file [line]
+# A type whose program is not installed falls through to the editor or the default macOS app.
+export PATH=$HOME/.local/bin:/opt/homebrew/bin:/usr/local/bin:$PATH
+FILE=${1:?usage: herdr-open file [line]} LINE=$2
+has() { command -v $1 >/dev/null }
+
+case ${FILE:l} in
+  *.pdf) has tdf && exec tdf "$FILE" ;;
+  *.csv|*.tsv|*.parquet|*.xlsx|*.json|*.jsonl)
+    # Single Arrow thread: multithreaded pyarrow can segfault on some parquet files.
+    export OMP_NUM_THREADS=1 ARROW_NUM_THREADS=1
+    has vd && exec vd "$FILE" ;;
+  *.md|*.markdown) has glow && exec herdr-md "$FILE" ;;
+  *.log) exec tail -n 200 -F "$FILE" ;;
+esac
+
+case $(file -b --mime-type "$FILE") in
+  text/*|inode/x-empty|application/json|application/xml|application/javascript) ;;
+  *) exec open "$FILE" ;;
+esac
+
+EDIT=(${(z)${EDITOR:-vi}})
+[[ -z $LINE ]] && exec $EDIT "$FILE"
+[[ ${EDIT[1]:t} == code ]] && exec $EDIT --goto "$FILE:$LINE"
+exec $EDIT +$LINE "$FILE"

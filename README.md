@@ -38,7 +38,7 @@ Lowercase opens a pane on the right; Shift opens a popup. The pane or popup clos
 
 ## yazi
 
-Enter opens each file in the terminal; `O` offers other programs.
+Enter opens each file with the program for its type; `O` offers `$EDITOR`, the default app or Finder instead.
 
 | File | Enter |
 |---|---|
@@ -46,7 +46,8 @@ Enter opens each file in the terminal; `O` offers other programs.
 | `.csv` `.tsv` `.parquet` `.xlsx` `.json` | VisiData |
 | `.md` | glow |
 | `.log` | `tail -F` |
-| Anything else | `$EDITOR` |
+| Other text files | `$EDITOR` |
+| Anything else (images, Office files, ...) | default macOS app |
 
 In the Markdown viewer: `e` edits the file in micro (Ctrl+S saves, Ctrl+Q returns), `r` re-renders after resizing, `/` searches.
 
