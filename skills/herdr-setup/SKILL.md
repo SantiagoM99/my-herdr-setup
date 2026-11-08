@@ -37,7 +37,7 @@ Per-machine values never go in the repo. `job-status` reads `~/.config/herdr-set
 
 ## Components
 
-`install.sh --only` / `--without` install a subset. Each component in `install.sh` lists its Homebrew formulas (`BREW`), the word that identifies its shortcuts in `config/config.toml` (`SHORTCUT`, matched against `command`). A selective install merges the Herdr config with `merge-herdr-config.py --exclude`; yazi's config is the same for every install, because `herdr-open` falls back to the editor or the default app when a program is missing. When adding a tool, add it to an existing component or create one in both maps, add it to `DESC`, and list it in the README's component line. Test with `--only` and `--without` in a fake home.
+`install.sh --only` / `--without` install a subset. Each component in `install.sh` lists its Homebrew formulas (`BREW`), the comma-separated words that identify its shortcuts in `config/config.toml` (`SHORTCUT`, matched against `command`). A selective install merges the Herdr config with `merge-herdr-config.py --exclude`; yazi's config is the same for every install, because `herdr-open` falls back to the editor or the default app when a program is missing. When adding a tool, add it to an existing component or create one in both maps, add it to `DESC`, and list it in the README's component line. Test with `--only` and `--without` in a fake home.
 
 ## Rules
 
@@ -53,7 +53,7 @@ Per-machine values never go in the repo. `job-status` reads `~/.config/herdr-set
    grep -n 'key = \|_tab = \|_pane = ' "$REPO/config/config.toml"
    ```
    Prefer a letter whose lowercase and Shift forms are both free. Never use `d`: `prefix+shift+d` closes the whole workspace, one missed Shift away. Shift+H/J/K/L (lowercase is pane focus) are acceptable for popup-only tools. If no letter fits, propose options and ask; moving a Herdr default needs the user's consent.
-5. **Panes must close when the program exits.** `herdr-side` runs the command with `exec`; keep it that way.
+5. **Panes must close when the program exits.** `herdr-side` runs the command with `exec`; keep it that way. A viewer does not need its own file picker: `herdr-find` (`prefix+/`) finds any file and opens it through `herdr-open`.
 6. **Reuse before adding.** A new viewer is usually a `case` line in `bin/herdr-open` (with a `has <program>` check); yazi and the finder both pick it up. Logic used by two scripts goes in its own script in `bin/`.
 
 ## Workflow for a change

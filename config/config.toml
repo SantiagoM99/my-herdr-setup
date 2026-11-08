@@ -9,6 +9,7 @@ prefix = "`"
 #   prefix+<letter>        pane on the right (half the width)
 #   prefix+shift+<letter>  floating popup
 #   f = files (yazi)   u = latest log, live   i = VS Code
+#   / = find a file by name or contents and open it by type (popup only: shift+/ is Herdr's help)
 # Both close when the program exits. d is avoided: prefix+shift+d closes the workspace.
 
 [[keys.command]]
@@ -22,6 +23,13 @@ height = "90%"
 key = "prefix+f"
 type = "shell"
 command = "~/.local/bin/herdr-side yazi"
+
+[[keys.command]]
+key = "prefix+/"
+type = "popup"
+command = "~/.local/bin/herdr-find"
+width = "95%"
+height = "90%"
 
 # Opens the current pane's directory in VS Code; the temporary pane closes by itself.
 [[keys.command]]

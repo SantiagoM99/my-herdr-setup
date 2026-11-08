@@ -21,7 +21,7 @@ CFG=${XDG_CONFIG_HOME:-$HOME/.config}/herdr
 
 COMPONENTS=(files markdown pdf tables logs vscode)
 typeset -A DESC=(
-  files    "File manager with previews (yazi, fd, ripgrep)"
+  files    "File manager (yazi) and finder by name or contents (fd, ripgrep)"
   markdown "Markdown viewer and editor (glow, micro)"
   pdf      "PDF viewer (tdf)"
   tables   "CSV, parquet and Excel tables (VisiData)"
@@ -29,8 +29,8 @@ typeset -A DESC=(
   vscode   "VS Code as \$EDITOR and the i shortcut"
 )
 typeset -A BREW=(files "yazi fd ripgrep" markdown "glow micro" pdf tdf)
-# Word that identifies a component's shortcuts in config/config.toml (matched against `command`).
-typeset -A SHORTCUT=(files yazi logs herdr-log vscode "code .")
+# Words (comma-separated) that identify a component's shortcuts in config/config.toml (matched against `command`).
+typeset -A SHORTCUT=(files yazi,herdr-find logs herdr-log vscode "code .")
 
 REPLACE=false PROGRAMS=true ONLY= WITHOUT=
 while (( $# )); do

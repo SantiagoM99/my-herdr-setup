@@ -33,12 +33,17 @@ Lowercase opens a pane on the right; Shift opens a popup. The pane or popup clos
 | What | Pane | Popup | Exit |
 |---|---|---|---|
 | Files (yazi) | `` ` `` `f` | `` ` `` `Shift+F` | `q` |
+| Find a file and open it | — | `` ` `` `/` | Esc |
 | Latest log, live | `` ` `` `u` | — | Ctrl+C |
 | VS Code in the current directory | `` ` `` `i` | — | — |
 
+## Finder
+
+`` ` `` `/` lists the files under the current directory, newest first, and opens the one you pick with the program for its type (table below). `Ctrl+T` switches to searching contents; Enter then opens the file at that line. Gitignored files are included; hidden directories, `node_modules`, `venv` and `__pycache__` are not.
+
 ## yazi
 
-Enter opens each file with the program for its type; `O` offers `$EDITOR`, the default app or Finder instead.
+Enter opens each file with the program for its type; `O` offers `$EDITOR`, the default app or Finder instead. The finder uses the same table.
 
 | File | Enter |
 |---|---|

@@ -1,0 +1,41 @@
+#!/bin/zsh
+# Finds a file under the current directory and opens it with herdr-open, by type.
+# Starts with file names, newest first; Ctrl+T switches to searching contents (ripgrep), where
+# Enter opens the file at the matching line. Ignored files are included (outputs are often
+# gitignored); hidden directories, node_modules, venv and __pycache__ are not.
+# Used by prefix+/ (popup).
+export PATH=$HOME/.local/bin:/opt/homebrew/bin:/usr/local/bin:$PATH
+SELF=${0:A}
+SKIP=(node_modules venv __pycache__)
+
+case $1 in
+  --names)
+    fd --type f --no-ignore --strip-cwd-prefix ${SKIP/#/--exclude=} -0 | xargs -0 stat -f '%m %N' 2>/dev/null \
+      | sort -rn | cut -d' ' -f2-
+    exit ;;
+  --contents)
+    [[ -z $2 ]] && exit 0
+    rg --line-number --no-heading --color=always --smart-case --no-ignore --max-columns=200 \
+      ${SKIP/#/--glob=!} -- "$2"
+    exit 0 ;;
+  --preview)
+    FILE=$2 LINE=$3
+    case $(file -b --mime-type "$FILE") in
+      text/*|inode/x-empty|application/json|application/xml|application/javascript) ;;
+      *) file -b "$FILE"; exit 0 ;;
+    esac
+    START=$(( ${LINE:-1} > 10 ? LINE - 10 : 1 ))
+    awk -v s=$START -v l=${LINE:-0} 'NR >= s + 200 { exit }
+      NR >= s { printf "%s%5d  %s%s\n", (NR == l ? "\033[7m" : ""), NR, $0, (NR == l ? "\033[0m" : "") }' "$FILE"
+    exit 0 ;;
+esac
+
+NAMES="reload($SELF --names)+unbind(change)+enable-search+change-prompt(Files> )"
+CONTENTS="reload($SELF --contents {q})+rebind(change)+disable-search+change-prompt(Contents> )"
+exec fzf --ansi --delimiter=: --prompt='Files> ' \
+  --header='Enter: open   Ctrl+T: names / contents   Esc: cancel' \
+  --preview="$SELF --preview {1} {2}" --preview-window='right,55%,<100(down,50%)' \
+  --bind="start:$NAMES" \
+  --bind="change:reload:$SELF --contents {q}" \
+  --bind="ctrl-t:transform:[[ \$FZF_PROMPT == Files* ]] && echo '$CONTENTS' || echo '$NAMES'" \
+  --bind="enter:transform:[[ \$FZF_PROMPT == Files* ]] && echo 'become(herdr-open {})' || echo 'become(herdr-open {1} {2})'"
