@@ -1,6 +1,6 @@
 # my-herdr-setup
 
-My Herdr configuration for using it as a mini-IDE: files, Markdown, PDFs, tables and logs open in a pane on the right or in a popup. Useful when an agent keeps updating a document while you work on it.
+My Herdr configuration for using it as a mini-IDE: browse files with yazi or find any file by name or contents, and it opens in a pane on the right or in a popup with the right viewer (Markdown, PDF, tables, logs, code). Plus local dictation in Spanish and English. Useful when an agent keeps updating a document while you work on it.
 
 ## Install (macOS)
 
@@ -44,9 +44,14 @@ Lowercase opens a pane on the right; Shift opens a popup. The pane or popup clos
 
 ## Dictation
 
-`` ` `` `m` starts recording; `` ` `` `m` again stops it, transcribes it on your Mac with Whisper and types the text into the focused pane without pressing Enter. The tab bar shows a blinking `🔴 REC 0:12` while recording and `⏳ Transcribing` after; the job status is hidden meanwhile. Spanish, English or both mixed in one sentence. Nothing leaves the computer. The first time, macOS asks for microphone access for your terminal.
+`` ` `` `m` starts recording; `` ` `` `m` again stops it, transcribes it on your Mac and types the text into the focused pane without pressing Enter, so you can review it first. The tab bar shows a blinking `🔴 REC 0:12` while recording and `⏳ Transcribing` after (a second or two); the job status is hidden meanwhile. Recording stops by itself after 5 minutes.
 
-Words it should spell right (names, jargon) go comma-separated in `~/.config/herdr-setup/dictate-words.txt`, for example `fine-tuning, learning rate, LoRA`. Each dictation is logged with its audio (the last 50) in `~/.local/share/herdr-setup/dictations/`; ask Claude Code to "review my dictation vocabulary" and the `dictation-vocab` skill proposes words to add or drop, re-transcribing your audio to show each fix works.
+- **Model:** Whisper large-v3-turbo through whisper.cpp, with Silero voice detection so silence does not turn into invented text. The installer downloads both (about 550 MB) to `~/.local/share/herdr-setup/`. Nothing leaves the computer.
+- **Languages:** detected per dictation. English works best; Spanish works well and keeps most English terms, and the vocabulary fixes the rest.
+- **Vocabulary:** words it should spell right (names, jargon) go comma-separated in `~/.config/herdr-setup/dictate-words.txt`, for example `ChatGPT, fine-tuning, learning rate`. Keep it short: Whisper reads about 220 tokens of it.
+- **Tuning:** each dictation is logged with its language and audio (the last 50) in `~/.local/share/herdr-setup/dictations/`. Ask Claude Code to "review my dictation vocabulary": the `dictation-vocab` skill finds the words being mis-transcribed, re-transcribes your audio to show each fix works, and edits the list after you approve.
+
+The first time, macOS asks for microphone access for your terminal.
 
 ## yazi
 
@@ -79,9 +84,19 @@ PATTERN="*.parquet"          # optional, default: all files
 MINUTES=15                   # optional, default: 15
 ```
 
+## How it works
+
+- `install.sh` symlinks the configs (`config/`) into `~/.config` and the scripts (`bin/`) into `~/.local/bin`, so editing this repo changes the live setup.
+- `herdr-open` decides which program opens each file type. yazi and the finder both call it, so a change there applies to both.
+- `herdr-side` opens a command in a new pane to the right; each pane runs its program with `exec`, so it closes when the program exits.
+- `herdr-find` (finder), `herdr-dictate` (dictation, and its tab bar status), `herdr-log` and `job-status` back the other shortcuts.
+
 ## Changing the setup with an agent
 
-`skills/herdr-setup/SKILL.md` describes the layout and conventions so Claude Code can add or change shortcuts. `install.sh` links it into `~/.claude/skills/`; `AGENTS.md` points other agents to it.
+Two Claude Code skills come with the repo; `install.sh` links them into `~/.claude/skills/`:
+
+- `herdr-setup` describes the layout and conventions, so Claude Code can add or change shortcuts, viewers and installer components. `AGENTS.md` points other agents to it.
+- `dictation-vocab` tunes the dictation vocabulary (see Dictation).
 
 ## Support the tools
 
