@@ -174,9 +174,9 @@ PY
   fi
 fi
 
-step "Claude Code skill (how to change this setup)"
+step "Claude Code skills (changing this setup, tuning dictation)"
 mkdir -p "$HOME/.claude/skills"
-link "$REPO/skills/herdr-setup" "$HOME/.claude/skills/herdr-setup"
+for s in "$REPO"/skills/*(/); do link "$s" "$HOME/.claude/skills/${s:t}"; done
 
 if has vscode; then
   step "Default editor (VS Code) in ~/.zshrc"

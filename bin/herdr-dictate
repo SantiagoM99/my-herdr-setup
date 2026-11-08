@@ -5,13 +5,16 @@
 #   herdr-dictate            start or stop (prefix+m)
 #   herdr-dictate --status   what the tab bar shows: "🔴 REC 0:12", "⏳ Transcribing", "Nothing heard"
 # Optional vocabulary (names, jargon) to spell right: ~/.config/herdr-setup/dictate-words.txt,
-# comma-separated.
+# comma-separated. Every dictation is logged with its audio (the last 50 kept) so the vocabulary
+# can be reviewed against real use: see skills/dictation-vocab.
 export PATH=$HOME/.local/bin:/opt/homebrew/bin:/usr/local/bin:$PATH
 zmodload zsh/datetime zsh/stat
 MODELS=$HOME/.local/share/herdr-setup
 MODEL=$MODELS/ggml-large-v3-turbo-q5_0.bin
 VAD=$MODELS/ggml-silero-v5.1.2.bin
 WORDS=$HOME/.config/herdr-setup/dictate-words.txt
+HISTORY=$MODELS/dictations   # log.tsv (time, language, text) and <time>.wav
+KEEP=50
 STATE=${TMPDIR:-/tmp}/herdr-dictate-$UID
 # One line read by --status; a message (anything but "rec" or "transcribing") shows for 4 seconds.
 PHASE=$STATE/phase
@@ -40,10 +43,17 @@ if recording; then
   say_phase transcribing
   VOCAB=(); [[ -s $WORDS ]] && VOCAB=(--prompt "$(<$WORDS)")
   # VAD drops silence; without it Whisper invents text ("you", "Thanks for watching").
-  TEXT=$(whisper-cli -m $MODEL --vad -vm $VAD -l auto -nt -np $VOCAB -f $STATE/audio.wav 2>/dev/null \
-    | tr '\n' ' ' | sed -E 's/^ +//; s/ +$//; s/ +/ /g')
-  rm -f $STATE/pid $STATE/audio.wav
-  [[ -z $TEXT ]] && { say_phase 'Nothing heard'; exit 0; }
+  TEXT=$(whisper-cli -m $MODEL --vad -vm $VAD -l auto -nt $VOCAB -f $STATE/audio.wav 2>$STATE/log \
+    | tr '\n\t' '  ' | sed -E 's/^ +//; s/ +$//; s/ +/ /g')
+  LANG_=$(sed -nE 's/.*auto-detected language: ([a-z]+).*/\1/p' $STATE/log | head -1)
+  rm -f $STATE/pid $STATE/log
+  [[ -z $TEXT ]] && { rm -f $STATE/audio.wav; say_phase 'Nothing heard'; exit 0; }
+  mkdir -p $HISTORY
+  NOW=$(strftime %Y%m%d-%H%M%S $EPOCHSECONDS)
+  mv $STATE/audio.wav $HISTORY/$NOW.wav
+  print -r -- "$NOW	${LANG_:-?}	$TEXT" >> $HISTORY/log.tsv
+  OLD=($HISTORY/*.wav(Nom[$((KEEP + 1)),-1]))
+  (( $#OLD )) && rm -f $OLD
   PANE=$(herdr pane list | jq -r '.result.panes[] | select(.focused) | .pane_id' | head -1)
   herdr pane send-text "$PANE" "$TEXT"
   rm -f $PHASE

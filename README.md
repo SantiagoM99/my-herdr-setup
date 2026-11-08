@@ -46,7 +46,7 @@ Lowercase opens a pane on the right; Shift opens a popup. The pane or popup clos
 
 `` ` `` `m` starts recording; `` ` `` `m` again stops it, transcribes it on your Mac with Whisper and types the text into the focused pane without pressing Enter. The tab bar shows a blinking `🔴 REC 0:12` while recording and `⏳ Transcribing` after; the job status is hidden meanwhile. Spanish, English or both mixed in one sentence. Nothing leaves the computer. The first time, macOS asks for microphone access for your terminal.
 
-Words it should spell right (names, jargon) go comma-separated in `~/.config/herdr-setup/dictate-words.txt`, for example `fine-tuning, learning rate, LoRA`.
+Words it should spell right (names, jargon) go comma-separated in `~/.config/herdr-setup/dictate-words.txt`, for example `fine-tuning, learning rate, LoRA`. Each dictation is logged with its audio (the last 50) in `~/.local/share/herdr-setup/dictations/`; ask Claude Code to "review my dictation vocabulary" and the `dictation-vocab` skill proposes words to add or drop, re-transcribing your audio to show each fix works.
 
 ## yazi
 
