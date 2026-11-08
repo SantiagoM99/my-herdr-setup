@@ -8,7 +8,7 @@ prefix = "`"
 # Shortcuts. The letter says what opens; Shift says where:
 #   prefix+<letter>        pane on the right (half the width)
 #   prefix+shift+<letter>  floating popup
-#   f = files (yazi)   u = latest log, live   i = VS Code
+#   f = files (yazi)   i = VS Code
 #   a = find any file by name or contents and open it by type
 #   m = dictate: start recording, press again to type the transcription (no Shift form)
 # Both close when the program exits. d is avoided: prefix+shift+d closes the workspace.
@@ -47,8 +47,3 @@ command = "~/.local/bin/herdr-dictate"
 key = "prefix+i"
 type = "pane"
 command = "code ."
-
-[[keys.command]]
-key = "prefix+u"
-type = "shell"
-command = "~/.local/bin/herdr-side ~/.local/bin/herdr-log"

@@ -82,6 +82,6 @@ Per-machine values never go in the repo. `job-status` reads `~/.config/herdr-set
 - glow's own viewer treats the left arrow as "back to file list"; that is why `herdr-md` renders glow into `less`. Do not switch it back to `glow -t`.
 - `type = "shell"` commands run without the user's interactive PATH; use full paths (`~/.local/bin/...`) in `config.toml`.
 - Apple Terminal cannot show images; PDF and image previews need Herdr running inside Ghostty, Kitty or WezTerm. A blank tdf page there is not a bug.
-- The log viewer quits with Ctrl+C, everything else with `q`. Keep the README's Exit column accurate.
+- `.log` files (`tail -F`) quit with Ctrl+C, the finder with Esc, everything else with `q`. Keep the README's Exit column accurate.
 - `herdr-dictate` types into the focused pane when it stops. To test it, focus a temporary pane first (`pane split --focus`) and feed it a prepared `audio.wav`.
 - Do not run `herdr-side` while testing: it splits the user's focused pane, not your temporary one. Test the command behind it instead.

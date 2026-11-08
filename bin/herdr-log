@@ -1,8 +1,0 @@
-#!/bin/zsh
-# Follows the most recently modified .log under the current directory (tail -F).
-# Ctrl+C exits. Used by prefix+u (pane, via herdr-side).
-LOG=$(find . \( -path '*/.*' -o -path './.venv' \) -prune -o -type f -name '*.log' -print0 2>/dev/null \
-  | xargs -0 ls -t 2>/dev/null | head -1)
-[[ -z $LOG ]] && { echo "No .log files in $PWD"; sleep 2; exit 1; }
-printf '\e[1m== %s ==\e[0m\n' "$LOG"
-exec tail -n 200 -F "$LOG"

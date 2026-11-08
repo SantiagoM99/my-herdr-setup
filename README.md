@@ -11,7 +11,7 @@ cd my-herdr-setup && ./install.sh
 
 Requires Homebrew and Herdr. PDFs and images display only in terminals with image support, such as Ghostty, Kitty or WezTerm; Apple Terminal does not.
 
-To install only some tools, pick components (`./install.sh --list`): `files`, `markdown`, `pdf`, `tables`, `logs`, `dictation`, `vscode`.
+To install only some tools, pick components (`./install.sh --list`): `files`, `markdown`, `pdf`, `tables`, `dictation`, `vscode`.
 
 ```bash
 ./install.sh --only files,markdown,pdf
@@ -34,7 +34,6 @@ Lowercase opens a pane on the right; Shift opens a popup. The pane or popup clos
 |---|---|---|---|
 | Files (yazi) | `` ` `` `f` | `` ` `` `Shift+F` | `q` |
 | Find a file and open it | `` ` `` `a` | `` ` `` `Shift+A` | Esc |
-| Latest log, live | `` ` `` `u` | — | Ctrl+C |
 | Dictate (press again to stop) | `` ` `` `m` | — | `` ` `` `m` |
 | VS Code in the current directory | `` ` `` `i` | — | — |
 
@@ -89,7 +88,7 @@ MINUTES=15                   # optional, default: 15
 - `install.sh` symlinks the configs (`config/`) into `~/.config` and the scripts (`bin/`) into `~/.local/bin`, so editing this repo changes the live setup.
 - `herdr-open` decides which program opens each file type. yazi and the finder both call it, so a change there applies to both.
 - `herdr-side` opens a command in a new pane to the right; each pane runs its program with `exec`, so it closes when the program exits.
-- `herdr-find` (finder), `herdr-dictate` (dictation, and its tab bar status), `herdr-log` and `job-status` back the other shortcuts.
+- `herdr-find` (finder), `herdr-dictate` (dictation, and its tab bar status) and `job-status` (tab bar) back the rest.
 
 ## Changing the setup with an agent
 

@@ -19,19 +19,18 @@ STAMP=$(date +%Y%m%d-%H%M%S)
 BIN=$HOME/.local/bin
 CFG=${XDG_CONFIG_HOME:-$HOME/.config}/herdr
 
-COMPONENTS=(files markdown pdf tables logs dictation vscode)
+COMPONENTS=(files markdown pdf tables dictation vscode)
 typeset -A DESC=(
   files    "File manager (yazi) and finder by name or contents (fd, ripgrep)"
   markdown "Markdown viewer and editor (glow, micro)"
   pdf      "PDF viewer (tdf)"
   tables   "CSV, parquet and Excel tables (VisiData)"
-  logs     "Follow the latest log live"
   dictation "Dictation in Spanish and English, transcribed locally (whisper.cpp, sox)"
   vscode   "VS Code as \$EDITOR and the i shortcut"
 )
 typeset -A BREW=(files "yazi fd ripgrep" markdown "glow micro" pdf tdf dictation "whisper-cpp sox")
 # Words (comma-separated) that identify a component's shortcuts in config/config.toml (matched against `command`).
-typeset -A SHORTCUT=(files yazi,herdr-find logs herdr-log dictation herdr-dictate vscode "code .")
+typeset -A SHORTCUT=(files yazi,herdr-find dictation herdr-dictate vscode "code .")
 
 REPLACE=false PROGRAMS=true ONLY= WITHOUT=
 while (( $# )); do
