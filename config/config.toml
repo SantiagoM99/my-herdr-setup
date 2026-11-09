@@ -5,6 +5,29 @@ tab_bar_right = [{ type = "command", command = "~/.local/bin/herdr-dictate --sta
 [theme]
 name = "tokyo-night"
 
+# Night Owl, the same palette as the Ghostty theme of that name: deep navy background,
+# soft blue accent, violet and teal.
+[theme.custom]
+panel_bg = "#011627"
+sidebar_bg = "#01111f"
+surface_dim = "#000c17"
+surface0 = "#0b2942"
+surface1 = "#13344f"
+active_row_bg = "#0e2f4a"
+selection_bg = "#1d3b53"
+overlay0 = "#5f7e97"
+overlay1 = "#8aa1b7"
+text = "#d6deeb"
+subtext0 = "#a7b6c9"
+accent = "#82aaff"
+mauve = "#c792ea"
+blue = "#82aaff"
+teal = "#21c7a8"
+green = "#22da6e"
+yellow = "#ffeb95"
+red = "#ef5350"
+peach = "#f78c6c"
+
 [keys]
 prefix = "`"
 
