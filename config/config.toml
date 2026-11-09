@@ -2,6 +2,9 @@ onboarding = false
 [ui]
 tab_bar_right = [{ type = "command", command = "~/.local/bin/herdr-dictate --status", interval_seconds = 1, timeout_seconds = 1 }, { type = "command", command = "~/.local/bin/job-status", interval_seconds = 1, timeout_seconds = 5 }]
 
+[theme]
+name = "tokyo-night"
+
 [keys]
 prefix = "`"
 
